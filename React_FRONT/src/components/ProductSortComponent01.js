@@ -66,7 +66,7 @@ const ProductSortComponent = ({
       <ProductSortList>
         {categoryList.map((product) => (
           <ProductCard key={product.PRODUCT_ID}>
-            {imageError[product.PRODUCT_ID] ? (
+            {!product.IMAGE_URL || imageError[product.PRODUCT_ID] ? (
               <PlaceholderImage>No Image</PlaceholderImage>
             ) : (
               <ProductImage

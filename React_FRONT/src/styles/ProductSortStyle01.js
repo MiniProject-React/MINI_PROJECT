@@ -20,6 +20,7 @@ export const ProductSortList = styled.ul`
 
 export const ProductCard = styled.li`
   display: flex;
+  justify-content: space-between;
   padding: 15px;
   border: 1px solid #ccc;
   border-bottom: none;
@@ -27,8 +28,8 @@ export const ProductCard = styled.li`
 `;
 
 export const ProductImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   margin-right: 20px;
 `;
@@ -38,6 +39,7 @@ export const ProductDetails = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
+  align-items: flex-end;
 
   h3 {
     font-size: 1.2em;
@@ -86,6 +88,7 @@ export const AddToCartButton = styled.button`
   color: white;
   border: none;
   border-radius: 4px;
+  max-width: 200px;
   cursor: pointer;
 
   &:hover {
@@ -94,8 +97,8 @@ export const AddToCartButton = styled.button`
 `;
 
 export const PlaceholderImage = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
