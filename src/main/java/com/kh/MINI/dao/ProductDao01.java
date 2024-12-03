@@ -23,10 +23,11 @@ import java.util.Map;
 @Slf4j
 public class ProductDao01 {
     private final JdbcTemplate jdbcTemplate;
-    private static String SELECT_ALL_PRODUCTS = "SELECT * FROM PRODUCTS ORDER BY category_id";
-    private static String SELECT_PRODUCTS_BY_CATEGORY = "SELECT * FROM PRODUCTS WHERE category_id = ?";
+    private static final String SELECT_ALL_PRODUCTS = "SELECT * FROM PRODUCTS ORDER BY category_id";
+    private static final String SELECT_PRODUCTS_BY_CATEGORY = "SELECT * FROM PRODUCTS WHERE category_id = ?";
+    private static final String SELECT_PRODUCT_BY_ID = "SELECT * FROM PRODUCTS WHERE product_id = ?";
     //카테고리별 정렬을 위한 SQL
-    private static String SELECT_BY_CATEGORY_ORDER_BY_CHOSEN = "SELECT p.product_id, p.name, p.description, p.price, p.stock, p.image_url, p.category_id,\n" +
+    private static final String SELECT_BY_CATEGORY_ORDER_BY_CHOSEN = "SELECT p.product_id, p.name, p.description, p.price, p.stock, p.image_url, p.category_id,\n" +
             "       AVG(r.rating) AS average_rating, COUNT(r.review_id) AS review_count\n" +
             "FROM PRODUCTS p\n" +
             "LEFT JOIN REVIEWS r ON p.product_id = r.product_id\n" +
@@ -59,20 +60,30 @@ public class ProductDao01 {
             throw e;
         }
     }
-    public List<ProductWithReviewVo01> getProductsSortedBy(String categoryId, String sortBy, String sortOrder) {
-        String orderByClause = (sortOrder.equals("d") ? "DESC" : "ASC"); // DESC, ASC 설정
+    public List<ProductVo01> productById(String i) {
         try {
-            return jdbcTemplate.query(
-                    SELECT_BY_CATEGORY_ORDER_BY_CHOSEN + " " + orderByClause,
-                    new Object[]{categoryId, sortBy,sortBy,sortBy,sortBy,sortBy},
-                    new ProductWithReviewRowMapper()
-            );
+            return jdbcTemplate.query(SELECT_PRODUCT_BY_ID, new Object[]{i}, new ProductRowMapper());
         } catch (DataAccessException e) {
-            log.error("카테고리별 조회 및 정렬 중 에러 발생 ", e);
+            log.error("부품 ID 조회 에러 발생 ", e);
             throw e;
         }
-    }
 
+    }
+//      일부 출력 조회 실패본
+//    public List<ProductWithReviewVo01> getProductsSortedBy(String categoryId, String sortBy, String sortOrder) {
+//        String orderByClause = (sortOrder.equals("d") ? "DESC" : "ASC"); // DESC, ASC 설정
+//        try {
+//            return jdbcTemplate.query(
+//                    SELECT_BY_CATEGORY_ORDER_BY_CHOSEN + " " + orderByClause,
+//                    new Object[]{categoryId, sortBy,sortBy,sortBy,sortBy,sortBy},
+//                    new ProductWithReviewRowMapper()
+//            );
+//        } catch (DataAccessException e) {
+//            log.error("카테고리별 조회 및 정렬 중 에러 발생 ", e);
+//            throw e;
+//        }
+//    }
+//
 
 
 
@@ -84,7 +95,7 @@ public class ProductDao01 {
         }
 
         public List<Map<String, Object>> getProductsSorted(String categoryId, String sortColumn, String sortOrder) {
-            String orderByClause = (sortOrder.equals("d") ? "DESC" : "ASC");  // 정렬 순서 (DESC 또는 ASC)
+            String orderByClause = (sortOrder.equals("desc") ? "DESC" : "ASC");  // 정렬 순서 (DESC 또는 ASC)
 
             String sql = "SELECT p.product_id, p.name, p.description, p.price, p.stock, p.image_url, p.category_id, " +
                     "AVG(r.rating) AS average_rating, COUNT(r.review_id) AS review_count " +
