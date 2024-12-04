@@ -20,6 +20,11 @@ const ProductSortComponent = ({
   const [quantity, setQuantity] = useState({});
   const [imageError, setImageError] = useState({}); // 이미지를 불러오지 못한 상태를 저장
 
+  const formatPrice = (price) => {
+    // 숫자를 세자리수마다 , 단위 구분 추가
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
     const getSortedProducts = async () => {
       try {
@@ -77,8 +82,16 @@ const ProductSortComponent = ({
             )}
             <ProductDetails>
               <h3>{product.NAME}</h3>
-              <p>{product.PRICE}원</p>
+              <p>{formatPrice(product.PRICE)}원</p>
               <p>재고 : {product.STOCK}개</p>
+              {!product.RATING ? (
+                <p>평균 평점 : 0(0)</p>
+              ) : (
+                <p>
+                  평균 평점 : {product.RATING}({product.RATING_COUNT})
+                </p>
+              )}
+
               <QuantityControls>
                 <button
                   onClick={() => handleQuantityChange(product.PRODUCT_ID, -1)}

@@ -15,6 +15,11 @@ import {
 } from "../styles/CartListFixedStyle01";
 
 const CartListComponent = ({ cartData, onUpdateCart }) => {
+  const formatPrice = (price) => {
+    // 숫자를 세자리수마다 , 단위 구분 추가
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   // 장바구니 아이템 삭제
   const handleRemoveItem = async (cartItemId) => {
     const confirmDelete = window.confirm(
@@ -76,23 +81,25 @@ const CartListComponent = ({ cartData, onUpdateCart }) => {
             <CartDetails>
               <ProductName>{item.productName}</ProductName>
               <QuantityButtons>
-                <button
+                {/* <button
                   onClick={() =>
                     handleQuantityChange(item.cartItemId, item.quantity - 1)
                   }
                 >
                   -
-                </button>
+                </button> */}
                 <p>{item.quantity}개</p>
-                <button
+                {/* <button
                   onClick={() =>
                     handleQuantityChange(item.cartItemId, item.quantity + 1)
                   }
                 >
                   +
-                </button>
+                </button> */}
               </QuantityButtons>
-              <TotalPrice>총 {item.quantity * item.productPrice}원</TotalPrice>
+              <TotalPrice>
+                총 {formatPrice(item.quantity * item.productPrice)}원
+              </TotalPrice>
               <RemoveButton onClick={() => handleRemoveItem(item.cartItemId)}>
                 삭제
               </RemoveButton>
@@ -100,7 +107,9 @@ const CartListComponent = ({ cartData, onUpdateCart }) => {
           </CartItem>
         ))}
       </CartList>
-      <TotalAmountContainer>총 {calculateTotalPrice()}원</TotalAmountContainer>
+      <TotalAmountContainer>
+        총 {formatPrice(calculateTotalPrice())}원
+      </TotalAmountContainer>
     </CartContainer>
   );
 };
