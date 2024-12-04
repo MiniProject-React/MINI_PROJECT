@@ -1,0 +1,465 @@
+import React, { useState } from "react";
+
+const StepwisePCCustomizing = () => {
+  const [currentStep, setCurrentStep] = useState(0); // 현재 단계
+  const [selectedParts, setSelectedParts] = useState({}); // 선택된 부품
+  const [cart, setCart] = useState([]); // 장바구니 상태
+
+  // 각 부품에 대한 선택지와 가격
+  const partsOptions = [
+    {
+      category: "cpu",
+      options: [
+        { name: "RYZEN 5600", price: 129000, image: "/images/cpu1.jpg" },
+        { name: "RYZEN 5600G", price: 169000, image: "/images/cpu2.jpg" },
+        { name: "RYZEN 5600X", price: 179000, image: "/images/cpu3.jpg" },
+        { name: "RYZEN 7600", price: 242000, image: "/images/cpu4.jpg" },
+        { name: "RYZEN 5700G", price: 265000, image: "/images/cpu5.jpg" },
+        { name: "RYZEN 5800XT", price: 384000, image: "/images/cpu6.jpg" },
+      ],
+    },
+    {
+      category: "motherboard",
+      options: [
+        {
+          name: "GIGABYTE A520M",
+          price: 64000,
+          image: "/images/motherboard1.jpg",
+        },
+        {
+          name: "GIGABYTE B550M",
+          price: 126000,
+          image: "/images/motherboard2.jpg",
+        },
+        {
+          name: "GIGABYTE B650M",
+          price: 154000,
+          image: "/images/motherboard3.jpg",
+        },
+        {
+          name: "GIGABYTE A620M",
+          price: 174000,
+          image: "/images/motherboard4.jpg",
+        },
+        {
+          name: "GIGABYTE X570",
+          price: 237000,
+          image: "/images/motherboard5.jpg",
+        },
+        {
+          name: "GIGABYTE X670",
+          price: 377000,
+          image: "/images/motherboard6.jpg",
+        },
+      ],
+    },
+    {
+      category: "ram",
+      options: [
+        {
+          name: "SAMSUNG DDR4 PC4-21300 8GB",
+          price: 18000,
+          image: "/images/ram1.jpg",
+        },
+        {
+          name: "SAMSUNG DDR4 PC4-25600 4GB",
+          price: 19000,
+          image: "/images/ram2.jpg",
+        },
+        {
+          name: "SAMSUNG DDR4 PC4-25600 8GB",
+          price: 21000,
+          image: "/images/ram3.jpg",
+        },
+        {
+          name: "SAMSUNG DDR5 PC5-44800 8GB",
+          price: 38000,
+          image: "/images/ram4.jpg",
+        },
+        {
+          name: "SAMSUNG DDR4 PC4-21300 서버용 32GB",
+          price: 63000,
+          image: "/images/ram5.jpg",
+        },
+        {
+          name: "SAMSUNG DDR5 PC5-38400 16GB",
+          price: 77000,
+          image: "/images/ram6.jpg",
+        },
+      ],
+    },
+    {
+      category: "vga",
+      options: [
+        {
+          name: "[GIGABYTE] GeForce RTX 4060 WINDFORCE OC D6 8GB 피씨디렉트",
+          price: 425000,
+          image: "/images/vga1.jpg",
+        },
+        {
+          name: "[GIGABYTE] GeForce RTX 4060 Ti WINDFORCE OC D6 8GB 피씨디렉트",
+          price: 579000,
+          image: "/images/vga2.jpg",
+        },
+        {
+          name: "[GIGABYTE] GeForce RTX 4070 SUPER Gaming OC D6X 12GB 피씨디렉트",
+          price: 1029000,
+          image: "/images/vga3.jpg",
+        },
+        {
+          name: "[GIGABYTE] GeForce RTX 4070 Ti SUPER WINDFORCE OC D6X 16GB 피씨디렉트",
+          price: 1250000,
+          image: "/images/vga4.jpg",
+        },
+        {
+          name: "[GIGABYTE] 지포스 RTX 4080 SUPER AERO OC D6X 16GB 피씨디렉트",
+          price: 1749000,
+          image: "/images/vga5.jpg",
+        },
+        {
+          name: "[GIGABYTE] GeForce RTX 4090 Gaming OC D6X 24GB 피씨디렉트",
+          price: 3450000,
+          image: "/images/vga6.jpg",
+        },
+      ],
+    },
+    {
+      category: "ssd",
+      options: [
+        {
+          name: "[삼성전자] 공식인증 870 EVO SATA 250GB",
+          price: 73000,
+          image: "/images/ssd1.jpg",
+        },
+        {
+          name: "[삼성전자] 공식인증 980 M.2 NVMe 2280 250GB",
+          price: 78000,
+          image: "/images/ssd2.jpg",
+        },
+        {
+          name: "[삼성전자] 공식인증 970 EVO Plus M.2 NVMe 2280 250GB",
+          price: 81500,
+          image: "/images/ssd3.jpg",
+        },
+        {
+          name: "[삼성전자] 공식인증 870 QVO SATA 1TB",
+          price: 162500,
+          image: "/images/ssd4.jpg",
+        },
+        {
+          name: "[삼성전자] 공식인증 980 PRO M.2 NVMe 2280 1TB",
+          price: 208000,
+          image: "/images/ssd5.jpg",
+        },
+        {
+          name: "[삼성전자] 공식인증 990 PRO M.2 NVMe 2280 1TB",
+          price: 218000,
+          image: "/images/ssd6.jpg",
+        },
+      ],
+    },
+    {
+      category: "hdd",
+      options: [
+        {
+          name: "[Western Digital] BLUE HDD 1TB",
+          price: 81000,
+          image: "/images/hdd1.jpg",
+        },
+        {
+          name: "[Western Digital] MOBILE BLUE HDD 2TB",
+          price: 125000,
+          image: "/images/hdd2.jpg",
+        },
+        {
+          name: "[Western Digital] RED PLUS HDD 3TB",
+          price: 135000,
+          image: "/images/hdd3.jpg",
+        },
+        {
+          name: "[Western Digital] RED PRO HDD 2TB",
+          price: 169000,
+          image: "/images/hdd4.jpg",
+        },
+        {
+          name: "[Western Digital] Ultrastar HDD 20TB",
+          price: 749000,
+          image: "/images/hdd5.jpg",
+        },
+        {
+          name: "[Western Digital] Ultrastar HDD 24TB",
+          price: 909000,
+          image: "/images/hdd6.jpg",
+        },
+      ],
+    },
+  ];
+
+  // 부품 선택 처리
+  const handleSelectPart = (category, part) => {
+    setSelectedParts({
+      ...selectedParts,
+      [category]: part,
+    });
+    setCurrentStep((prevStep) => prevStep + 1); // 다음 단계로 이동
+  };
+
+  // 장바구니에 추가
+  const addToCart = () => {
+    if (Object.keys(selectedParts).length === partsOptions.length) {
+      setCart((prevCart) => [...prevCart, selectedParts]);
+      alert("구성이 장바구니에 추가되었습니다!");
+      setSelectedParts({});
+      setCurrentStep(0); // 초기화
+    } else {
+      // 선택되지 않은 부품이 있을 경우
+      const missingParts = partsOptions.filter(
+        (part) => !selectedParts[part.category]
+      );
+      if (missingParts.length > 0) {
+        alert(
+          `${missingParts[0].category.toUpperCase()} 부품을 선택하지 않았습니다.`
+        );
+        // 선택하지 않은 부품 탭으로 이동
+        const missingPartCategory = missingParts[0].category;
+        const stepIndex = partsOptions.findIndex(
+          (part) => part.category === missingPartCategory
+        );
+        setCurrentStep(stepIndex); // 해당 부품 탭으로 이동
+      } else {
+        alert("모든 항목을 선택해 주세요.");
+      }
+    }
+  };
+
+  // 장바구니에서 항목 제거
+  const removeFromCart = (index) => {
+    const updatedCart = cart.filter((_, i) => i !== index);
+    setCart(updatedCart);
+  };
+
+  // 총 가격 계산
+  const calculateTotalPrice = (config) => {
+    return Object.values(config).reduce((sum, part) => sum + part.price, 0);
+  };
+
+  // 가격 포맷 (원화, 3자리마다 쉼표)
+  const formatPrice = (price) => {
+    return price.toLocaleString("ko-KR", {
+      style: "currency",
+      currency: "KRW",
+    });
+  };
+
+  // 선택된 부품 순서
+  const selectedPartOrder = ["cpu", "motherboard", "ram", "vga", "ssd", "hdd"];
+
+  return (
+    <div style={styles.container}>
+      <h1>단계별 커스텀 PC</h1>
+
+      {/* 부품 선택 버튼 위치 변경 */}
+      <div style={styles.stepButtons}>
+        {partsOptions.map((part, index) => (
+          <button
+            key={part.category}
+            onClick={() => setCurrentStep(index)}
+            style={{
+              ...styles.stepButton,
+              backgroundColor: currentStep === index ? "#ddd" : "#f4f4f4",
+            }}
+          >
+            {part.category.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
+      <div style={styles.content}>
+        {/* 부품 선택 */}
+        <div style={styles.stepContainer}>
+          <h2>부품 선택</h2>
+
+          {/* 현재 단계 표시 */}
+          {currentStep < partsOptions.length && (
+            <div style={styles.optionList}>
+              {partsOptions[currentStep].options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() =>
+                    handleSelectPart(partsOptions[currentStep].category, option)
+                  }
+                  style={styles.optionButton}
+                >
+                  <img
+                    src={option.image}
+                    alt={option.name}
+                    style={styles.optionImage}
+                  />
+                  <div>
+                    {option.name} ({formatPrice(option.price)})
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 선택된 구성 */}
+        <div style={styles.summaryContainer}>
+          <h2>선택된 구성</h2>
+          <div style={styles.selectedParts}>
+            {selectedPartOrder.map(
+              (category) =>
+                selectedParts[category] && (
+                  <div key={category} style={styles.selectedItem}>
+                    <strong>{category.toUpperCase()}:</strong>{" "}
+                    {selectedParts[category].name} (
+                    {formatPrice(selectedParts[category].price)}))
+                  </div>
+                )
+            )}
+          </div>
+          <h3>총 가격: {formatPrice(calculateTotalPrice(selectedParts))}</h3>
+        </div>
+      </div>
+
+      {/* 장바구니 추가 버튼 */}
+      <div style={styles.cartButtonContainer}>
+        <button onClick={addToCart} style={styles.cartButton}>
+          장바구니에 추가
+        </button>
+      </div>
+
+      {/* 장바구니 보기 */}
+      {cart.length > 0 && (
+        <div style={styles.cart}>
+          <h3>장바구니</h3>
+          <ul>
+            {cart.map((pc, index) => (
+              <li key={index}>
+                <h4>구성 {index + 1}:</h4>
+                <ul>
+                  {selectedPartOrder.map((category) => (
+                    <li key={category}>
+                      <strong>{category.toUpperCase()}:</strong>{" "}
+                      {pc[category]?.name} ({formatPrice(pc[category].price)})
+                    </li>
+                  ))}
+                </ul>
+                <h4>총 가격: {formatPrice(calculateTotalPrice(pc))}</h4>
+                <button
+                  onClick={() => removeFromCart(index)}
+                  style={styles.removeButton}
+                >
+                  삭제
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    padding: "20px",
+    fontFamily: "Arial, sans-serif",
+  },
+  content: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "20px",
+  },
+  stepButtons: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "20px", // 버튼 사이 여백
+  },
+
+  stepButton: {
+    padding: "12px",
+    fontSize: "16px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "200%",
+    textAlign: "center",
+  },
+
+  stepContainer: {
+    flex: 1,
+    padding: "20px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "white",
+    marginRight: "20px",
+  },
+  optionList: {
+    display: "grid",
+    gridTemplateColumns: "1fr", // 1열로 정렬
+    gap: "15px",
+  },
+  optionButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "12px",
+    fontSize: "14px",
+    cursor: "pointer",
+    backgroundColor: "white",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    textAlign: "center",
+  },
+  optionImage: {
+    width: "80px",
+    height: "80px",
+    marginBottom: "10px",
+    objectFit: "cover",
+  },
+  summaryContainer: {
+    flex: 1,
+    padding: "20px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "white",
+  },
+  selectedParts: {
+    marginBottom: "20px",
+  },
+  selectedItem: {
+    marginBottom: "10px",
+  },
+  cartButtonContainer: {
+    marginTop: "20px",
+    textAlign: "center",
+  },
+  cartButton: {
+    padding: "12px 24px",
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
+  },
+  cart: {
+    marginTop: "20px",
+    padding: "20px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "white",
+  },
+  removeButton: {
+    padding: "8px 16px",
+    backgroundColor: "#dc3545",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+};
+
+export default StepwisePCCustomizing;
