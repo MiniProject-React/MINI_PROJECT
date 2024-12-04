@@ -6,7 +6,8 @@ export const ProductSort = styled.div`
   align-items: center;
   justify-content: center;
   margin: 10px 0;
-  width: 100%;
+  width: 100% - 200px;
+  margin-left: 200px;
 `;
 
 export const ProductSortList = styled.ul`
@@ -24,7 +25,7 @@ export const ProductCard = styled.li`
   padding: 15px;
   border: 1px solid #ccc;
   border-bottom: none;
-  width: 80%;
+  width: 90%;
 `;
 
 export const ProductImage = styled.img`
