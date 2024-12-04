@@ -17,8 +17,11 @@ import java.util.List;
 @Slf4j
 public class ProductsDAO3 {
     private final JdbcTemplate jdbcTemplate;
-    private static final String ALL_PRODUCTS = "SELECT p.product_id, p.name as product, p.description, p.price, p.stock, p.category_id, c.name as category FROM PRODUCTS p JOIN CATEGORIES c ON p.category_id = c.category_id";
-
+    private static final String ALL_PRODUCTS = "SELECT p.product_id, p.name as product, p.description, " +
+            "p.price, p.stock, p.category_id, c.name as category FROM PRODUCTS p JOIN " +
+            "CATEGORIES c ON p.category_id = c.category_id";
+    private static final String DETAIL_PRODUCT =  "SELECT p.product_id, p.name as product, p.description, p.price, p.stock, p.category_id, c.name as category FROM PRODUCTS p JOIN CATEGORIES c ON p.category_id = c.category_id WHERE product_id = ?";
+    private static final String UPDATE_PRODUCT = "UPDATE PRODUCTS SET name = ? , price = ? , stock =? , description = ? WHERE product_id = ?";
     public List<ProductsVO3> getAllProducts() {
         try {
             return jdbcTemplate.query(ALL_PRODUCTS, new ProductsRowMapper() {
@@ -28,6 +31,24 @@ public class ProductsDAO3 {
             throw e;
         }
     }
+
+    public List<ProductsVO3> detailList(int productId) {
+        try{
+            return jdbcTemplate.query(DETAIL_PRODUCT,new ProductsRowMapper(),productId);
+        } catch (DataAccessException e){
+            throw e;
+        }
+    }
+
+    public boolean update(ProductsVO3 vo) {
+        try{
+            int result = jdbcTemplate.update(UPDATE_PRODUCT, vo.getName(),vo.getPrice(),vo.getStock(),vo.getDescription(),vo.getProduct_id());
+            return result > 0;
+        }catch (DataAccessException e){
+            return false;
+        }
+    }
+
     private static class ProductsRowMapper implements RowMapper<ProductsVO3> {
         @Override
         public ProductsVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {

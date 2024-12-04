@@ -4,10 +4,8 @@ import com.kh.MINI.admin3.dao3.ProductsDAO3;
 import com.kh.MINI.admin3.vo3.ProductsVO3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +37,19 @@ public class ProductsController3 {
 
         return resultMap;
 
+    }
+    @GetMapping("/detail")
+    public Map<String, Object> productDetail(@RequestParam("productId")int productId) {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<ProductsVO3> detailList = productsDAO3.detailList(productId);
+        resultMap.put("detailList",detailList);
+        return resultMap;
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> productUpdate(@RequestBody ProductsVO3 vo){
+        boolean isSuccess = productsDAO3.update(vo);
+        return ResponseEntity.ok(isSuccess);
     }
 
 

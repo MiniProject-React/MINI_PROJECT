@@ -30,8 +30,6 @@ public class AdminDAO3 {
     }
 
     public Integer gradeCheck(String email, String password) {
-        System.out.println(email);
-        System.out.println(password);
         try {
             // 쿼리 실행, 반환된 값은 Integer로 처리
             return jdbcTemplate.queryForObject(CHECK_GRADE, new Object[]{email, password}, Integer.class);

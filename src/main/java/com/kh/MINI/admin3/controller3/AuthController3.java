@@ -31,7 +31,6 @@ public class AuthController3 {
 
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody UserVO3 vo) {
-        Map<String, Object> resultMap = new HashMap<>();
         log.info("ID {}", vo.getEmail());
         log.info("패스워드 {}", vo.getPassword());
 
