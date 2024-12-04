@@ -7,6 +7,10 @@ import Login from "./pages/signup/login";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Shopping01 from "./pages/Shopping01";
+import StepwisePCCustomizing from "./components/OwnPCCustomization";
+import SuggestedPC from "./components/SuggestedPC";
+
+
 
 function App() {
   return (
@@ -22,6 +26,8 @@ function App() {
             </Route>
             <Route path="/home" element={<Home />} />
             <Route path="/shopping" element={<Shopping01 />} />
+            <Route path="/own-pc" element={<StepwisePCCustomizing />} />
+            <Route path="/suggested-pc" element={<SuggestedPC />} />
           </Routes>
         </Router>
       </UserStore>
