@@ -199,20 +199,32 @@ const OwnPC = () => {
   const handleSelectPart = (category, part) => {
     setSelectedParts({
       ...selectedParts,
-      [category]: part,
+      [category]: { ...part, quantity: 1 }, // 수량 1로 설정
     });
     setCurrentStep((prevStep) => prevStep + 1); // 다음 단계로 이동
+  };
+
+  // 수량 변경 처리
+  const handleQuantityChange = (category, delta) => {
+    setSelectedParts((prevParts) => {
+      const updatedPart = { ...prevParts[category] };
+      updatedPart.quantity += delta;
+      if (updatedPart.quantity < 1) updatedPart.quantity = 1; // 최소 수량은 1
+      return {
+        ...prevParts,
+        [category]: updatedPart,
+      };
+    });
   };
 
   // 장바구니에 추가
   const addToCart = () => {
     if (Object.keys(selectedParts).length === partsOptions.length) {
-      setCart((prevCart) => [...prevCart, selectedParts]);
+      setCart((prevCart) => [...prevCart, { ...selectedParts }]);
       alert("구성이 장바구니에 추가되었습니다!");
-      setSelectedParts({});
+      setSelectedParts({}); // 선택된 부품 초기화
       setCurrentStep(0); // 초기화
     } else {
-      // 선택되지 않은 부품이 있을 경우
       const missingParts = partsOptions.filter(
         (part) => !selectedParts[part.category]
       );
@@ -220,7 +232,6 @@ const OwnPC = () => {
         alert(
           `${missingParts[0].category.toUpperCase()} 부품을 선택하지 않았습니다.`
         );
-        // 선택하지 않은 부품 탭으로 이동
         const missingPartCategory = missingParts[0].category;
         const stepIndex = partsOptions.findIndex(
           (part) => part.category === missingPartCategory
@@ -240,7 +251,10 @@ const OwnPC = () => {
 
   // 총 가격 계산
   const calculateTotalPrice = (config) => {
-    return Object.values(config).reduce((sum, part) => sum + part.price, 0);
+    return Object.values(config).reduce(
+      (sum, part) => sum + part.price * part.quantity, // 수량 반영
+      0
+    );
   };
 
   // 가격 포맷 (원화, 3자리마다 쉼표)
@@ -315,6 +329,21 @@ const OwnPC = () => {
                     <strong>{category.toUpperCase()}:</strong>{" "}
                     {selectedParts[category].name} (
                     {formatPrice(selectedParts[category].price)}))
+                    <div>
+                      <button
+                        onClick={() => handleQuantityChange(category, -1)}
+                        style={styles.quantityButton}
+                      >
+                        -
+                      </button>
+                      <span>{selectedParts[category].quantity}</span>
+                      <button
+                        onClick={() => handleQuantityChange(category, 1)}
+                        style={styles.quantityButton}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 )
             )}
@@ -343,6 +372,15 @@ const OwnPC = () => {
                     <li key={category}>
                       <strong>{category.toUpperCase()}:</strong>{" "}
                       {pc[category]?.name} ({formatPrice(pc[category].price)})
+                      <div>수량: {pc[category]?.quantity}</div>{" "}
+                      {/* 수량 표시 */}
+                      <h5>
+                        가격:{" "}
+                        {formatPrice(
+                          pc[category]?.price * pc[category]?.quantity
+                        )}{" "}
+                        {/* 가격 * 수량 */}
+                      </h5>
                     </li>
                   ))}
                 </ul>
@@ -375,7 +413,7 @@ const styles = {
   stepButtons: {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "20px", // 버튼 사이 여백
+    marginBottom: "20px",
   },
 
   stepButton: {
@@ -398,7 +436,7 @@ const styles = {
   },
   optionList: {
     display: "grid",
-    gridTemplateColumns: "1fr", // 1열로 정렬
+    gridTemplateColumns: "1fr",
     gap: "15px",
   },
   optionButton: {
@@ -433,31 +471,37 @@ const styles = {
     marginBottom: "10px",
   },
   cartButtonContainer: {
-    marginTop: "20px",
     textAlign: "center",
+    marginTop: "20px",
   },
   cartButton: {
-    padding: "12px 24px",
-    backgroundColor: "#28a745",
+    padding: "12px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    backgroundColor: "#4CAF50",
     color: "white",
     border: "none",
     borderRadius: "5px",
-    cursor: "pointer",
-    width: "100%",
   },
   cart: {
     marginTop: "20px",
     padding: "20px",
     border: "1px solid #ddd",
     borderRadius: "8px",
-    backgroundColor: "white",
+    backgroundColor: "#f9f9f9",
   },
   removeButton: {
     padding: "8px 16px",
-    backgroundColor: "#dc3545",
+    fontSize: "14px",
+    backgroundColor: "#f44336",
     color: "white",
     border: "none",
     borderRadius: "5px",
+    cursor: "pointer",
+  },
+  quantityButton: {
+    padding: "5px 10px",
+    fontSize: "16px",
     cursor: "pointer",
   },
 };
