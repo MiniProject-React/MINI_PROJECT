@@ -1,8 +1,9 @@
-import ProductSortComponent01 from "../components/ProductSortComponent01";
+import ProductSortComponent from "../components/ProductSortComponent01";
 import { useEffect, useState } from "react";
 import AxiosApi01 from "../api/AxiosApi01";
 import CartListComponent from "../components/CartListComponent01";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -87,6 +88,14 @@ const Shopping = () => {
   const [sortColumn, setSortColumn] = useState("price");
   const [sortOrder, setSortOrder] = useState("d"); // "d" 는 내림차순, "a" 는 오름차순
   const [cartData, setCartData] = useState([]);
+
+  const { urlCategoryId } = useParams();
+
+  useEffect(() => {
+    if (urlCategoryId) {
+      setCategoryId(urlCategoryId);
+    }
+  }, [urlCategoryId]);
 
   const user = {
     // 임시 회원정보
@@ -183,7 +192,7 @@ const Shopping = () => {
             </SortOption>
           </SortOptionsContainer>
         </Sidebar>
-        <ProductSortComponent01
+        <ProductSortComponent
           categoryId={categoryId}
           sortColumn={sortColumn}
           sortOrder={sortOrder}
