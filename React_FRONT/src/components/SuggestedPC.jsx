@@ -312,7 +312,19 @@ const SuggestedPC = () => {
   // 장바구니에 추가하는 함수
   const addToCart = () => {
     if (selectedPC) {
-      setCart((prevCart) => [...prevCart, selectedPC]); // 기존 장바구니에 선택된 PC 추가
+      // 장바구니에 이미 선택된 PC가 있으면 수량만 업데이트
+      const existingPC = cart.find((pc) => pc.id === selectedPC.id);
+      if (existingPC) {
+        setCart(
+          cart.map((pc) =>
+            pc.id === selectedPC.id
+              ? { ...pc, quantity: pc.quantity + selectedPC.quantity }
+              : pc
+          )
+        );
+      } else {
+        setCart((prevCart) => [...prevCart, selectedPC]); // 기존 장바구니에 선택된 PC 추가
+      }
       alert(`${selectedPC.name}가 장바구니에 추가되었습니다!`);
     }
   };
