@@ -13,7 +13,7 @@ const SuggestedPC = () => {
       currency: "KRW",
     });
   };
-
+  
   // 가격대 버튼을 클릭했을 때 PC 목록을 불러오는 useEffect
   useEffect(() => {
     fetchPCs("70만원 미만"); // 초기값으로 70만원 미만 범위 불러오기
