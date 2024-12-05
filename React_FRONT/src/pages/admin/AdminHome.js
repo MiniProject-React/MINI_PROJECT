@@ -40,6 +40,7 @@ export default function AdminHome() {
 
   const closeModal = () => {
     setModalOpen(false);
+    totalList();
   };
 
   const modalState = (product_id, category, productName) => {

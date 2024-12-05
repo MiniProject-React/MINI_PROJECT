@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ModalStyle, ModalButton } from "../style/ModalStyle";
-import { getDownloadURL, ref } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../api/firebase";
 
 const Modal = (props) => {
@@ -33,7 +33,7 @@ const Modal = (props) => {
       console.error("Error fetching product detail:", error);
     }
   };
-
+  // 이미지 파일 가져오기
   const getImage = async () => {
     const fileRef = ref(storage, `images/${category}/${productName}.jpg`);
     try {
@@ -47,7 +47,47 @@ const Modal = (props) => {
 
   // 파일 선택 핸들러
   const handleFileInputChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (!selectedFile.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드할 수 있습니다.");
+        return;
+      }
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        alert("파일 크기는 5MB를 초과할 수 없습니다.");
+        return;
+      }
+
+      const img = new Image();
+      img.src = URL.createObjectURL(selectedFile);
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 150;
+        canvas.height = 150;
+        ctx.drawImage(img, 0, 0, 150, 150);
+        console.log("이미지 그리기 완료");
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const resizedFile = new File([blob], selectedFile.name, {
+                type: "image/jpeg",
+              });
+              setFile(resizedFile);
+              setUrl(URL.createObjectURL(resizedFile));
+            } else {
+              console.log("이미지 변환 중 오류 발생");
+            }
+          },
+          "image/jpeg",
+          0.95
+        );
+        URL.revokeObjectURL(img.src);
+      };
+      img.onerror = () => {
+        console.log("이미지 로드 중 오류 발생");
+      };
+    }
   };
   // 업로드 버튼 클릭 핸들러
   const handleUploadClick = () => {
@@ -57,22 +97,18 @@ const Modal = (props) => {
     }
     const storageRef = ref(
       storage,
-      `images/${category}/${productDetail[0].name}`
+      `images/${category}/${productDetail[0].name}.jpg`
     ); // Firebase Storage 참조
-    const fileRef = storageRef;
-    fileRef
-      .put(file) // 파일 업로드
-      .then(() => {
-        console.log("파일 업로드 성공!");
-        return fileRef.getDownloadURL(); // 업로드된 파일의 URL 가져오기
-      })
-      .then((downloadUrl) => {
-        console.log("저장된 경로:", downloadUrl);
-        setUrl(downloadUrl); // 이미지 URL 상태 업데이트
-      })
-      .catch((error) => {
-        console.error("업로드 중 에러 발생:", error);
-      });
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log("이미지 파이어베이스 업로드 성공");
+      getDownloadURL(snapshot.ref)
+        .then((url) => {
+          console.log("경로 : " + url);
+        })
+        .catch((e) => {
+          console.log("파일 업로드 에러 : " + e);
+        });
+    });
   };
   const update = async () => {
     try {
