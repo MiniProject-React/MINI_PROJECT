@@ -13,7 +13,7 @@ const SuggestedPC = () => {
       currency: "KRW",
     });
   };
-  
+
   // 가격대 버튼을 클릭했을 때 PC 목록을 불러오는 useEffect
   useEffect(() => {
     fetchPCs("70만원 미만"); // 초기값으로 70만원 미만 범위 불러오기
@@ -465,7 +465,7 @@ const SuggestedPC = () => {
                 </button>
               </div>
 
-              <button style={styles.button} onClick={addToCart}>
+              <button style={styles.cartbutton} onClick={addToCart}>
                 장바구니에 추가
               </button>
             </div>
@@ -573,14 +573,25 @@ const styles = {
     marginBottom: "20px",
   },
   button: {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
+    backgroundColor: "#f4f4f4",
+    color: "black",
+    border: "1px solid #ddd",
     padding: "10px 20px",
     cursor: "pointer",
     borderRadius: "5px",
     margin: "10px 0",
   },
+
+  cartbutton: {
+    backgroundColor: "#f4f4f4",
+    color: "black",
+    border: "1px solid #ddd",
+    padding: "10px 20px",
+    cursor: "pointer",
+    borderRadius: "5px",
+    margin: "10px 0",
+  },
+
   quantity: {
     fontSize: "18px",
     margin: "0 10px",
@@ -612,9 +623,9 @@ const styles = {
   buyButton: {
     padding: "12px 20px",
     fontSize: "16px",
-    backgroundColor: "#2196F3",
-    color: "white",
-    border: "none",
+    backgroundColor: "#f4f4f4",
+    color: "black",
+    border: "1px solid #ddd",
     borderRadius: "5px",
     cursor: "pointer",
     marginTop: "20px",
