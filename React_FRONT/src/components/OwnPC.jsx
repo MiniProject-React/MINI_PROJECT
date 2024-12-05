@@ -257,6 +257,11 @@ const OwnPC = () => {
     );
   };
 
+  // 장바구니 전체 총 금액 계산
+  const calculateCartTotalPrice = () => {
+    return cart.reduce((total, pc) => total + calculateTotalPrice(pc), 0);
+  };
+
   // 가격 포맷 (원화, 3자리마다 쉼표)
   const formatPrice = (price) => {
     return price.toLocaleString("ko-KR", {
@@ -268,11 +273,15 @@ const OwnPC = () => {
   // 선택된 부품 순서
   const selectedPartOrder = ["cpu", "motherboard", "ram", "vga", "ssd", "hdd"];
 
+  const handleBuyNow = () => {
+    alert("구매 페이지로 이동합니다.");
+    // 구매 페이지로 이동하는 코드 작성 (예: 페이지 전환)
+  };
+
   return (
     <div style={styles.container}>
       <h1>단계별 커스텀 PC</h1>
 
-      {/* 부품 선택 버튼 위치 변경 */}
       <div style={styles.stepButtons}>
         {partsOptions.map((part, index) => (
           <button
@@ -289,11 +298,8 @@ const OwnPC = () => {
       </div>
 
       <div style={styles.content}>
-        {/* 부품 선택 */}
         <div style={styles.stepContainer}>
           <h2>부품 선택</h2>
-
-          {/* 현재 단계 표시 */}
           {currentStep < partsOptions.length && (
             <div style={styles.optionList}>
               {partsOptions[currentStep].options.map((option, index) => (
@@ -318,7 +324,6 @@ const OwnPC = () => {
           )}
         </div>
 
-        {/* 선택된 구성 */}
         <div style={styles.summaryContainer}>
           <h2>선택된 구성</h2>
           <div style={styles.selectedParts}>
@@ -352,14 +357,12 @@ const OwnPC = () => {
         </div>
       </div>
 
-      {/* 장바구니 추가 버튼 */}
       <div style={styles.cartButtonContainer}>
         <button onClick={addToCart} style={styles.cartButton}>
           장바구니에 추가
         </button>
       </div>
 
-      {/* 장바구니 보기 */}
       {cart.length > 0 && (
         <div style={styles.cart}>
           <h3>장바구니</h3>
@@ -372,14 +375,12 @@ const OwnPC = () => {
                     <li key={category}>
                       <strong>{category.toUpperCase()}:</strong>{" "}
                       {pc[category]?.name} ({formatPrice(pc[category].price)})
-                      <div>수량: {pc[category]?.quantity}</div>{" "}
-                      {/* 수량 표시 */}
+                      <div>수량: {pc[category]?.quantity}</div>
                       <h5>
                         가격:{" "}
                         {formatPrice(
                           pc[category]?.price * pc[category]?.quantity
-                        )}{" "}
-                        {/* 가격 * 수량 */}
+                        )}
                       </h5>
                     </li>
                   ))}
@@ -394,6 +395,12 @@ const OwnPC = () => {
               </li>
             ))}
           </ul>
+          <h3>
+            전체 장바구니 총 가격: {formatPrice(calculateCartTotalPrice())}
+          </h3>
+          <button onClick={handleBuyNow} style={styles.buyButton}>
+            구매하기
+          </button>
         </div>
       )}
     </div>
@@ -503,6 +510,16 @@ const styles = {
     padding: "5px 10px",
     fontSize: "16px",
     cursor: "pointer",
+  },
+  buyButton: {
+    padding: "12px 20px",
+    fontSize: "16px",
+    backgroundColor: "#2196F3",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "20px",
   },
 };
 
