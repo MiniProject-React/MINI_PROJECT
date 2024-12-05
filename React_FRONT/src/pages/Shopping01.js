@@ -5,53 +5,80 @@ import CartListComponent from "../components/CartListComponent01";
 import styled from "styled-components";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  min-height: 100%;
-  background-color: #f9f9f9;
-  overflow-x: hidden; /* 수평 스크롤 방지 */
-`;
-
-const ProductSection = styled.div`
-  flex: 3; /* 상품 정렬 섹션 */
+  width: 100%;
+  margin: 0 auto;
   padding: 20px;
+`;
+const ProductSection = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 0; /* 사이드바와 상품정렬 컴포넌트 사이의 간격 */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
-const CartSection = styled.div`
-  flex: 1; /* 장바구니 섹션 */
-  padding: 20px;
-`;
+// const CartSection = styled.div`
+//   flex: 1; /* 장바구니 섹션 */
+//   padding: 20px;
+// `;
 
 const Sidebar = styled.div`
-  position: fixed;
-  top: 20px; /* 상단에서 떨어진 거리 */
-  align-self: flex-start; /* 부모 요소 기준으로 정렬 */
-  width: 200px; /* 적절한 너비 */
-  max-width: 20%; /* 화면 비율에 따른 제한 */
-  background-color: #fff;
-  border-right: 1px solid #ccc;
-  padding: 20px;
+  max-width: 900px; /* 기존 사이드바 너비 유지 */
+  width: 100%;
+  background-color: #f5f5f5; /* 밝은 배경 */
+  border: 1px solid #e0e0e0; /* 구분을 위한 테두리 */
+  border-bottom: none;
+  border-radius: 8px 8px 0 0; /* 모서리 둥글게 */
+  padding: 10px 20px; /* 상하 10px, 좌우 20px 패딩 */
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center; /* 중앙 정렬 */
+  justify-content: space-between; /* 좌우로 배치 */
+  box-sizing: border-box;
+  margin: 0 auto; /* 가운데 정렬 */
+`;
+
+const SidebarTitle = styled.h1`
+  font-size: 18px; /* 볼드로 크게 */
+  font-weight: bold;
+  color: #333; /* 어두운 색상 */
+  margin: 0; /* 제목과 다른 요소 간격 제거 */
+`;
+
+const SortOptionsContainer = styled.div`
+  display: flex; /* 가로로 배치 */
+  gap: 20px; /* 옵션 간 간격 */
+  align-items: center; /* 수직 중앙 정렬 */
 `;
 
 const SortOption = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* 세로 배치 (라벨 위, 셀렉트 아래) */
+  align-items: center; /* 가운데 정렬 */
+  gap: 5px;
 
   label {
-    margin-bottom: 5px;
+    font-size: 12px;
     font-weight: bold;
+    color: #555;
   }
 
   select {
-    padding: 5px;
+    padding: 5px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #999; /* 호버 시 테두리 색 변경 */
+    }
+    &:focus {
+      outline: none;
+      border-color: #007bff; /* 포커스 시 강조 색상 */
+    }
   }
 `;
 
@@ -95,6 +122,7 @@ const Shopping = () => {
         product.quantity
       ); // 상품 추가 요청
       console.log("상품 추가 요청 성공");
+      alert("장바구니에 추가 성공");
       getCartData(); // 장바구니 목록 갱신
     } catch (error) {
       console.log("상품 추가 요청 실패", error);
@@ -124,37 +152,37 @@ const Shopping = () => {
     <Container>
       <ProductSection>
         <Sidebar>
-          <h1>상품 정렬</h1>
-          <SortOption>
-            <label>카테고리</label>
-            <select onChange={handleCategoryChange} value={categoryId}>
-              <option value="1">CPU</option>
-              <option value="2">그래픽카드</option>
-              <option value="3">메인보드</option>
-              <option value="4">RAM</option>
-              <option value="5">SSD</option>
-              <option value="6">파워</option>
-            </select>
-          </SortOption>
-          <SortOption>
-            <label>정렬 기준</label>
-            <select onChange={handleSortColumnChange} value={sortColumn}>
-              <option value="name">이름</option>
-              <option value="price">가격</option>
-              <option value="rating">평점</option>
-              <option value="stock">개수</option>
-              <option value="review_count">리뷰 수</option>
-            </select>
-          </SortOption>
-          <SortOption>
-            <label>정렬 순서</label>
-            <select onChange={handleSortOrderChange} value={sortOrder}>
-              <option value="asc">오름차순</option>
-              <option value="desc">내림차순</option>
-            </select>
-          </SortOption>
+          <SidebarTitle>상품 리스트</SidebarTitle>
+          <SortOptionsContainer>
+            <SortOption>
+              <label>카테고리</label>
+              <select onChange={handleCategoryChange} value={categoryId}>
+                <option value="1">CPU</option>
+                <option value="2">그래픽카드</option>
+                <option value="3">메인보드</option>
+                <option value="4">RAM</option>
+                <option value="5">SSD</option>
+                <option value="6">파워</option>
+              </select>
+            </SortOption>
+            <SortOption>
+              <label>정렬 기준</label>
+              <select onChange={handleSortColumnChange} value={sortColumn}>
+                <option value="name">이름</option>
+                <option value="price">가격</option>
+                <option value="rating">평점</option>
+                <option value="stock">재고</option>
+              </select>
+            </SortOption>
+            <SortOption>
+              <label>정렬 순서</label>
+              <select onChange={handleSortOrderChange} value={sortOrder}>
+                <option value="asc">오름차순</option>
+                <option value="desc">내림차순</option>
+              </select>
+            </SortOption>
+          </SortOptionsContainer>
         </Sidebar>
-
         <ProductSortComponent01
           categoryId={categoryId}
           sortColumn={sortColumn}
@@ -162,9 +190,9 @@ const Shopping = () => {
           onSelectProduct={addProductToCart}
         />
       </ProductSection>
-      <CartSection>
+      {/* <CartSection>
         <CartListComponent cartData={cartData} onUpdateCart={getCartData} />
-      </CartSection>
+      </CartSection> */}
     </Container>
   );
 };

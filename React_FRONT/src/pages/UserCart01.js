@@ -117,7 +117,7 @@ const UserCart01 = () => {
               <RemoveButton
                 onClick={() => handleRemoveFromCart(item.cartItemId)}
               >
-                제거
+                장바구니에서 <br /> 제거
               </RemoveButton>
             </CartItem>
           ))}
