@@ -5,6 +5,14 @@ const OwnPC = () => {
   const [selectedParts, setSelectedParts] = useState({}); // 선택된 부품
   const [cart, setCart] = useState([]); // 장바구니 상태
 
+  // 가격 포맷 (원화, 3자리마다 쉼표)
+  const formatPrice = (price) => {
+    return price.toLocaleString("ko-KR", {
+      style: "currency",
+      currency: "KRW",
+    });
+  };
+
   // 각 부품에 대한 선택지와 가격
   const partsOptions = [
     {
@@ -260,14 +268,6 @@ const OwnPC = () => {
   // 장바구니 전체 총 금액 계산
   const calculateCartTotalPrice = () => {
     return cart.reduce((total, pc) => total + calculateTotalPrice(pc), 0);
-  };
-
-  // 가격 포맷 (원화, 3자리마다 쉼표)
-  const formatPrice = (price) => {
-    return price.toLocaleString("ko-KR", {
-      style: "currency",
-      currency: "KRW",
-    });
   };
 
   // 선택된 부품 순서
