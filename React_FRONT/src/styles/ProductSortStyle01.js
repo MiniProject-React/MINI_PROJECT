@@ -7,13 +7,26 @@ export const ProductSort = styled.div`
   gap: 20px; /* 카드 간의 간격 */
   margin: 0 auto;
   max-width: 900px; /* 최대 너비 */
-  max-height: 800px; /* 최대 높이 */
+  max-height: 700px; /* 최대 높이 */
   overflow-y: auto; /* 세로 스크롤 */
-  overflow-x: hidden; /* 가로 스크롤 방지 */
+
   padding: 10px;
   border: 1px solid #ccc; /* 외곽 경계선 */
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+
+  /* 스크롤 커스터마이징 */
+  &::-webkit-scrollbar {
+    width: 10px; /* 스크롤 바 너비 */
+  }
+  &::-webkit-scrollbar-track {
+    background: none; /* 스크롤 바 뒷 배경 */
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #999; /* 스크롤 바 색상 */
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #777; /* 호버 시 스크롤 바 색상 */
+  }
 `;
 
 export const ProductSortList = styled.ul`
