@@ -14,6 +14,11 @@ const SuggestedPC = () => {
     });
   };
 
+  // 가격대 버튼을 클릭했을 때 PC 목록을 불러오는 useEffect
+  useEffect(() => {
+    fetchPCs("70만원 미만"); // 초기값으로 70만원 미만 범위 불러오기
+  }, []);
+
   // 가격대별 제품을 불러오는 함수
   const fetchPCs = (priceRange) => {
     const examplePCs = {
@@ -334,10 +339,15 @@ const SuggestedPC = () => {
     setCart(cart.filter((pc) => pc.id !== pcId)); // 해당 PC를 장바구니에서 삭제
   };
 
-  // 가격대 버튼을 클릭했을 때 PC 목록을 불러오는 useEffect
-  useEffect(() => {
-    fetchPCs("70만원 미만"); // 초기값으로 70만원 미만 범위 불러오기
-  }, []);
+  // 장바구니 전체 총 금액 계산
+  const calculateCartTotalPrice = () => {
+    return cart.reduce((total, pc) => total + pc.price * pc.quantity, 0);
+  };
+
+  const handleBuyNow = () => {
+    alert("구매 페이지로 이동합니다.");
+    // 구매 페이지로 이동하는 코드 작성 (예: 페이지 전환)
+  };
 
   return (
     <div style={styles.container}>
@@ -488,6 +498,12 @@ const SuggestedPC = () => {
               </button>
             </div>
           ))}
+          <h3>
+            전체 장바구니 총 가격: {formatPrice(calculateCartTotalPrice())}
+          </h3>
+          <button onClick={handleBuyNow} style={styles.buyButton}>
+            구매하기
+          </button>
         </div>
       )}
     </div>
@@ -592,6 +608,16 @@ const styles = {
     padding: "5px 10px",
     cursor: "pointer",
     borderRadius: "5px",
+  },
+  buyButton: {
+    padding: "12px 20px",
+    fontSize: "16px",
+    backgroundColor: "#2196F3",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "20px",
   },
 };
 
