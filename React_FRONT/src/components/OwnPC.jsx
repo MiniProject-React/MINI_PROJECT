@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const StepwisePCCustomizing = () => {
+const OwnPC = () => {
   const [currentStep, setCurrentStep] = useState(0); // 현재 단계
   const [selectedParts, setSelectedParts] = useState({}); // 선택된 부품
   const [cart, setCart] = useState([]); // 장바구니 상태
@@ -462,4 +462,4 @@ const styles = {
   },
 };
 
-export default StepwisePCCustomizing;
+export default OwnPC;
