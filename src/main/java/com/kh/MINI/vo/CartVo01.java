@@ -19,5 +19,5 @@ public class CartVo01 {
     private int productStock;
     private String productImageUrl;
     private Integer customId;
-    private Double totalPrice;
+    private Double customPrice;
 }

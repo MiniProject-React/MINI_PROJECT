@@ -7,8 +7,12 @@ import Login from "./pages/signup/login";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Shopping01 from "./pages/Shopping01";
+
+import UserCart01 from "./pages/UserCart01";
+import ProductSortComponent from "./components/ProductSortComponent01";
 import OwnPC from "./components/OwnPC";
 import SuggestedPC from "./components/SuggestedPC";
+
 
 function App() {
   return (
@@ -23,7 +27,13 @@ function App() {
               <Route path="/home" element={<Home />} />
             </Route>
             <Route path="/home" element={<Home />} />
-            <Route path="/shopping" element={<Shopping01 />} />
+            <Route path="/product/sorted" element={<Shopping01 />} />
+            <Route
+              path="/product/sorted/:urlCategoryId"
+              component={ProductSortComponent}
+              element={<Shopping01 />}
+            />
+            <Route path="/usercart" element={<UserCart01 />} />
           <Route path="/own-pc" element={<OwnPC />} />
           <Route path="/suggested-pc" element={<SuggestedPC />} />
             <Route />

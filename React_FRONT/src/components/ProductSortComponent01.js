@@ -9,6 +9,7 @@ import {
   QuantityControls,
   AddToCartButton,
   PlaceholderImage,
+  ActionButtons,
 } from "../styles/ProductSortStyle01";
 const ProductSortComponent = ({
   categoryId,
@@ -68,20 +69,29 @@ const ProductSortComponent = ({
 
   return (
     <ProductSort>
-      <ProductSortList>
-        {categoryList.map((product) => (
-          <ProductCard key={product.PRODUCT_ID}>
-            {!product.IMAGE_URL || imageError[product.PRODUCT_ID] ? (
-              <PlaceholderImage>No Image</PlaceholderImage>
-            ) : (
-              <ProductImage
-                src={product.IMAGE_URL}
-                alt={product.NAME}
-                onError={() => handleImageError(product.PRODUCT_ID)} // 이미지 로드 실패 시 호출
-              />
-            )}
-            <ProductDetails>
+      {categoryList.map((product) => (
+        <ProductCard key={product.PRODUCT_ID}>
+          {!product.IMAGE_URL || imageError[product.PRODUCT_ID] ? (
+            <PlaceholderImage
+              onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
+            >
+              No Image
+            </PlaceholderImage>
+          ) : (
+            <ProductImage
+              onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
+              src={product.IMAGE_URL}
+              alt={product.NAME}
+              onError={() => handleImageError(product.PRODUCT_ID)} // 이미지 로드 실패 시 호출
+            />
+          )}
+          <ProductDetails
+            onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
+          >
+            <div className="left">
               <h3>{product.NAME}</h3>
+            </div>
+            <div className="right">
               <p>{formatPrice(product.PRICE)}원</p>
               <p>재고 : {product.STOCK}개</p>
               {!product.RATING ? (
@@ -91,34 +101,42 @@ const ProductSortComponent = ({
                   평균 평점 : {product.RATING}({product.RATING_COUNT})
                 </p>
               )}
-
-              <QuantityControls>
-                <button
-                  onClick={() => handleQuantityChange(product.PRODUCT_ID, -1)}
-                >
-                  -
-                </button>
-                <span>{quantity[product.PRODUCT_ID] || 1}</span>
-                <button
-                  onClick={() => handleQuantityChange(product.PRODUCT_ID, 1)}
-                >
-                  +
-                </button>
-              </QuantityControls>
-              <AddToCartButton
-                onClick={() =>
-                  onSelectProduct({
-                    ...product,
-                    quantity: quantity[product.PRODUCT_ID],
-                  })
-                }
-              >
-                장바구니에 넣기
-              </AddToCartButton>
-            </ProductDetails>
-          </ProductCard>
-        ))}
-      </ProductSortList>
+            </div>
+          </ProductDetails>
+          <QuantityControls>
+            <button
+              onClick={() => handleQuantityChange(product.PRODUCT_ID, -1)}
+            >
+              -
+            </button>
+            <span>{quantity[product.PRODUCT_ID] || 1}</span>
+            <button onClick={() => handleQuantityChange(product.PRODUCT_ID, 1)}>
+              +
+            </button>
+          </QuantityControls>
+          <ActionButtons>
+            <button
+              className="cart-btn"
+              onClick={(e) => {
+                onSelectProduct({
+                  ...product,
+                  quantity: quantity[product.PRODUCT_ID],
+                });
+              }}
+            >
+              장바구니
+            </button>
+            <button
+              className="buy-btn"
+              onClick={(e) => {
+                alert("구매하기");
+              }}
+            >
+              구매하기
+            </button>
+          </ActionButtons>
+        </ProductCard>
+      ))}
     </ProductSort>
   );
 };
