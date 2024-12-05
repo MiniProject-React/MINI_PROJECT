@@ -12,6 +12,8 @@ import {
   TotalPrice,
   RemoveButton,
   TotalAmountContainer,
+  CheckoutButton,
+  EmptyCart,
 } from "../styles/CartListFixedStyle01";
 
 const CartListComponent = ({ cartData, onUpdateCart }) => {

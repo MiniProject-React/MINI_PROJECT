@@ -7,6 +7,7 @@ import Login from "./pages/signup/login";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Shopping01 from "./pages/Shopping01";
+import UserCart01 from "./pages/UserCart01";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             </Route>
             <Route path="/home" element={<Home />} />
             <Route path="/shopping" element={<Shopping01 />} />
+            <Route path="usercart" element={<UserCart01 />} />
           </Routes>
         </Router>
       </UserStore>

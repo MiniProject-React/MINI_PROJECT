@@ -7,7 +7,7 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: #f9f9f9;
   overflow-x: hidden; /* 수평 스크롤 방지 */
 `;

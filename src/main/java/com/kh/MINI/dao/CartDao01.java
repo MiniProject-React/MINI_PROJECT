@@ -110,7 +110,7 @@ public class CartDao01 {
 
             // CUSTOM_ORDERS 테이블 정보 (null일 수 있음)
             Integer customId = rs.getObject("custom_id") != null ? rs.getInt("custom_id") : null;
-            Double totalPrice = rs.getObject("total_price") != null ? rs.getDouble("total_price") : null;
+            Double customPrice = rs.getObject("total_price") != null ? rs.getDouble("total_price") : null;
 
             // PRODUCT 테이블의 정보가 존재하지 않으면 null 처리
             if (productName == null || productDescription == null) {
@@ -131,7 +131,7 @@ public class CartDao01 {
                     productStock,
                     productImageUrl,
                     customId,
-                    totalPrice
+                    customPrice
             );
         }
     }
