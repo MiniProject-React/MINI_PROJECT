@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+// 카드 유형을 인식하는 함수
+const getCardType = (cardNumber) => {
+  const amexRegex = /^(34|37)/; // American Express는 34 또는 37로 시작
+  const shinhanRegex = /^3/; // Shinhan은 3으로 시작
+  const visaRegex = /^4/; // VISA는 4로 시작
+  const masterCardRegex = /^5/; // MasterCard는 5로 시작
+
+  if (amexRegex.test(cardNumber)) {
+    return "American Express"; // American Express가 우선
+  } else if (shinhanRegex.test(cardNumber)) {
+    return "Shinhan"; // 그 다음 Shinhan 카드
+  } else if (visaRegex.test(cardNumber)) {
+    return "VISA"; // VISA
+  } else if (masterCardRegex.test(cardNumber)) {
+    return "MasterCard"; // MasterCard
+  } else {
+    return null; // 카드 유형을 인식할 수 없을 경우
+  }
+};
 const Order = () => {
   const navigate = useNavigate();
   const [orderSummary, setOrderSummary] = useState({
@@ -27,7 +46,7 @@ const Order = () => {
   const [paymentInfo, setPaymentInfo] = useState({
     cardNumber: "",
     expiryDate: "",
-    cvv: "",
+    CVC: "",
     paymentMethod: "신용카드", // 기본 결제 수단
   });
 
@@ -41,6 +60,7 @@ const Order = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [cardType, setCardType] = useState(null);
 
   // 주문 정보 계산
   const calculateTotal = () => {
@@ -68,6 +88,18 @@ const Order = () => {
     orderSummary.discount,
   ]);
 
+  // 카드 번호 변경 처리
+  const handleCardNumberChange = (e) => {
+    const value = e.target.value;
+    setPaymentInfo((prevState) => ({
+      ...prevState,
+      cardNumber: value,
+    }));
+
+    const type = getCardType(value);
+    setCardType(type);
+  };
+
   // 결제 정보 핸들러
   const handlePaymentChange = (e) => {
     const { name, value } = e.target;
@@ -88,11 +120,10 @@ const Order = () => {
 
   // 결제 처리
   const handlePlaceOrder = () => {
-    // 결제 정보 및 배송 정보 입력 확인
     if (
       !paymentInfo.cardNumber ||
       !paymentInfo.expiryDate ||
-      !paymentInfo.cvv
+      !paymentInfo.CVC
     ) {
       setMessage("결제 정보를 모두 입력해주세요.");
       return;
@@ -103,9 +134,8 @@ const Order = () => {
     }
     setMessage("결제 중입니다...");
 
-    // 결제 API 호출 (신용카드 PG사, 계좌이체, TOSS 등)
+    // 결제 API 호출
     setTimeout(() => {
-      // 결제 성공 후 페이지 이동
       navigate("/order-success");
       setMessage("주문이 완료되었습니다!");
     }, 2000); // 2초 후 주문 완료 메시지
@@ -203,6 +233,7 @@ const Order = () => {
           <option value="계좌이체">계좌이체</option>
           <option value="TOSS">TOSS</option>
         </select>
+
         {paymentInfo.paymentMethod === "신용카드" && (
           <div>
             <label>카드 번호:</label>
@@ -210,31 +241,57 @@ const Order = () => {
               type="text"
               name="cardNumber"
               value={paymentInfo.cardNumber}
-              onChange={handlePaymentChange}
+              onChange={handleCardNumberChange}
               style={styles.input}
+              maxLength={19}
+              placeholder="카드 번호를 입력하세요"
               required
             />
-            <label>유효 기간:</label>
+            {cardType && (
+              <div>
+                <strong>카드 타입: </strong>
+                <span>{cardType}</span>
+                <img
+                  src={`/images/${cardType.toLowerCase()}.png`} // 예: "visa.png", "mastercard.png"
+                  alt={cardType}
+                  style={{
+                    width: "50px",
+                    height: "auto",
+                    marginLeft: "10px",
+                  }}
+                />
+              </div>
+            )}
+            {/*
+                Shinhan: 카드 번호가 3으로 시작 
+                VISA: 카드 번호가 4로 시작
+                MasterCard: 카드 번호가 5로 시작
+                American Express: 카드 번호가 34 또는 37로 시작
+                이 정보를 바탕으로, 입력된 카드 번호에 따라 적절한 카드를 구별할 수 있습니다. */}
+
+            <label>유효 기간 (MM/YY):</label>
             <input
               type="text"
               name="expiryDate"
               value={paymentInfo.expiryDate}
               onChange={handlePaymentChange}
               style={styles.input}
+              placeholder="MM/YY"
+              maxLength={5}
               required
             />
-            <label>CVV:</label>
+            <label>CVC:</label>
             <input
               type="text"
-              name="cvv"
-              value={paymentInfo.cvv}
+              name="CVC"
+              value={paymentInfo.CVC}
               onChange={handlePaymentChange}
               style={styles.input}
+              maxLength={3}
               required
             />
           </div>
         )}
-        {/* 다른 결제 수단에 대한 추가 입력 폼을 여기 추가 */}
       </section>
 
       {/* 결제 버튼 */}
@@ -291,29 +348,6 @@ const styles = {
     cursor: "pointer",
     fontSize: "1.2em",
     width: "100%",
-  },
-  buttonHover: {
-    backgroundColor: "#45a049",
-  },
-  discountSection: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "20px",
-  },
-  discountInput: {
-    width: "80%",
-    padding: "10px",
-    marginRight: "10px",
-    border: "1px solid #ddd",
-    borderRadius: "5px",
-  },
-  discountButton: {
-    padding: "10px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
   },
   message: {
     color: "#d9534f",
