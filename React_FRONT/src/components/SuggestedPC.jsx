@@ -84,7 +84,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "MSI Z390",
           ram: "16GB",
-          vga: "NVIDIA GTX 1660",
+          vga: "GeForce RTX 3060",
           ssd: "500GB",
           hdd: "1TB",
           image:
@@ -97,7 +97,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "Gigabyte B450M",
           ram: "16GB",
-          vga: "NVIDIA GTX 1660 Ti",
+          vga: "Radeon RX 7600",
           ssd: "500GB",
           hdd: "1TB",
           image:
@@ -110,7 +110,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "ASUS Z390",
           ram: "16GB",
-          vga: "NVIDIA GTX 1660 Super",
+          vga: "Radeon RX 6600",
           ssd: "512GB",
           hdd: "1TB",
           image:
@@ -119,11 +119,11 @@ const SuggestedPC = () => {
         {
           id: 8,
           name: "PC8",
-          price: 800000,
+          price: 790000,
           cpu: "RYZEN 7600",
           motherboard: "MSI B550",
           ram: "16GB",
-          vga: "NVIDIA GTX 1660 Ti",
+          vga: "없음",
           ssd: "1TB",
           hdd: "1TB",
           image:
@@ -138,7 +138,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "Gigabyte Z490",
           ram: "16GB",
-          vga: "NVIDIA RTX 2060",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "1TB",
           image:
@@ -151,7 +151,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "ASUS B550",
           ram: "16GB",
-          vga: "NVIDIA RTX 2060 Super",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -164,7 +164,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "MSI Z590",
           ram: "16GB",
-          vga: "NVIDIA RTX 2070",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -173,11 +173,11 @@ const SuggestedPC = () => {
         {
           id: 12,
           name: "PC12",
-          price: 900000,
+          price: 895000,
           cpu: "RYZEN 5600",
           motherboard: "Gigabyte X570",
           ram: "32GB",
-          vga: "NVIDIA RTX 2070 Super",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -192,7 +192,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "ASUS ROG",
           ram: "32GB",
-          vga: "NVIDIA RTX 2080",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -205,7 +205,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "MSI X570",
           ram: "32GB",
-          vga: "NVIDIA RTX 2080 Super",
+          vga: "GeForce RTX 4060",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -218,7 +218,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 5600",
           motherboard: "Gigabyte Z590",
           ram: "32GB",
-          vga: "NVIDIA RTX 2080 Ti",
+          vga: "GeForce RTX 4060i",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -231,7 +231,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 8700G",
           motherboard: "ASUS ROG Crosshair",
           ram: "64GB",
-          vga: "NVIDIA RTX 3090",
+          vga: "없음",
           ssd: "1TB",
           hdd: "2TB",
           image:
@@ -246,7 +246,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 9800X3D",
           motherboard: "ASUS Z590",
           ram: "64GB",
-          vga: "NVIDIA RTX 3090",
+          vga: "Radeon 7700XT",
           ssd: "2TB",
           hdd: "2TB",
           image:
@@ -259,7 +259,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 9800X3D",
           motherboard: "MSI MEG X570",
           ram: "64GB",
-          vga: "NVIDIA RTX 3090",
+          vga: "Radeon 7700XT",
           ssd: "2TB",
           hdd: "2TB",
           image:
@@ -272,7 +272,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 9600X",
           motherboard: "Gigabyte Z590",
           ram: "64GB",
-          vga: "NVIDIA RTX 4090",
+          vga: "GeForce RTX 4070s",
           ssd: "2TB",
           hdd: "2TB",
           image:
@@ -285,7 +285,7 @@ const SuggestedPC = () => {
           cpu: "RYZEN 7800X3D",
           motherboard: "ASUS ROG Crosshair",
           ram: "64GB",
-          vga: "NVIDIA RTX 4090",
+          vga: "GeForce RTX 4070s",
           ssd: "2TB",
           hdd: "2TB",
           image:
