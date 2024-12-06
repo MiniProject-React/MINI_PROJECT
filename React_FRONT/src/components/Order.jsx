@@ -42,7 +42,7 @@ const Order = () => {
 
   const [message, setMessage] = useState("");
 
-  // 주문 요약 계산
+  // 주문 정보 계산
   const calculateTotal = () => {
     const subtotal = orderSummary.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -165,9 +165,9 @@ const Order = () => {
         />
       </section>
 
-      {/* 주문 요약 (Order Summary) */}
+      {/* 주문 정보 (Order Summary) */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>주문 요약</h2>
+        <h2 style={styles.sectionTitle}>주문 정보</h2>
         <ul style={styles.list}>
           {orderSummary.items.map((item, index) => (
             <li key={index} style={styles.listItem}>
@@ -270,14 +270,14 @@ const styles = {
     color: "#333",
   },
   input: {
-    width: "100%",
+    width: "97%",
     padding: "10px",
     marginBottom: "15px",
     border: "1px solid #ddd",
     borderRadius: "5px",
   },
   select: {
-    width: "100%",
+    width: "99%",
     padding: "10px",
     marginBottom: "15px",
     border: "1px solid #ddd",
