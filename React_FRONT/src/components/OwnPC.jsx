@@ -120,7 +120,7 @@ const OwnPC = () => {
           image: "/images/vga4.jpg",
         },
         {
-          name: "[GIGABYTE] 지포스 RTX 4080 SUPER AERO OC D6X 16GB 피씨디렉트",
+          name: "[GIGABYTE] GeForce RTX 4080 SUPER AERO OC D6X 16GB 피씨디렉트",
           price: 1749000,
           image: "/images/vga5.jpg",
         },
