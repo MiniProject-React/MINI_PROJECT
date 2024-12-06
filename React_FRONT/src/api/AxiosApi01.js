@@ -114,6 +114,30 @@ const AxiosApi01 = {
       throw error;
     }
   },
+
+  getOrdersList: async (email) => {
+    try {
+      const url = `${MINI_DOMAIN}/orders/${email}`;
+      const response = await axios.get(url, email);
+      console.log("[getOrderList] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getOrderList] Error:", error);
+      throw error;
+    }
+  },
+
+  getOrderDetails: async (orderId) => {
+    try {
+      const url = `${MINI_DOMAIN}/orders/details/${orderId}`;
+      const response = await axios.get(url);
+      console.log("[getOrderDetails] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getOrderDetails] Error:", error);
+      throw error;
+    }
+  },
 };
 
 export default AxiosApi01;

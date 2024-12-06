@@ -190,14 +190,6 @@ const Shopping = () => {
                     </option>
                   ))}
               </select>
-              {/* <select onChange={handleCategoryChange} value={categoryId}>
-                <option value="1">CPU</option>
-                <option value="2">그래픽카드</option>
-                <option value="3">메인보드</option>
-                <option value="4">RAM</option>
-                <option value="5">SSD</option>
-                <option value="6">파워</option>
-              </select> */}
             </SortOption>
             <SortOption>
               <label>정렬 기준</label>
