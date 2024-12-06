@@ -7,7 +7,8 @@ import Login from "./pages/signup/login";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Shopping01 from "./pages/Shopping01";
-import UserCart01 from "./pages/UserCart01";
+
+import UserPage01 from "./pages/UserPage01";
 import ProductSortComponent from "./components/ProductSortComponent01";
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
               component={ProductSortComponent}
               element={<Shopping01 />}
             />
-            <Route path="/usercart" element={<UserCart01 />} />
+
+            <Route path="/userpage" element={<UserPage01 />} />
           </Routes>
         </Router>
       </UserStore>

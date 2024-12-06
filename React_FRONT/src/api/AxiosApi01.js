@@ -101,6 +101,19 @@ const AxiosApi01 = {
       throw error;
     }
   },
+
+  //카테고리 조회
+  getCategoryList: async () => {
+    try {
+      const url = `${MINI_DOMAIN}/category`;
+      const response = await axios.get(url);
+      console.log("[getCatagoryList] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getCatagoryList] Error:", error);
+      throw error;
+    }
+  },
 };
 
 export default AxiosApi01;

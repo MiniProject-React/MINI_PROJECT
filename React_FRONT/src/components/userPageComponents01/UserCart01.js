@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AxiosApi01 from "../api/AxiosApi01";
+import AxiosApi01 from "../../api/AxiosApi01";
 import {
   CartContainer,
   CartTitle,
@@ -8,27 +8,26 @@ import {
   FallbackText,
   CartDetails,
   RemoveButton,
-  TotalPrice,
   CheckoutButton,
   EmptyCart,
   CheckoutSection,
-} from "../styles/UserCartStyle01";
+} from "../../styles/UserCartStyle01";
 
-const UserCart01 = () => {
+const UserCart01 = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const user = {
-    // 임시 회원정보
-    user_id: "1",
-    username: "testuser",
-    password: "abc123",
-    email: "testuser@example.com",
-    address: "123 Test Street, Test City",
-    phone_number: "010-1234-5678",
-    role: "USER",
-  };
+  // const user = {
+  //   // 임시 회원정보
+  //   user_id: "1",
+  //   username: "testuser",
+  //   password: "abc123",
+  //   email: "testuser@example.com",
+  //   address: "123 Test Street, Test City",
+  //   phone_number: "010-1234-5678",
+  //   role: "USER",
+  // };
 
   // 페이지 로딩시 장바구니 데이터 가져오기
   useEffect(() => {
