@@ -200,7 +200,6 @@ const Order = () => {
           style={styles.select}
         >
           <option value="신용카드">신용카드</option>
-          <option value="PayPal">PayPal</option>
           <option value="계좌이체">계좌이체</option>
           <option value="TOSS">TOSS</option>
         </select>
