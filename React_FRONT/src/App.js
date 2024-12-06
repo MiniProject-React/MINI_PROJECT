@@ -12,6 +12,8 @@ import UserPage01 from "./pages/UserPage01";
 import ProductSortComponent from "./components/ProductSortComponent01";
 import OwnPC from "./components/OwnPC";
 import SuggestedPC from "./components/SuggestedPC";
+import Order from "./components/Order";
+import OrderSuccess from "./components/OrderSuccess";
 
 
 function App() {
@@ -31,13 +33,12 @@ function App() {
             <Route
               path="/product/sorted/:urlCategoryId"
               component={ProductSortComponent}
-              element={<Shopping01 />}
-            />
-
+              element={<Shopping01 />} />
             <Route path="/userpage" element={<UserPage01 />} />
-
-          <Route path="/own-pc" element={<OwnPC />} />
-          <Route path="/suggested-pc" element={<SuggestedPC />} />
+            <Route path="/own-pc" element={<OwnPC />} />
+            <Route path="/suggested-pc" element={<SuggestedPC />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/order-success" element={<OrderSuccess />} />      
             <Route />
           </Routes>
         </Router>
