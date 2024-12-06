@@ -10,6 +10,9 @@ import Shopping01 from "./pages/Shopping01";
 
 import UserPage01 from "./pages/UserPage01";
 import ProductSortComponent from "./components/ProductSortComponent01";
+import OwnPC from "./components/OwnPC";
+import SuggestedPC from "./components/SuggestedPC";
+
 
 function App() {
   return (
@@ -32,6 +35,10 @@ function App() {
             />
 
             <Route path="/userpage" element={<UserPage01 />} />
+
+          <Route path="/own-pc" element={<OwnPC />} />
+          <Route path="/suggested-pc" element={<SuggestedPC />} />
+            <Route />
           </Routes>
         </Router>
       </UserStore>
