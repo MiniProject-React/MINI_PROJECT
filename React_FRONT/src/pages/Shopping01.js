@@ -88,14 +88,28 @@ const Shopping = () => {
   const [sortColumn, setSortColumn] = useState("price");
   const [sortOrder, setSortOrder] = useState("d"); // "d" 는 내림차순, "a" 는 오름차순
   const [cartData, setCartData] = useState([]);
-
+  const [categoryData, setCategoryData] = useState([]);
   const { urlCategoryId } = useParams();
 
+  // 주소 데이터 가져오기
   useEffect(() => {
     if (urlCategoryId) {
       setCategoryId(urlCategoryId);
     }
   }, [urlCategoryId]);
+
+  //백엔드에서 카테고리 데이터를 가져오는 함수
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const rsp = await AxiosApi01.getCategoryList(); // 카테고리 목록 조회
+        setCategoryData(rsp.data); // 카테고리 목록 설정
+      } catch (error) {
+        console.log("카테고리 목록 조회 실패", error);
+      }
+    };
+    fetchCategoryData();
+  }, []);
 
   const user = {
     // 임시 회원정보
@@ -166,13 +180,24 @@ const Shopping = () => {
             <SortOption>
               <label>카테고리</label>
               <select onChange={handleCategoryChange} value={categoryId}>
+                {categoryData &&
+                  categoryData.map((category) => (
+                    <option
+                      key={category.categoryId}
+                      value={category.categoryId}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
+              {/* <select onChange={handleCategoryChange} value={categoryId}>
                 <option value="1">CPU</option>
                 <option value="2">그래픽카드</option>
                 <option value="3">메인보드</option>
                 <option value="4">RAM</option>
                 <option value="5">SSD</option>
                 <option value="6">파워</option>
-              </select>
+              </select> */}
             </SortOption>
             <SortOption>
               <label>정렬 기준</label>

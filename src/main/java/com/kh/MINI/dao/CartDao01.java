@@ -34,6 +34,7 @@ public class CartDao01 {
     private final String UPDATE_ITEM_QUANTITY_BY_CART_ID = "UPDATE CART_ITEMS SET quantity = ? WHERE cart_item_id = ?";
     // 유저 아이디값 입력하여 카트 리스트 출력
     public List<CartVo01> cartList(String id) {
+        log.error(id);
         try {
             return jdbcTemplate.query(SELECT_CART_ITEMS_BY_USER_ID,new Object[]{id}, new CartRowMapper());
         } catch (DataAccessException e) {
