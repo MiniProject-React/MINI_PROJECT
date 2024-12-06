@@ -447,8 +447,8 @@ const SuggestedPC = () => {
                 style={styles.selectedPCImage}
               />
               <p>{`가격: ${formatPrice(selectedPC.price)}`}</p>
-              <p>{`MOTHERBOARD: ${selectedPC.motherboard}`}</p>
               <p>{`CPU: ${selectedPC.cpu}`}</p>
+              <p>{`MOTHERBOARD: ${selectedPC.motherboard}`}</p>
               <p>{`RAM: ${selectedPC.ram}`}</p>
               <p>{`VGA: ${selectedPC.vga}`}</p>
               <p>{`SSD: ${selectedPC.ssd}`}</p>
@@ -464,7 +464,9 @@ const SuggestedPC = () => {
                   +
                 </button>
               </div>
-
+              <h4>
+                총 가격 : {formatPrice(selectedPC.price * selectedPC.quantity)}
+              </h4>
               <button style={styles.cartbutton} onClick={addToCart}>
                 장바구니에 추가
               </button>
@@ -489,7 +491,7 @@ const SuggestedPC = () => {
               <p>{`HDD: ${pc.hdd}`}</p>
               <p>{`가격: ${formatPrice(pc.price)}`}</p>
               <p>{`수량: ${pc.quantity}`}</p>
-              <p>{`총 가격: ${formatPrice(pc.price * pc.quantity)}`}</p>
+              <h4>{`총 가격: ${formatPrice(pc.price * pc.quantity)}`}</h4>
               <button
                 style={styles.removeButton}
                 onClick={() => removeFromCart(pc.id)}
