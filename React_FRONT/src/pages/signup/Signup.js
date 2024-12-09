@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import Input from "../../components/InputComponent";
 import Button from "../../components/ButtonComponent";
@@ -6,6 +7,15 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../../api/AxiosApi3.js";
 import MyComponent from "../../components/MyComponent.js";
 import axios from "axios";
+=======
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Input from "../../components/InputComponent";
+import Button from "../../components/ButtonComponent";
+import { Container, Items } from "../../components/SignupComponent";
+import AxiosApi from "../../api/AxiosApi";
+
+>>>>>>> origin/develop
 const Signup = () => {
   const navigate = useNavigate();
   // 키보드 입력
@@ -13,11 +23,16 @@ const Signup = () => {
   const [inputConPw, setInputConPw] = useState("");
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
+<<<<<<< HEAD
   const [inputAddress, setInputAddress] = useState("");
+=======
+
+>>>>>>> origin/develop
   // 오류 메시지
   const [pwMessage, setPwMessage] = useState("");
   const [conPwMessage, setConPwMessage] = useState("");
   const [mailMessage, setMailMessage] = useState("");
+<<<<<<< HEAD
   const [phMessage, setPhMessage] = useState("");
   const [phMessage1, setPhMessage1] = useState("");
   //주소 입력
@@ -29,11 +44,15 @@ const Signup = () => {
   const [hpFst, setHpFst] = useState("010"); // 초기값 010
   const [hpMid, setHpMid] = useState("");
   const [hpLst, setHpLst] = useState("");
+=======
+
+>>>>>>> origin/develop
   // 유효성 검사
   const [isMail, setIsMail] = useState(false);
   const [isPw, setIsPw] = useState(false);
   const [isConPw, setIsConPw] = useState(false);
   const [isName, setIsName] = useState(false);
+<<<<<<< HEAD
   // 전번 유효성 검사
   const [isPh, setIsPh] = useState(false);
   const [isPh1, setIsPh1] = useState(false);
@@ -144,6 +163,10 @@ const Signup = () => {
   // 이메일 유효성 검사
   const onChangeMail = (e) => {
     setEmail(e.target.value);
+=======
+
+  const onChangeMail = (e) => {
+>>>>>>> origin/develop
     setInputEmail(e.target.value);
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(e.target.value)) {
@@ -168,6 +191,7 @@ const Signup = () => {
       setIsPw(true);
     }
   };
+<<<<<<< HEAD
   const onChageMidPh = (e) => {
     const phRegex = /^\d{4}$/;
     const midPhCurrent = e.target.value;
@@ -192,6 +216,8 @@ const Signup = () => {
       setIsPh1(true);
     }
   };
+=======
+>>>>>>> origin/develop
   const onChangeConPw = (e) => {
     const passwordCurrent = e.target.value;
     setInputConPw(passwordCurrent);
@@ -207,13 +233,20 @@ const Signup = () => {
     setInputName(e.target.value);
     setIsName(true);
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/develop
   // 회원 가입 여부 확인
   const memberRegCheck = async (email) => {
     try {
       const resp = await AxiosApi.regCheck(email);
       console.log("가입 가능 여부 확인 : ", resp.data);
+<<<<<<< HEAD
       if (resp.data === true) {
+=======
+      if (resp.data === false) {
+>>>>>>> origin/develop
         setMailMessage("사용 가능한 이메일 입니다.");
         setIsMail(true);
       } else {
@@ -224,6 +257,7 @@ const Signup = () => {
       console.log(error);
     }
   };
+<<<<<<< HEAD
 
   const UnionFirst = () => {
     console.log(hpFst);
@@ -245,6 +279,14 @@ const Signup = () => {
       if (memberReg.data) {
         alert("회원 가입에 성공하였습니다.");
         navigate("/login");
+=======
+  const onClickLogin = async () => {
+    try {
+      const memberReg = await AxiosApi.signup(inputEmail, inputPw, inputName);
+      console.log(memberReg.data);
+      if (memberReg.data) {
+        navigate("/");
+>>>>>>> origin/develop
       } else {
         // setModalOpen(true);
         // setModelText("회원 가입에 실패 했습니다.");
@@ -252,6 +294,7 @@ const Signup = () => {
       }
     } catch (e) {
       alert("서버가 응답하지 않습니다.");
+<<<<<<< HEAD
     }
   };
   const onChangePostCode = (e) => {
@@ -273,11 +316,20 @@ const Signup = () => {
     setDetailAddress(newDAddr);
     setIsDAddr(newDAddr.length > 0);
   };
+=======
+      console.log("서버가 응답하지 않습니다.", e);
+    }
+  };
+>>>>>>> origin/develop
 
   return (
     <Container>
       <Items className="sign">
+<<<<<<< HEAD
         <span>회원 가입</span>
+=======
+        <span>Sign Up</span>
+>>>>>>> origin/develop
       </Items>
 
       <Items variant="item2">
@@ -286,6 +338,7 @@ const Signup = () => {
           placeholder="이메일"
           value={inputEmail}
           onChange={onChangeMail}
+<<<<<<< HEAD
           isValid={isMail}
         />
       </Items>
@@ -324,6 +377,10 @@ const Signup = () => {
         )}
       </Items>
 
+=======
+        />
+      </Items>
+>>>>>>> origin/develop
       <Items variant="hint">
         {inputEmail.length > 0 && (
           <span className={`message ${isMail ? "success" : "error"}`}>
@@ -337,7 +394,10 @@ const Signup = () => {
           placeholder="패스워드"
           value={inputPw}
           onChange={onChangePw}
+<<<<<<< HEAD
           isValid={isPw}
+=======
+>>>>>>> origin/develop
         />
       </Items>
       <Items variant="hint">
@@ -353,7 +413,10 @@ const Signup = () => {
           placeholder="패스워드 확인"
           value={inputConPw}
           onChange={onChangeConPw}
+<<<<<<< HEAD
           isValid={isConPw}
+=======
+>>>>>>> origin/develop
         />
       </Items>
       <Items variant="hint">
@@ -369,6 +432,7 @@ const Signup = () => {
           placeholder="이름"
           value={inputName}
           onChange={onChangeName}
+<<<<<<< HEAD
           isValid={isName}
         />
       </Items>
@@ -464,6 +528,13 @@ const Signup = () => {
         isPh1 &&
         isAddr &&
         isDAddr ? (
+=======
+        />
+      </Items>
+
+      <Items variant="item2">
+        {isMail && isPw && isConPw && isName ? (
+>>>>>>> origin/develop
           <Button enabled onClick={onClickLogin}>
             NEXT
           </Button>

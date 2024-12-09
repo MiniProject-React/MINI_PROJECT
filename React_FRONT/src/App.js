@@ -1,4 +1,5 @@
 import "./App.css";
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil"; // RecoilRoot 임포트
 import Home from "./pages/Home.js";
@@ -41,6 +42,33 @@ function App() {
         </Router>
       </UserContextProvider>
     </RecoilRoot>
+=======
+import GlobalStyle from "./styles/GlobalStyle";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserStore from "./context/UserStore";
+import Signup from "./pages/signup/Signup";
+import Login from "./pages/signup/login";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
+
+function App() {
+  return (
+    <>
+      <GlobalStyle />
+      <UserStore>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route element={<Layout />}>
+              <Route path="/home" element={<Home />} />
+            </Route>
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Router>
+      </UserStore>
+    </>
+>>>>>>> origin/develop
   );
 }
 
