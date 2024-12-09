@@ -2,7 +2,6 @@ import { useState } from "react";
 import UserCart01 from "../components/userPageComponents01/UserCart01";
 import UserProfile01 from "../components/userPageComponents01/UserProfile01";
 import OrderHistory01 from "../components/userPageComponents01/OrderHistory01";
-import ReviewWriting01 from "../components/userPageComponents01/ReviewWriting01";
 import ReviewList01 from "../components/userPageComponents01/ReviewList01";
 import {
   Container,
@@ -10,6 +9,7 @@ import {
   MenuItem,
   Content,
 } from "../styles/UserPageStyle01";
+import PasswordCheckModal from "../utils/PasswordCheckModal01";
 
 const UserPage01 = () => {
   const [selectedMenu, setSelectedMenu] = useState("cart");
@@ -72,31 +72,6 @@ const UserPage01 = () => {
       </Sidebar>
       <Content>{renderComponent()}</Content>
     </Container>
-  );
-};
-
-// 비밀번호 확인 모달 컴포넌트
-const PasswordCheckModal = ({ onVerify }) => {
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onVerify(password);
-  };
-
-  return (
-    <div>
-      <h3>비밀번호 확인</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호를 입력하세요"
-        />
-        <button type="submit">확인</button>
-      </form>
-    </div>
   );
 };
 
