@@ -154,13 +154,13 @@ export default function AdminHome() {
               onClick={() => modalState(a.product_id, a.category, a.product)}
             >
               {imageMap[a.product_id] ? (
-                <img src={imageMap[a.product_id]} alt={a.name} />
+                <img src={imageMap[a.product_id]} alt={a.product} />
               ) : (
                 <p>이미지를 불러오는 중...</p>
               )}
             </div>
             <div className="product-info">
-              <h3 className="product-name">{a.name}</h3>
+              <h3 className="product-name">{a.product}</h3>
               <p className="product-price">{a.price.toLocaleString()}원</p>
             </div>
           </SwiperSlide>

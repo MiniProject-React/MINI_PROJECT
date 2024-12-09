@@ -59,7 +59,7 @@ public class ProductsDAO3 {
     // 상품 수정
     public boolean update(ProductsVO3 vo) {
         try{
-            int result = jdbcTemplate.update(UPDATE_PRODUCT, vo.getName(),vo.getPrice(),vo.getStock(),vo.getDescription(),vo.getProduct_id());
+            int result = jdbcTemplate.update(UPDATE_PRODUCT, vo.getProduct(),vo.getPrice(),vo.getStock(),vo.getDescription(),vo.getProduct_id());
             return result > 0;
         }catch (DataAccessException e){
             return false;
@@ -69,7 +69,7 @@ public class ProductsDAO3 {
     // 상품 등록
     public boolean save (ProductsVO3 vo) {
         try{
-            int result = jdbcTemplate.update(SAVE_PRODUCT, vo.getName(),vo.getDescription(),vo.getPrice(),vo.getStock(),vo.getCategory_id());
+            int result = jdbcTemplate.update(SAVE_PRODUCT, vo.getProduct(),vo.getDescription(),vo.getPrice(),vo.getStock(),vo.getCategory_id());
             return result > 0;
         }catch (DataAccessException e) {
             log.error("상품 등록 에러",e);
@@ -136,15 +136,13 @@ public class ProductsDAO3 {
         @Override
         public ProductsVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new ProductsVO3(
-                    rs.getInt("product_id"),      // OK
-                    rs.getString("product"),      // "name" 대신 "product"
-                    rs.getString("description"),  // OK
-                    rs.getInt("price"),           // OK
-                    rs.getInt("stock"),           // OK
-                    null,                         // "image_url"은 쿼리에 없으므로 기본값 사용
-                    rs.getInt("category_id"),     // OK
-                    rs.getString("product"),      // OK
-                    rs.getString("category")      // OK
+                    rs.getInt("product_id"),         // product_id (정수형)
+                    rs.getString("product"),         // name (쿼리에서 별칭을 'product'로 지정)
+                    rs.getString("description"),     // description (정상적인 컬럼)
+                    rs.getInt("price"),              // price (정수형)
+                    rs.getInt("stock"),              // stock (정수형)
+                    rs.getInt("category_id"),        // category_id (정수형)
+                    rs.getString("category")         // category (카테고리 이름)
             );
         }
     }

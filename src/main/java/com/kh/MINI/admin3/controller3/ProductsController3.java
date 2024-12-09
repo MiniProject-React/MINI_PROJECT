@@ -28,7 +28,6 @@ public class ProductsController3 {
         List<ProductsVO3> allProducts = productsDAO3.getAllProducts();
         Map<String, List<ProductsVO3>> categorizedProducts = allProducts.stream()
                 .collect(Collectors.groupingBy(product -> String.valueOf(product.getCategory_id())));
-
         resultMap.put("cpu", categorizedProducts.get("1"));
         resultMap.put("gpu", categorizedProducts.get("2"));
         resultMap.put("main", categorizedProducts.get("3"));
@@ -83,8 +82,8 @@ public class ProductsController3 {
     // 상품 이름 유효성 검사
     @PostMapping("/product_name")
     public ResponseEntity<Boolean> product_name (@RequestBody ProductsVO3 vo) {
-        log.info("백단에서 확인하는 (컨트롤러) 상품 이름{} : ", vo.getName());
-        boolean isSuccess = productsDAO3.productName(vo.getName());
+        log.info("백단에서 확인하는 (컨트롤러) 상품 이름{} : ", vo.getProduct());
+        boolean isSuccess = productsDAO3.productName(vo.getProduct());
         return ResponseEntity.ok(!isSuccess);
     }
 

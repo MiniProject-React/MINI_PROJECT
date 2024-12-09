@@ -30,7 +30,7 @@ public class OrderController3 {
     }
 
     // 커스텀 상품 주문 목록 조회
-    @GetMapping("/customOrderList/{user_id")
+    @GetMapping("/customOrderList/{user_id}")
     public Map<String, Object> customOrderList(@PathVariable int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         List<CustomPCVO3>customOrderList = orderDAO3.customOrderList(user_id);

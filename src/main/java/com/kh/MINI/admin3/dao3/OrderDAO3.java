@@ -57,9 +57,8 @@ public class OrderDAO3 {
     }
 
     public List<CustomPCVO3> customOrderList(int userId) {
-        try{
-            return jdbcTemplate.query()
-        }
+
+        return List.of();
     }
 
     public class OrderRowMapper implements RowMapper<OrdersVO3> {
