@@ -13,6 +13,7 @@ import {
 
 const UserPage01 = () => {
   const [selectedMenu, setSelectedMenu] = useState("cart");
+  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
   const user = {
     // 임시 회원정보
@@ -25,8 +26,24 @@ const UserPage01 = () => {
     role: "USER",
   };
 
-  // 컴포넌트 불러오기
+  // 비밀번호 확인 함수
+  const handlePasswordVerification = (inputPassword) => {
+    if (inputPassword === user.password) {
+      setIsPasswordVerified(true);
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  };
+
+  // 컴포넌트 렌더링
   const renderComponent = () => {
+    if (selectedMenu === "profile") {
+      return isPasswordVerified ? (
+        <UserProfile01 user={user} />
+      ) : (
+        <PasswordCheckModal onVerify={handlePasswordVerification} />
+      );
+    }
     switch (selectedMenu) {
       case "cart":
         return <UserCart01 user={user} />;
@@ -34,8 +51,6 @@ const UserPage01 = () => {
         return <OrderHistory01 user={user} />;
       case "reviewHistory":
         return <ReviewList01 user={user} />;
-      case "profile":
-        return <UserProfile01 user={user} />;
       default:
         return null;
     }
@@ -57,6 +72,31 @@ const UserPage01 = () => {
       </Sidebar>
       <Content>{renderComponent()}</Content>
     </Container>
+  );
+};
+
+// 비밀번호 확인 모달 컴포넌트
+const PasswordCheckModal = ({ onVerify }) => {
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onVerify(password);
+  };
+
+  return (
+    <div>
+      <h3>비밀번호 확인</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="비밀번호를 입력하세요"
+        />
+        <button type="submit">확인</button>
+      </form>
+    </div>
   );
 };
 
