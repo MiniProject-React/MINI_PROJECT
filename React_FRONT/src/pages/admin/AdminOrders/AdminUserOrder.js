@@ -11,7 +11,7 @@ const AdminUserOrder = () => {
   useEffect(() => {
     console.log(user_id);
     OrderList(user_id);
-    CustomOrderList();
+    //CustomOrderList();
     // ProductList();
   }, [user_id]);
 

@@ -129,6 +129,9 @@ public class ProductsDAO3 {
         }
     }
 
+
+
+
     private static class ProductsRowMapper implements RowMapper<ProductsVO3> {
         @Override
         public ProductsVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -143,7 +146,6 @@ public class ProductsDAO3 {
             );
         }
     }
-
 
     private static class CategoryRowMapper implements RowMapper<CategoriesVO3> {
         @Override

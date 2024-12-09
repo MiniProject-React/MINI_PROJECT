@@ -15,6 +15,14 @@ const StyledInput = styled.input`
 `;
 
 const InputComponent = ({ value, onChange, placeholder, isValid }) => {
+  padding: 1em;
+  border: 1px solid #999;
+  border-radius: 18px;
+  outline-style: none;
+`;
+
+const InputComponent = ({ value, onChange, placeholder }) => {
+>>>>>>> origin/develop
   return (
     <StyledInput
       type="text"

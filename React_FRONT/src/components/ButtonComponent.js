@@ -2,11 +2,7 @@ import styled, { css } from "styled-components";
 import React from "react";
 
 const StyledButton = styled.button`
-<<<<<<< HEAD
   margin:  0;
-=======
-  margin: 100px 30px 0;
->>>>>>> origin/develop
   font-weight: bold;
   width: 100%;
   height: 50px;
