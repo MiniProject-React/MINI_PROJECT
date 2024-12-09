@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import imgLogo from "../../images/kakaoLion.png";
 import Button from "../../components/ButtonComponent";
 import Input from "../../components/InputComponent";
 import { Container, Items } from "../../components/SignupComponent";
-import AxiosApi from "../../api/AxiosApi";
+import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
+import { UserContext } from "../../api/provider/UserContextProvider";
 
 const Img = styled.img`
   width: 180px;
@@ -14,6 +15,7 @@ const Img = styled.img`
 `;
 
 const Login = () => {
+  const { setEmail, setRole, setUserName } = useContext(UserContext);
   // State for inputs
   const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -47,14 +49,34 @@ const Login = () => {
     setValidState(e.target.value.length >= 5);
   };
 
-  const onClickLogin = async () => {
+  const roleCheck = async () => {
+    try {
+      const rsp = await AxiosApi.roleCheck(inputEmail, inputPw);
+      console.log("rsp 확인 : ", rsp.data);
+      console.log("롤 확인", rsp.data.roleCheck[0].role);
+      console.log("이름 확인 : ", rsp.data.roleCheck[0].username);
+      setEmail(inputEmail);
+      setRole(rsp.data.roleCheck[0].role);
+      setUserName(rsp.data.roleCheck[0].username);
+
+      onClickLogin(rsp.data.roleCheck[0]);
+    } catch (e) {
+      alert("서버가 응답하지 않습니다."); // 모달 구문 추가하며 뻄
+    }
+  };
+  const onClickLogin = async (role) => {
+    console.log("로그인으로 넘어오나");
     try {
       const rsp = await AxiosApi.login(inputEmail, inputPw);
+      // 로그인 수정 등급을 가져와서 등급에서 따라 다른 곳으로 navigate
       localStorage.setItem("email", inputEmail);
       localStorage.setItem("isLogin", "TRUE");
       console.log(rsp.data);
-      if (rsp.data) {
+
+      if (role.role === 0) {
         navigate("/home");
+      } else if (role.role === 1) {
+        navigate("/admin");
       } else {
         // alert("아이디 및 패스워드가 틀립니다.");   // 모달 구문 추가하며 뻄
         setModalOpen(true);
@@ -63,7 +85,7 @@ const Login = () => {
     } catch (e) {
       //alert("서버가 응답하지 않습니다.");     // 모달 구문 추가하며 뻄
       setModalOpen(true);
-      setModalContent("서버가 응답하지 않습니다.");
+      setModalContent("로그인 서버가 응답하지 않습니다.");
     }
   };
 
@@ -92,7 +114,7 @@ const Login = () => {
 
       <Items margin="10px">
         {isId && isPw ? (
-          <Button enabled onClick={onClickLogin}>
+          <Button enabled onClick={roleCheck}>
             SIGN IN
           </Button>
         ) : (
