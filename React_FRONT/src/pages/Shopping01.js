@@ -152,6 +152,7 @@ const Shopping = () => {
     }
   };
 
+  //발류값 지정
   const handleCategoryChange = (event) => {
     setCategoryId(event.target.value);
   };

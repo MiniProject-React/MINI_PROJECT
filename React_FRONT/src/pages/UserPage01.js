@@ -9,7 +9,7 @@ import {
   MenuItem,
   Content,
 } from "../styles/UserPageStyle01";
-import PasswordCheckModal from "../utils/PasswordCheckModal01";
+import PasswordCheckModal from "../components/userPageComponents01/PasswordCheckComponent";
 
 const UserPage01 = () => {
   const [selectedMenu, setSelectedMenu] = useState("cart");
@@ -35,7 +35,7 @@ const UserPage01 = () => {
     }
   };
 
-  // 컴포넌트 렌더링
+  // 컴포넌트 렌더링(유저 프로필은 비밀번호 체크)
   const renderComponent = () => {
     if (selectedMenu === "profile") {
       return isPasswordVerified ? (
