@@ -1,0 +1,66 @@
+.header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center; /* 헤더 내용 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* 최대 너비 설정 */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 50px; /* 로고와 메뉴 항목 사이에 50px 여백 추가 */
+}
+
+.logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-groups {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.left-menu, .right-menu {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.left-menu {
+    margin-left: 0; /* 로고에서 바로 시작하도록 설정 */
+}
+
+.right-menu {
+    margin-left: auto; /* 우측으로 밀기 */
+}
+
+.nav-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.nav-menu li a:hover {
+    color: #007bff;
+}
