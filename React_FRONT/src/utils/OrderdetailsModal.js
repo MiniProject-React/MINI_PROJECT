@@ -9,7 +9,7 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${(props) => (props.show ? "block" : "none")};
+  display: ${(props) => (props.show ? "flex" : "none")};
   justify-content: center;
   align-items: center;
 `;
@@ -88,24 +88,43 @@ const Button = styled.button`
 // 주문 상세 컴포넌트
 const OrderDetailModal = ({ show, onHide, order }) => {
   const [orderDetails, setOrderDetails] = useState([]);
+  const [productName, setProductName] = useState("");
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
         console.log("Fetching order details for order ID:", order.orderId);
         const rsp = await AxiosApi01.getOrderDetails(order.orderId);
-        setOrderDetails(rsp.data);
+
+        // 각 상품의 이름 가져오기
+        const detailsWithProductNames = await Promise.all(
+          rsp.data.map(async (item) => {
+            try {
+              const productRsp = await AxiosApi01.getProductById(
+                item.productId
+              );
+              return { ...item, productName: productRsp.data.name };
+            } catch (error) {
+              console.error("Error fetching product name:", error);
+              return { ...item, productName: "Unknown Product" }; // 에러 발생 시 기본값
+            }
+          })
+        );
+
+        setOrderDetails(detailsWithProductNames);
       } catch (error) {
         console.error("Error fetching order details:", error);
       }
     };
-    fetchOrderDetails();
-  }, [show === true]);
 
+    fetchOrderDetails();
+  }, [show]);
   const formatPrice = (price) => {
     // 숫자를 세자리수마다 , 단위 구분 추가
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
+  // 주문id값을 받아 상품 이름 반환
 
   return (
     <ModalBackground show={show}>
@@ -115,10 +134,10 @@ const OrderDetailModal = ({ show, onHide, order }) => {
           <CloseButton onClick={onHide}>×</CloseButton>
         </ModalHeader>
         <ModalBody>
-          <h5>주문 ID: {order.order_id}</h5>
-          <p>주문 날짜: {order.order_date}</p>
+          <h5>주문 ID: {order.orderId}</h5>
+          <p>주문 날짜: {order.orderDate}</p>
           <p>주문 상태: {order.status}</p>
-          <p>배송지: {order.shipping_address}</p>
+          <p>배송지: {order.shippingAddress}</p>
 
           <Table>
             <thead>

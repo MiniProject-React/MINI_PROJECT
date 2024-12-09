@@ -32,8 +32,6 @@ const UserPage01 = () => {
         return <UserCart01 user={user} />;
       case "orderHistory":
         return <OrderHistory01 user={user} />;
-      case "review":
-        return <ReviewWriting01 user={user} />;
       case "reviewHistory":
         return <ReviewList01 user={user} />;
       case "profile":
@@ -50,7 +48,6 @@ const UserPage01 = () => {
         <MenuItem onClick={() => setSelectedMenu("orderHistory")}>
           주문 내역
         </MenuItem>
-        <MenuItem onClick={() => setSelectedMenu("review")}>리뷰 작성</MenuItem>
         <MenuItem onClick={() => setSelectedMenu("reviewHistory")}>
           리뷰 목록
         </MenuItem>
