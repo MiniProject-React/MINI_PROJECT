@@ -1,5 +1,6 @@
 package com.kh.MINI.admin3.dao3;
 
+import com.kh.MINI.admin3.vo3.CustomPCVO3;
 import com.kh.MINI.admin3.vo3.OrdersVO3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,12 @@ public class OrderDAO3 {
         }catch (DataAccessException e){
             log.error("낱개 상품 주문에 대한 리스트 조회중 오류 발생 : ", e);
             throw e;
+        }
+    }
+
+    public List<CustomPCVO3> customOrderList(int userId) {
+        try{
+            return jdbcTemplate.query()
         }
     }
 
