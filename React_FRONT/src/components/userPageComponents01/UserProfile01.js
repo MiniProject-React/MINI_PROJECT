@@ -150,6 +150,9 @@ const UserProfile01 = ({ user }) => {
                 onChange={handleChange}
               />
             </FormRow>
+
+            {/* 새 비밀번호 일치 여부 메시지 */}
+
             {passwordMatch !== null && (
               <PasswordMatchMessage isMatch={passwordMatch}>
                 {passwordMatch
