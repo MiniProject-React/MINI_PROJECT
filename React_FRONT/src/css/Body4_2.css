@@ -1,0 +1,90 @@
+/* 전체 Wrapper - 좌우 16% 여백 */
+.body2-wrapper {
+    margin-top: 100px;
+    padding: 0 20px;
+    width: 68%; /* 전체 너비 68%로 설정 */
+    margin-left: 16%; /* 왼쪽 16% 여백 */
+    margin-right: 16%; /* 오른쪽 16% 여백 */
+}
+
+/* 섹션 컨테이너 */
+.product-section {
+    margin-bottom: 120px; /* 각 섹션 간 간격을 더 넓게 설정 */
+}
+
+/* 섹션 제목 스타일 */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 40px; /* 제품 박스와의 간격을 더 넓게 설정 */
+}
+
+/* 스크롤 컨테이너 */
+.body2-container {
+    display: flex;
+    gap: 20px;
+    cursor: grab; /* 기본 커서 */
+    overflow: hidden; /* 스크롤 바 숨김 */
+    width: 100%; /* 컨테이너 너비 100% */
+}
+
+.body2-container:active {
+    cursor: grabbing; /* 드래그 중 커서 */
+}
+
+/* 각각의 제품 박스 */
+.body2-box {
+    width: 20vw; /* 화면 너비의 30% */
+    min-width: 300px; /* 최소 너비 */
+    background-color: #f4f4f4;
+    border-radius: 40px;
+    border: 1px solid #ddd;
+    flex-shrink: 0; /* 크기 고정 */
+}
+
+/* 이미지 영역: 정사각형 */
+.image-section {
+    width: 100%;
+    /*padding-top: 100%; !* 정사각형을 유지하기 위한 비율 *!*/
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #333;
+    border-radius: 40px 40px 0 0;
+}
+
+.image-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 40px 40px 0 0; /* 이미지 모서리도 둥글게 설정 */
+}
+
+/* 설명 영역 */
+.description-section {
+    padding: 15px;
+    background-color: white;
+    text-align: left;
+    border-radius: 0 0 40px 40px;
+}
+
+.description-section h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.description-section p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+}
+a {
+    text-decoration: none;
+}
+
+a:visited, a:hover, a:focus {
+    color: inherit; /* 텍스트 색상 변경 방지 */
+}
