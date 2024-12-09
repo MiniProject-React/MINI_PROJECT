@@ -2,6 +2,12 @@
 node_modules/
 .cache/
 
+#/src/main/resources/application.properties
+#/src/main/java/com/kh/MINI/config
+# Gradle 빌드 파일
+/build/
+.gradle/
+
 # Git LFS로 관리할 수 있는 대용량 파일 예시
 *.pack
 

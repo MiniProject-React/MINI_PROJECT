@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+<<<<<<< HEAD
+import AxiosApi from "../api/AxiosApi3";
+=======
 import AxiosApi from "../api/AxiosApi";
+>>>>>>> origin/develop
 
 export const Container = styled.div`
   display: flex;

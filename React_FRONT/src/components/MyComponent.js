@@ -2,11 +2,7 @@ import styled, { css } from "styled-components";
 import React from "react";
 
 const StyledButton = styled.button`
-<<<<<<< HEAD
   margin:  0;
-=======
-  margin: 100px 30px 0;
->>>>>>> origin/develop
   font-weight: bold;
   width: 100%;
   height: 50px;
@@ -18,9 +14,9 @@ const StyledButton = styled.button`
   font-weight: 700;
 
   ${(props) =>
-    props.enabled &&
+    props.isValid &&
     css`
-      background-color: orange;
+      background-color: green;
     `};
 
   &:active {
@@ -30,12 +26,12 @@ const StyledButton = styled.button`
   }
 `;
 
-const ButtonComponent = ({ enabled, onClick, children }) => {
+const MyComponent = ({ isValid, onClick, children }) => {
   return (
-    <StyledButton enabled={enabled} onClick={onClick}>
+    <StyledButton onClick={onClick} isValid={isValid}>
       {children}
     </StyledButton>
   );
 };
 
-export default ButtonComponent;
+export default MyComponent;
