@@ -28,12 +28,12 @@ async function getFileByName(storage, folderPath, fileNameWithoutExtension) {
 }
 
 // 예제 호출
-const storage = getFirebaseStorage(); // Firebase Storage 초기화
-const folderPath = "images/categoryName";
-const fileNameWithoutExtension = "productName"; // 검색하려는 파일 이름
+// const storage = getFirebaseStorage(); // Firebase Storage 초기화
+// const folderPath = "images/categoryName";
+// const fileNameWithoutExtension = "productName"; // 검색하려는 파일 이름
 
-getFileByName(storage, folderPath, fileNameWithoutExtension).then((fileURL) => {
-  if (fileURL) {
-    console.log("File successfully fetched:", fileURL);
-  }
-});
+// getFileByName(storage, folderPath, fileNameWithoutExtension).then((fileURL) => {
+//   if (fileURL) {
+//     console.log("File successfully fetched:", fileURL);
+//   }
+// });

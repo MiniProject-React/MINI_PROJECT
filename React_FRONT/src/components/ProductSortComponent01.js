@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosApi01 from "../api/AxiosApi01";
+import { useNavigate } from "react-router-dom";
 import {
   ProductSort,
   ProductSortList,
@@ -11,6 +12,9 @@ import {
   PlaceholderImage,
   ActionButtons,
 } from "../styles/ProductSortStyle01";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../api/firebase";
+
 const ProductSortComponent = ({
   categoryId,
   sortColumn,
@@ -19,8 +23,10 @@ const ProductSortComponent = ({
 }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [quantity, setQuantity] = useState({});
+  const [imageUrls, setImageUrls] = useState({});
   const [imageError, setImageError] = useState({}); // 이미지를 불러오지 못한 상태를 저장
 
+  const navigate = useNavigate();
   const formatPrice = (price) => {
     // 숫자를 세자리수마다 , 단위 구분 추가
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -41,12 +47,37 @@ const ProductSortComponent = ({
           initialQuantity[product.PRODUCT_ID] = 1;
         });
         setQuantity(initialQuantity);
+
+        fetchImages(rsp.data);
       } catch (e) {
         alert("서버가 응답하지 않습니다.", e);
       }
     };
     getSortedProducts();
   }, [categoryId, sortColumn, sortOrder]);
+
+  const fetchImages = async (products) => {
+    const imagePromises = products.map(async (product) => {
+      const imageRef = ref(
+        storage,
+        `images/${product.CATEGORY_ID}/${product.NAME}.jpg`
+      );
+      try {
+        const downloadUrl = await getDownloadURL(imageRef);
+        return { productId: product.PRODUCT_ID, downloadUrl };
+      } catch (err) {
+        console.error(`Error fetching image for ${product.NAME}:`, err);
+        return { productId: product.PRODUCT_ID, downloadUrl: null };
+      }
+    });
+
+    const imageResults = await Promise.all(imagePromises);
+    const imageMap = imageResults.reduce((acc, cur) => {
+      acc[cur.productId] = cur.downloadUrl;
+      return acc;
+    }, {});
+    setImageUrls(imageMap);
+  };
 
   const handleQuantityChange = (productId, delta) => {
     setQuantity((prevQuantities) => ({
@@ -73,20 +104,30 @@ const ProductSortComponent = ({
         <ProductCard key={product.PRODUCT_ID}>
           {!product.IMAGE_URL || imageError[product.PRODUCT_ID] ? (
             <PlaceholderImage
-              onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
+              onClick={() =>
+                navigate(
+                  `/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`
+                )
+              }
             >
               No Image
             </PlaceholderImage>
           ) : (
             <ProductImage
-              onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
-              src={product.IMAGE_URL}
+              onClick={() =>
+                navigate(
+                  `/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`
+                )
+              }
+              src={imageUrls[product.PRODUCT_ID] || product.IMAGE_URL}
               alt={product.NAME}
               onError={() => handleImageError(product.PRODUCT_ID)} // 이미지 로드 실패 시 호출
             />
           )}
           <ProductDetails
-            onClick={() => alert(`${product.NAME} 상세페이지로 이동`)}
+            onClick={() =>
+              navigate(`/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`)
+            }
           >
             <div className="left">
               <h3>{product.NAME}</h3>

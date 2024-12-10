@@ -61,7 +61,9 @@ export const StyledInput3 = styled.input`
     color: ${(props) => props.placeholderColor || "#999"};
   }
 
-  ${(props) => props.disabled && `
+  ${(props) =>
+    props.disabled &&
+    `
     background-color: #f5f5f5;
     cursor: not-allowed;
     color: #ccc;

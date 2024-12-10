@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SuggestedPC = () => {
   const [pcs, setPcs] = useState([]); // 가격대별 PC 목록
   const [selectedPC, setSelectedPC] = useState(null); // 선택된 PC
   const [cart, setCart] = useState([]); // 장바구니
   const [currentStep, setCurrentStep] = useState(0); // 현재 단계
+  const navigate = useNavigate(); // 구매하기 버튼 누르면 OrderSuccess.jsx 페이지로 전환
 
   // 가격 포맷 (원화, 3자리마다 쉼표)
   const formatPrice = (price) => {
@@ -344,8 +346,9 @@ const SuggestedPC = () => {
     return cart.reduce((total, pc) => total + pc.price * pc.quantity, 0);
   };
 
-  const handleBuyNow = () => {
+  const handleOrderNow = () => {
     alert("구매 페이지로 이동합니다.");
+    navigate("/order");
     // 구매 페이지로 이동하는 코드 작성 (예: 페이지 전환)
   };
 
@@ -503,7 +506,7 @@ const SuggestedPC = () => {
           <h3>
             전체 장바구니 총 가격: {formatPrice(calculateCartTotalPrice())}
           </h3>
-          <button onClick={handleBuyNow} style={styles.buyButton}>
+          <button onClick={handleOrderNow} style={styles.orderButton}>
             구매하기
           </button>
         </div>
@@ -622,7 +625,7 @@ const styles = {
     cursor: "pointer",
     borderRadius: "5px",
   },
-  buyButton: {
+  orderButton: {
     padding: "12px 20px",
     fontSize: "16px",
     backgroundColor: "#f4f4f4",
