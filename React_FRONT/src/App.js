@@ -27,7 +27,7 @@ import Swiper2 from "./pages/admin/Swiper2.js";
 import ProductSwiper from "./pages/admin/ImageArray.js";
 import { UserContextProvider } from "./api/provider/UserContextProvider.js";
 import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
-import AdminUserOrder from "./pages/admin/AdminOrders/AdminUserOrder.js";
+import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
 
 function App() {
   return (
@@ -64,7 +64,7 @@ function App() {
               <Route path="/users" element={<AdminUsersMap />} />
               <Route
                 path="/users/orderlist/:user_id"
-                element={<AdminUserOrder />}
+                element={<AdminUserOrderList />}
               />
               <Route
                 path="/"

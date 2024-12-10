@@ -1,6 +1,8 @@
 package com.kh.MINI.admin3.dao3;
 
 import com.kh.MINI.admin3.vo3.CustomPCVO3;
+import com.kh.MINI.admin3.vo3.CustomVO3;
+import com.kh.MINI.admin3.vo3.OVO3;
 import com.kh.MINI.admin3.vo3.OrdersVO3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,18 +86,18 @@ public class OrderDAO3 {
     }
 
     // 주문 조회
-    public List<OrdersVO3> order(int userId) {
+    public List<OVO3> order(int userId) {
         try{
-            return jdbcTemplate.query(ORDERS, new )
+            return jdbcTemplate.query(ORDERS, new ORowMapper(), userId);
         }catch (DataAccessException e) {
             log.error("주문 조회", e );
             throw e;
         }
     }
 
-    public List<CustomPCVO3> custom(int userId) {
+    public List<CustomVO3> custom(int userId) {
         try{
-            return jdbcTemplate.query(CUSTOM)
+            return jdbcTemplate.query(CUSTOM, new CRowMapper(), userId);
         }catch (DataAccessException e) {
             log.error("커스텀 조회", e);
             throw e;
@@ -169,6 +171,28 @@ public class OrderDAO3 {
             customPC.setCategory_id(rs.getInt("CATEGORY_ID"));
 
             return customPC;
+        }
+    }
+    public class ORowMapper implements RowMapper<OVO3> {
+        @Override
+        public OVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {
+            OVO3 ovo3 = new OVO3();
+            ovo3.setOrder_id(rs.getInt("order_id"));
+            ovo3.setTotal_price(rs.getInt("total_price"));
+            ovo3.setOrder_date(rs.getDate("order_date"));
+            ovo3.setStatus(rs.getString("status"));
+            ovo3.setUser_id(rs.getInt("user_id"));
+            return ovo3;
+        }
+    }
+    public class CRowMapper implements RowMapper<CustomVO3> {
+        @Override
+        public CustomVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CustomVO3 customVO3 = new CustomVO3();
+            customVO3.setCustom_id(rs.getInt("custom_id"));
+            customVO3.setTotal_price(rs.getInt("total_price"));
+            customVO3.setUser_id(rs.getInt("user_id"));
+            return customVO3;
         }
     }
 }

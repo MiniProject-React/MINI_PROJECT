@@ -2,6 +2,8 @@ package com.kh.MINI.admin3.controller3;
 
 import com.kh.MINI.admin3.dao3.OrderDAO3;
 import com.kh.MINI.admin3.vo3.CustomPCVO3;
+import com.kh.MINI.admin3.vo3.CustomVO3;
+import com.kh.MINI.admin3.vo3.OVO3;
 import com.kh.MINI.admin3.vo3.OrdersVO3;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -41,19 +43,19 @@ public class OrderController3 {
     }
 
     // 주문 목록
-    @GetMapping("/list")
+    @GetMapping("/list/{user_id}")
     public Map<String, Object> order (@PathVariable int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
-        List<OrdersVO3> order = orderDAO3.order(user_id);
+        List<OVO3> order = orderDAO3.order(user_id);
         resultMap.put("order",order);
         return resultMap;
     }
 
     // 커스텀 목록
-    @GetMapping("/custom")
+    @GetMapping("/custom/{user_id}")
     public Map<String, Object> custom (@PathVariable int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
-        List<CustomPCVO3> custom = orderDAO3.custom(user_id);
+        List<CustomVO3> custom = orderDAO3.custom(user_id);
         resultMap.put("custom", custom);
         return resultMap;
     }
