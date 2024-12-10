@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // 카드 유형을 인식하는 함수
 const getCardType = (cardNumber) => {
@@ -23,12 +23,18 @@ const getCardType = (cardNumber) => {
 
 const Order = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const cart = location.state?.cart || []; // 'OwnPC'에서 넘어온 장바구니 데이터
+
   const [orderSummary, setOrderSummary] = useState({
-    items: [
-      { name: "A", quantity: 1, price: 100, options: "a" },
-      { name: "A", quantity: 2, price: 200, options: "a" },
-    ],
-    shippingCost: 0,
+    items: cart.flatMap((pc) =>
+      Object.entries(pc).map(([category, part]) => ({
+        name: `${category.toUpperCase()} - ${part.name}`,
+        quantity: part.quantity,
+        price: part.price,
+      }))
+    ),
+    shippingCost: 3000, // 예시로 고정된 배송비 추가
     discount: 0,
     tax: 0,
     total: 0,
@@ -207,7 +213,6 @@ const Order = () => {
               <p>제품명: {item.name}</p>
               <p>수량: {item.quantity}</p>
               <p>가격: ₩{item.price}</p>
-              <p>옵션: {item.options}</p>
             </li>
           ))}
         </ul>
@@ -251,10 +256,10 @@ const Order = () => {
             />
             {cardType && (
               <div style={styles.cardTypeBox}>
-                <strong>카드 타입 : &nbsp; &nbsp;</strong>
+                <strong>카드 타입 : </strong>
                 <span>{cardType}</span>
                 <img
-                  src={`/images/${cardType.toLowerCase()}.png`} // 예: "visa.png", "mastercard.png"
+                  src={`/images/${cardType.toLowerCase()}.png`}
                   alt={cardType}
                   style={{
                     width: "50px",
@@ -298,35 +303,19 @@ const Order = () => {
               onChange={handlePaymentChange}
               style={styles.input}
               maxLength={3}
-              placeholder="CVC를 입력하세요"
               required
             />
-
-            <label>비밀번호:</label>
-            <div style={styles.passwordBox}>
-              <input
-                type="password"
-                name="password"
-                value={paymentInfo.password}
-                onChange={handlePaymentChange}
-                style={{ ...styles.input, width: "48%" }}
-                maxLength={2}
-                placeholder="비밀번호를 입력하세요"
-                required
-              />
-              <span style={styles.maskBox}> ** </span>
-            </div>
           </div>
         )}
       </section>
 
-      {/* 결제 버튼 */}
-      <section style={styles.section}>
-        <button onClick={handlePlaceOrder} style={styles.button}>
-          결제하기
-        </button>
-        {message && <p style={styles.message}>{message}</p>}
-      </section>
+      {/* 메시지 출력 */}
+      {message && <p style={styles.message}>{message}</p>}
+
+      {/* 주문 버튼 */}
+      <button onClick={handlePlaceOrder} style={styles.orderButton}>
+        주문하기
+      </button>
     </div>
   );
 };
