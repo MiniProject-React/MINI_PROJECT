@@ -1,14 +1,13 @@
 import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import imgLogo from "../../images/kakaoLion.png";
+
 import Button from "../../components/ButtonComponent";
 import Input from "../../components/InputComponent";
 import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
-import { StyledPasswordMask } from "../../components/InputComponent";
 
 const Img = styled.img`
   width: 180px;
@@ -92,9 +91,7 @@ const Login = () => {
 
   return (
     <Container>
-      <Items variant="sign">
-        <Img src={imgLogo} alt="Logo" />
-      </Items>
+      <Items variant="sign"></Items>
 
       <Items margin="10px">
         <Input
@@ -105,7 +102,7 @@ const Login = () => {
       </Items>
 
       <Items margin="10px">
-        <StyledPasswordMask
+        <Input
           type="password"
           placeholder="패스워드"
           value={inputPw}
