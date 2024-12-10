@@ -276,11 +276,12 @@ const OwnPC = () => {
   const selectedPartOrder = ["cpu", "motherboard", "ram", "vga", "ssd", "hdd"];
 
   const handleOrderNow = () => {
-    alert("구매 페이지로 이동합니다.");
-    // 구매 페이지로 이동하는 코드 작성 (예: 페이지 전환)
-    navigate("/order");
+    if (cart.length === 0) {
+      alert("장바구니에 구성된 PC가 없습니다. 먼저 PC를 구성하세요.");
+      return;
+    }
+    navigate("/order", { state: { cart } }); // Pass cart state to Order page
   };
-
   return (
     <div style={styles.container}>
       <h1>단계별 커스텀 PC</h1>
