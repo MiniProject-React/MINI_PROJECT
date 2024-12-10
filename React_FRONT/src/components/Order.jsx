@@ -20,7 +20,7 @@ const getCardType = (cardNumber) => {
     return null;
   }
 };
-
+  
 const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
