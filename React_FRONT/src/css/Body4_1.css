@@ -1,0 +1,123 @@
+/* 전체 컨테이너 - 좌우 여백 16% */
+.body-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5개 열 */
+    grid-template-rows: repeat(2, 1fr);    /* 2개 행 */
+    gap: 10px;
+    width: 68%; /* 전체 너비 68%로 설정 */
+    margin: 70px auto 0; /* 상단에 70px 간격을 추가하고 좌우 여백 설정 */
+    margin-bottom: 70px;
+    z-index: 0;
+}
+
+.box {
+    border: 0.5px solid black;
+    border-radius: 30px;
+    box-sizing: border-box;
+    position: relative;
+    padding-top: 100%; /* 정사각형 유지 */
+    z-index: 0;
+}
+
+.box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.05); /* 어두운 반투명 효과 (5% 투명도) */
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out; /* 부드러운 전환 효과 */
+    border-radius: 30px;
+}
+
+/* 이미지 위로 마우스를 올릴 때 오버레이 효과 강화 */
+.box:hover::before {
+    background-color: rgba(0, 0, 0, 0.7); /* 더 어두운 효과 */
+}
+
+.large-box {
+    grid-column: span 2; /* 2열 차지 */
+    grid-row: span 2;    /* 2행 차지 */
+    z-index: 0;
+}
+
+.small-box {
+    /* 기본 정사각형 설정 유지 */
+}
+
+.box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    transition: box-shadow 0.3s ease-in-out; /* 부드러운 전환 효과 */
+    border-radius: 30px;
+}
+
+.box img:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.font-size1{
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.font-size2{
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* 오버레이 콘텐츠 */
+.overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 3; /* 이미지 위에 표시되도록 설정 */
+    pointer-events: none; /* 클릭 방지 */
+}
+
+/* "부품 골라담기" 텍스트 스타일 */
+.overlay-content h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* 텍스트 그림자 */
+}
+
+/* "상세보기" 링크 스타일 */
+.overlay-content .details-link {
+    font-size: 0.5rem;
+    display: inline-block;
+    margin-top: 0px;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    pointer-events: auto; /* 클릭 가능 */
+}
+
+.overlay-content .details-link2 {
+    font-size: 0.4rem;
+    display: inline-block;
+    margin-top: -10px;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    pointer-events: auto; /* 클릭 가능 */
+}
+
+.overlay-content .details-link:hover {
+    background-color: rgba(255, 255, 255, 0.8); /* 호버 효과 */
+    color: black;
+}
