@@ -115,12 +115,12 @@ const AxiosApi3 = {
     return await axios.post(KH_DOMAIN + "/users/userupdate", params);
   },
 
-  // 주문 목록 조회
+  // 주문 목록 상세 조회
   orderList: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/orderList/${user_id}`);
   },
 
-  // 커스텀 PC 주문 목록 조회
+  // 커스텀 PC 주문 목록 상세 조회
   customOrderList: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/customOrderList/${user_id}`);
   },
@@ -128,6 +128,14 @@ const AxiosApi3 = {
   // 제품 리스트 출력
   productList: async () => {
     return await axios.get(KH_DOMAIN + "/products/list");
+  },
+  // 주문 목록
+  order: async (user_id) => {
+    return await axios.get(KH_DOMAIN + `/order/list/${user_id}`);
+  },
+  // 커스텀 목록
+  custom: async (user_id) => {
+    return await axios.get(KH_DOMAIN + `/order/custom/${user_id}`);
   },
 };
 

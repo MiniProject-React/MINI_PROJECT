@@ -4,8 +4,8 @@ import AxiosApi3 from "../../../api/AxiosApi3";
 // 쿼리 변경 그냥 order는 개별주문 custom은 커스텀 컴퓨터 인것 처럼 설정 하고 custom_id는 무시?
 //
 const AdminUserOrder = () => {
-  const { user_id } = useParams();
   const [productList, setProductList] = useState([]);
+  const { user_id } = useParams();
   const [orderList, setOrderList] = useState([]);
   const [customOrderList, setCustomOrderList] = useState([]);
   const [cpu, setCpu] = useState([]);

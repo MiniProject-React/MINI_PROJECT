@@ -58,6 +58,12 @@ public class OrderDAO3 {
             "LEFT OUTER JOIN CATEGORIES T ON P.CATEGORY_ID = T.CATEGORY_ID " +
             "WHERE O.USER_ID = ?";
 
+    // 주문 조회
+    private final String ORDERS ="SELECT * FROM ORDERS WHERE USER_ID = ? ";
+    // 커스텀 조회
+    private final String CUSTOM ="SELECT * FROM CUSTOM_ORDERS WHERE USER_ID = ?";
+
+    // 주문 상세 조회
     public List<OrdersVO3> orderList(int userId) {
         try {
             return jdbcTemplate.query(ORDER_LIST, new OrderRowMapper(), userId);
@@ -67,6 +73,7 @@ public class OrderDAO3 {
         }
     }
 
+    // 커스텀 주문 상세 조회
     public List<CustomPCVO3> customOrderList(int userId) {
         try{
             return jdbcTemplate.query(CUSTOM_ORDER_LIST, new CustomPCRowMapper(), userId);
@@ -74,7 +81,25 @@ public class OrderDAO3 {
             log.error("커스텀 제품 조회중 에러 발생 ",e);
             throw e;
         }
+    }
 
+    // 주문 조회
+    public List<OrdersVO3> order(int userId) {
+        try{
+            return jdbcTemplate.query(ORDERS, new )
+        }catch (DataAccessException e) {
+            log.error("주문 조회", e );
+            throw e;
+        }
+    }
+
+    public List<CustomPCVO3> custom(int userId) {
+        try{
+            return jdbcTemplate.query(CUSTOM)
+        }catch (DataAccessException e) {
+            log.error("커스텀 조회", e);
+            throw e;
+        }
     }
 
     public class OrderRowMapper implements RowMapper<OrdersVO3> {

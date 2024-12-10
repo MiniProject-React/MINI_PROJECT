@@ -20,7 +20,7 @@ import java.util.Map;
 public class OrderController3 {
     private final OrderDAO3 orderDAO3;
 
-    // 개별 상품 주문 목록 조회
+    // 개별 상품 상세 주문 목록 조회
     @GetMapping("/orderList/{user_id}")
     public Map<String, Object> orderList (@PathVariable int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -29,7 +29,7 @@ public class OrderController3 {
         return resultMap;
     }
 
-    // 커스텀 상품 주문 목록 조회
+    // 커스텀 상품 상세 주문 목록 조회
     @GetMapping("/customOrderList/{user_id}")
     public Map<String, Object> customOrderList(@PathVariable int user_id) {
 
@@ -39,5 +39,24 @@ public class OrderController3 {
         System.out.println(customOrderList);
         return resultMap;
     }
+
+    // 주문 목록
+    @GetMapping("/list")
+    public Map<String, Object> order (@PathVariable int user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<OrdersVO3> order = orderDAO3.order(user_id);
+        resultMap.put("order",order);
+        return resultMap;
+    }
+
+    // 커스텀 목록
+    @GetMapping("/custom")
+    public Map<String, Object> custom (@PathVariable int user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<CustomPCVO3> custom = orderDAO3.custom(user_id);
+        resultMap.put("custom", custom);
+        return resultMap;
+    }
+
 
 }
