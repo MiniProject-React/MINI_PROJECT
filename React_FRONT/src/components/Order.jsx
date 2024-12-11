@@ -23,6 +23,9 @@ const getCardType = (cardNumber) => {
 
 // 가격 포맷 (원화, 3자리마다 쉼표)
 const formatPrice = (price) => {
+  if (price === undefined || price === null) {
+    return "₩0";
+  }
   return price.toLocaleString("ko-KR", {
     style: "currency",
     currency: "KRW",
@@ -32,21 +35,37 @@ const formatPrice = (price) => {
 const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const cart = location.state?.cart || []; // 'OwnPC'에서 넘어온 장바구니 데이터
 
+  // 전달받은 장바구니 데이터 (상태)
+  const ownPCCart = location.state?.ownPCCart || [];
+  const suggestedPCCart = location.state?.suggestedPCCart || [];
+
+  // 주문 정보 상태 설정
   const [orderSummary, setOrderSummary] = useState({
-    items: cart.flatMap((pc, index) => ({
-      configuration: `구성 ${index + 1}`,
-      parts: Object.entries(pc).map(([category, part]) => ({
-        name: `${category.toUpperCase()} - ${part.name}`,
-        quantity: part.quantity,
-        price: part.price,
+    items: [
+      ...ownPCCart.map((pc, index) => ({
+        configuration: `구성 ${index + 1}`,
+        parts: Object.entries(pc).map(([category, part]) => ({
+          name: `${category.toUpperCase()} - ${part.name}`,
+          quantity: part.quantity,
+          price: part.price || 0, // Ensure price is always defined
+        })),
       })),
-    })),
-    shippingCost: 3000, // 예시로 고정된 배송비 추가
-    discount: 0,
-    tax: 0,
-    total: 0,
+      ...suggestedPCCart.map((pc, index) => ({
+        configuration: `PC ${index + 1}`,
+        parts: [
+          {
+            name: `PC ${index + 1}`,
+            quantity: pc.quantity,
+            price: pc.price || 0, // Ensure price is always defined
+          },
+        ],
+      })),
+    ],
+    shippingCost: 3000, // 배송비
+    discount: 0, // 할인
+    tax: 0, // 세금
+    total: 0, // 총액
   });
 
   const [paymentInfo, setPaymentInfo] = useState({
@@ -76,7 +95,7 @@ const Order = () => {
       (sum, item) =>
         sum +
         item.parts.reduce(
-          (partSum, part) => partSum + part.price * part.quantity,
+          (partSum, part) => partSum + (part.price || 0) * part.quantity,
           0
         ),
       0
@@ -245,7 +264,7 @@ const Order = () => {
               소계:{" "}
               {formatPrice(
                 item.parts.reduce(
-                  (sum, part) => sum + part.price * part.quantity,
+                  (sum, part) => sum + (part.price || 0) * part.quantity,
                   0
                 )
               )}
