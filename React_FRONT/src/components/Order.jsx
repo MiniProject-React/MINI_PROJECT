@@ -92,6 +92,14 @@ const Order = () => {
     }));
   };
 
+  // 스크롤을 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // 부드러운 스크롤을 위해 'smooth' 설정
+    });
+  }, []); // 빈 배열로 컴포넌트가 마운트될 때만 실행되도록 함
+
   useEffect(() => {
     calculateTotal();
   }, [
