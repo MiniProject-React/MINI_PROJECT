@@ -161,6 +161,19 @@ const Order = () => {
     }));
   };
 
+  // 연락처 입력 처리 함수 (하이픈 추가)
+  const handlePhoneChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // 숫자만 남기고 제거
+    if (value.length <= 11) {
+      // 전화번호 형식으로 하이픈 추가
+      value = value.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    }
+    setShippingInfo((prevState) => ({
+      ...prevState,
+      phone: value,
+    }));
+  };
+
   // 결제 처리
   const handlePlaceOrder = () => {
     if (
@@ -212,9 +225,10 @@ const Order = () => {
           type="text"
           name="phone"
           value={shippingInfo.phone}
-          onChange={handleShippingChange}
+          onChange={handlePhoneChange} // 핸들러 수정
           style={styles.input}
           required
+          maxLength={13}
         />
         <label>이메일:</label>
         <input
@@ -411,8 +425,7 @@ const styles = {
   },
 
   pwdInput: {
-    marginLeft: "5px",
-    width: "2%",
+    width: "5%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
@@ -423,8 +436,7 @@ const styles = {
     marginRight: "20px", // CVC와 간격
   },
   cvcInput: {
-    marginLeft: "5px",
-    width: "3%",
+    width: "5%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
