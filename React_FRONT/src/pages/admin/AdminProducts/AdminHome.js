@@ -3,19 +3,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 // firebase
 import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../api/firebase";
+import { storage } from "../../../api/firebase";
 import { Pagination, Navigation } from "swiper/modules";
 import axios from "axios";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "../../css/style1.css";
-import "../../css/product.css";
-import { Button3 } from "../../components/style3";
-import Modal from "./modal/ProductUpdateModal";
-import { UserContext } from "../../api/provider/UserContextProvider";
-import ProductSaveModal from "./modal/ProductSaveModal";
+import "../style/style1.css";
+import "../style/product.css";
+import { Button3 } from "../../../components/style3";
+import Modal from "../modal/ProductUpdateModal";
+import { UserContext } from "../../../api/provider/UserContextProvider";
+import ProductSaveModal from "../modal/ProductSaveModal";
 const KH_DOMAIN = "http://localhost:8112";
 
 export default function AdminHome() {
@@ -138,37 +138,41 @@ export default function AdminHome() {
 
   // Swiper configuration for each category
   const renderSwiper = (category, items, imageMap) => (
-    <Swiper
-      slidesPerView={6}
-      spaceBetween={30}
-      pagination={{ type: "fraction" }}
-      navigation={true}
-      modules={[Pagination, Navigation]}
-      className="cpuSwiper"
-    >
-      {items.length > 0 ? (
-        items.map((a) => (
-          <SwiperSlide key={a.product_id} className="product-slide">
-            <div
-              className="product-image"
-              onClick={() => modalState(a.product_id, a.category, a.product)}
-            >
-              {imageMap[a.product_id] ? (
-                <img src={imageMap[a.product_id]} alt={a.product} />
-              ) : (
-                <p>이미지를 불러오는 중...</p>
-              )}
-            </div>
-            <div className="product-info">
-              <h3 className="product-name">{a.product}</h3>
-              <p className="product-price">{a.price.toLocaleString()}원</p>
-            </div>
-          </SwiperSlide>
-        ))
-      ) : (
-        <SwiperSlide>데이터가 없습니다.</SwiperSlide>
-      )}
-    </Swiper>
+    <div className="swiper-container">
+      {/* 카테고리 제목은 슬라이드 외부 */}
+      <h3 className="category-title">{category}</h3>
+      <Swiper
+        slidesPerView={6}
+        spaceBetween={30}
+        pagination={{ type: "fraction" }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        className="cpuSwiper"
+      >
+        {items.length > 0 ? (
+          items.map((a) => (
+            <SwiperSlide key={a.product_id} className="product-slide">
+              <div
+                className="product-image"
+                onClick={() => modalState(a.product_id, a.category, a.product)}
+              >
+                {imageMap[a.product_id] ? (
+                  <img src={imageMap[a.product_id]} alt={a.product} />
+                ) : (
+                  <p>이미지를 불러오는 중...</p>
+                )}
+              </div>
+              <div className="product-info">
+                <h3 className="product-name">{a.product}</h3>
+                <p className="product-price">{a.price.toLocaleString()}원</p>
+              </div>
+            </SwiperSlide>
+          ))
+        ) : (
+          <SwiperSlide>데이터가 없습니다.</SwiperSlide>
+        )}
+      </Swiper>
+    </div>
   );
 
   return (

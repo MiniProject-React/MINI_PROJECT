@@ -18,13 +18,7 @@ import SuggestedPC from "./components/SuggestedPC";
 import Order from "./components/Order";
 import OrderSuccess from "./components/OrderSuccess";
 
-import AdminHome from "./pages/admin/AdminHome";
-import Address from "./pages/signup/address.js";
-import EmailVerification from "./pages/admin/EmailVerification.js";
-import DragAndDropThreeLists from "./pages/admin/TableDrad.js";
-import SwiperExample from "./pages/admin/Swiper.js";
-import Swiper2 from "./pages/admin/Swiper2.js";
-import ProductSwiper from "./pages/admin/ImageArray.js";
+import AdminHome from "./pages/admin/AdminProducts/AdminHome.js";
 import { UserContextProvider } from "./api/provider/UserContextProvider.js";
 import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
 import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
@@ -58,12 +52,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminHome />} />
-              <Route path="/address" element={<Address />} />
-              <Route path="/mail" element={<EmailVerification />} />
-              <Route path="/td" element={<DragAndDropThreeLists />} />
-              <Route path="/swiper" element={<SwiperExample />} />
-              <Route path="/swiper2" element={<Swiper2 />} />
-              <Route path="/ps" element={<ProductSwiper />} />
               <Route path="/users" element={<AdminUsersMap />} />
               <Route
                 path="/users/orderlist/:user_id"

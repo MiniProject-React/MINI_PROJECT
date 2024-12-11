@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AdminHome from "./AdminHome";
+import AdminHome from "./AdminProducts/AdminHome";
 import { AdminUsersMap } from "../../api/provider/UserSearchContextProvider";
 import "./style/Tab.css";
 

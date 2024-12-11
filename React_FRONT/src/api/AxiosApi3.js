@@ -137,6 +137,13 @@ const AxiosApi3 = {
   custom: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/custom/${user_id}`);
   },
+  // order product
+  orderProducts: async (params) => {
+    console.log(params); // 확인용 로그
+    return await axios.get(KH_DOMAIN + `/products/order_products`, {
+      params: params, // 파라미터를 올바르게 전달
+    });
+  },
 };
 
 export default AxiosApi3;
