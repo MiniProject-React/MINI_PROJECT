@@ -347,7 +347,12 @@ const SuggestedPC = () => {
   };
   const handleOrderNow = () => {
     if (cart.length > 0) {
-      navigate("/order", { state: { cart } }); // 장바구니 데이터를 함께 전달
+      navigate("/order", {
+        state: {
+          ownPCCart: [], // OwnPC 장바구니 데이터는 빈 배열로 전달
+          suggestedPCCart: cart, // SuggestedPC 장바구니 데이터는 cart로 전달
+        },
+      });
     } else {
       alert("장바구니가 비어 있습니다.");
     }
