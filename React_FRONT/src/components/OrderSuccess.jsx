@@ -1,6 +1,14 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
+// 가격 포맷 (원화, 3자리마다 쉼표)
+const formatPrice = (price) => {
+  return price.toLocaleString("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  });
+};
+
 const OrderSuccess = () => {
   // useLocation 훅을 사용하여 이전 페이지에서 전달된 state 데이터 가져오기
   const location = useLocation();
@@ -29,14 +37,12 @@ const OrderSuccess = () => {
         <h2 style={styles.sectionTitle}>주문 번호: {orderNumber}</h2>
       </section>
       <h1 style={styles.Header}>구매가 정상적으로 완료되었습니다.</h1>
-      <p style={styles.subHeader}>구매해주셔서 감사드립니다.</p>
-
       <div style={styles.card}>
         {/* 주문 정보 섹션 */}
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>주문 정보</h2>
           <p>주문 번호: {orderSummary?.orderId}</p>
-          <p>총액: ₩{orderSummary?.total}</p>
+          <p>총액: {formatPrice(orderSummary?.total || 0)}</p>
         </section>
       </div>
 
@@ -61,6 +67,7 @@ const OrderSuccess = () => {
           <p>주소: {shippingInfo?.address}</p>
         </section>
       </div>
+      <p style={styles.subHeader}>구매해주셔서 감사드립니다.</p>
     </div>
   );
 };
@@ -77,6 +84,7 @@ const styles = {
     fontSize: "1.2rem",
     color: "#666",
     marginBottom: "30px",
+    textAlign: "center",
   },
   container: {
     maxWidth: "1000px",
