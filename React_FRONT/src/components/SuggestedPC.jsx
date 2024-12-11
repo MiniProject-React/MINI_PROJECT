@@ -345,11 +345,12 @@ const SuggestedPC = () => {
   const calculateCartTotalPrice = () => {
     return cart.reduce((total, pc) => total + pc.price * pc.quantity, 0);
   };
-
   const handleOrderNow = () => {
-    alert("구매 페이지로 이동합니다.");
-    navigate("/order");
-    // 구매 페이지로 이동하는 코드 작성 (예: 페이지 전환)
+    if (cart.length > 0) {
+      navigate("/order", { state: { cart } }); // 장바구니 데이터를 함께 전달
+    } else {
+      alert("장바구니가 비어 있습니다.");
+    }
   };
 
   return (
