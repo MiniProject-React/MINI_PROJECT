@@ -280,7 +280,13 @@ const OwnPC = () => {
       alert("장바구니에 구성된 PC가 없습니다. 먼저 PC를 구성하세요.");
       return;
     }
-    navigate("/order", { state: { cart } }); // Pass cart state to Order page
+    // Update this to pass both ownPCCart and suggestedPCCart to the Order page
+    navigate("/order", {
+      state: {
+        ownPCCart: cart, // Pass the current cart as ownPCCart
+        suggestedPCCart: [], // Empty array for suggested PC cart
+      },
+    });
   };
   return (
     <div style={styles.container}>
