@@ -35,13 +35,14 @@ const Order = () => {
   const cart = location.state?.cart || []; // 'OwnPC'에서 넘어온 장바구니 데이터
 
   const [orderSummary, setOrderSummary] = useState({
-    items: cart.flatMap((pc) =>
-      Object.entries(pc).map(([category, part]) => ({
+    items: cart.flatMap((pc, index) => ({
+      configuration: `구성 ${index + 1}`,
+      parts: Object.entries(pc).map(([category, part]) => ({
         name: `${category.toUpperCase()} - ${part.name}`,
         quantity: part.quantity,
         price: part.price,
-      }))
-    ),
+      })),
+    })),
     shippingCost: 3000, // 예시로 고정된 배송비 추가
     discount: 0,
     tax: 0,
@@ -72,7 +73,12 @@ const Order = () => {
   // 주문 정보 계산
   const calculateTotal = () => {
     const subtotal = orderSummary.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+      (sum, item) =>
+        sum +
+        item.parts.reduce(
+          (partSum, part) => partSum + part.price * part.quantity,
+          0
+        ),
       0
     );
     const total =
@@ -215,24 +221,29 @@ const Order = () => {
       {/* 주문 정보 (Order Summary) */}
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>주문 정보</h2>
-        <ul style={styles.list}>
-          {orderSummary.items.map((item, index) => (
-            <li key={index} style={styles.listItem}>
-              <p>제품명: {item.name}</p>
-              <p>수량: {item.quantity}</p>
-              <p>가격: {formatPrice(item.price)}</p>
-            </li>
-          ))}
-        </ul>
-        <p style={styles.summary}>
-          소계:{" "}
-          {formatPrice(
-            orderSummary.items.reduce(
-              (sum, item) => sum + item.price * item.quantity,
-              0
-            )
-          )}
-        </p>
+        {orderSummary.items.map((item, index) => (
+          <div key={index} style={styles.configurationBox}>
+            <h3>{item.configuration}</h3>
+            <ul style={styles.list}>
+              {item.parts.map((part, partIndex) => (
+                <li key={partIndex} style={styles.listItem}>
+                  <p>제품명: {part.name}</p>
+                  <p>수량: {part.quantity}</p>
+                  <p>가격: {formatPrice(part.price)}</p>
+                </li>
+              ))}
+            </ul>
+            <p style={styles.summary}>
+              소계:{" "}
+              {formatPrice(
+                item.parts.reduce(
+                  (sum, part) => sum + part.price * part.quantity,
+                  0
+                )
+              )}
+            </p>
+          </div>
+        ))}
         <p>배송비: {formatPrice(orderSummary.shippingCost)}</p>
         <p>총액: {formatPrice(orderSummary.total)}</p>
       </section>
@@ -366,15 +377,6 @@ const styles = {
     fontSize: "1.5em",
     padding: "0 10px",
   },
-  passwordBox: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  maskBox: {
-    padding: "10px",
-    borderRadius: "5px",
-  },
   select: {
     width: "100%",
     padding: "10px",
@@ -395,6 +397,12 @@ const styles = {
     fontWeight: "bold",
     marginBottom: "15px",
   },
+  configurationBox: {
+    border: "1px solid #ddd",
+    padding: "15px",
+    marginBottom: "20px",
+    borderRadius: "8px",
+  },
   cardTypeBox: {
     display: "flex",
     alignItems: "center",
@@ -404,9 +412,7 @@ const styles = {
     backgroundColor: "#f4f4f4",
     color: "black",
     border: "1px solid #ddd",
-
     padding: "15px 30px",
-
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "1.2em",
