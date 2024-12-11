@@ -10,7 +10,6 @@ const formatPrice = (price) => {
 };
 
 const OrderSuccess = () => {
-  // useLocation 훅을 사용하여 이전 페이지에서 전달된 state 데이터 가져오기
   const location = useLocation();
   const { orderSummary, paymentInfo, shippingInfo } = location.state || {};
 
@@ -22,7 +21,7 @@ const OrderSuccess = () => {
     const randomCode = Math.floor(1000 + Math.random() * 9000); // 1000부터 9999 사이의 난수 생성
     return `${date}-${time}-${randomCode}`;
   };
-  // 주문 번호 생성
+
   const orderNumber = generateOrderNumber();
 
   // 카드 번호 중간 8자리를 마스킹하는 함수
@@ -30,13 +29,27 @@ const OrderSuccess = () => {
     return cardNumber.replace(/\d(?=\d{4})/g, "*");
   };
 
-  // 스크롤을 최상단으로 이동
+  // 상품 요약 생성 (e.g., "제품 A 외 3개")
+  const generateItemSummary = (items) => {
+    if (!items || items.length === 0) return "없음";
+    const firstItemName = items[0]?.parts[0]?.name || "제품";
+    const itemCount = items.reduce(
+      (count, item) => count + item.parts.length,
+      0
+    );
+    return itemCount > 1
+      ? `${firstItemName} 외 ${itemCount - 1}개`
+      : firstItemName;
+  };
+
+  const itemSummary = generateItemSummary(orderSummary?.items);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // 부드러운 스크롤을 위해 'smooth' 설정
+      behavior: "smooth",
     });
-  }, []); // 빈 배열로 컴포넌트가 마운트될 때만 실행되도록 함
+  }, []);
 
   return (
     <div style={styles.container}>
@@ -49,6 +62,7 @@ const OrderSuccess = () => {
         {/* 주문 정보 섹션 */}
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>주문 정보</h2>
+          <p>상품: {itemSummary}</p>
           <p>총액: {formatPrice(orderSummary?.total || 0)}</p>
         </section>
       </div>
