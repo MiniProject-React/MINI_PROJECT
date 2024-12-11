@@ -20,7 +20,15 @@ const getCardType = (cardNumber) => {
     return null;
   }
 };
-  
+
+// 가격 포맷 (원화, 3자리마다 쉼표)
+const formatPrice = (price) => {
+  return price.toLocaleString("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  });
+};
+
 const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -212,19 +220,21 @@ const Order = () => {
             <li key={index} style={styles.listItem}>
               <p>제품명: {item.name}</p>
               <p>수량: {item.quantity}</p>
-              <p>가격: ₩{item.price}</p>
+              <p>가격: {formatPrice(item.price)}</p>
             </li>
           ))}
         </ul>
         <p style={styles.summary}>
-          소계: ₩
-          {orderSummary.items.reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0
+          소계:{" "}
+          {formatPrice(
+            orderSummary.items.reduce(
+              (sum, item) => sum + item.price * item.quantity,
+              0
+            )
           )}
         </p>
-        <p>배송비: ₩{orderSummary.shippingCost}</p>
-        <p>총액: ₩{orderSummary.total}</p>
+        <p>배송비: {formatPrice(orderSummary.shippingCost)}</p>
+        <p>총액: {formatPrice(orderSummary.total)}</p>
       </section>
 
       {/* 결제 정보 (Payment Information) */}
