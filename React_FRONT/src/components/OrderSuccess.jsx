@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 // 가격 포맷 (원화, 3자리마다 쉼표)
@@ -30,6 +30,14 @@ const OrderSuccess = () => {
     return cardNumber.replace(/\d(?=\d{4})/g, "*");
   };
 
+  // 스크롤을 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // 부드러운 스크롤을 위해 'smooth' 설정
+    });
+  }, []); // 빈 배열로 컴포넌트가 마운트될 때만 실행되도록 함
+
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>주문 완료</h1>
@@ -41,7 +49,6 @@ const OrderSuccess = () => {
         {/* 주문 정보 섹션 */}
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>주문 정보</h2>
-          <p>주문 번호: {orderSummary?.orderId}</p>
           <p>총액: {formatPrice(orderSummary?.total || 0)}</p>
         </section>
       </div>
