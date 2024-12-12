@@ -231,7 +231,7 @@ const OwnPC = () => {
   const addToCart = () => {
     if (Object.keys(selectedParts).length === partsOptions.length) {
       setCart((prevCart) => [...prevCart, { ...selectedParts }]);
-      alert("구성이 장바구니에 추가되었습니다!");
+      alert("커스텀 PC가 구성되었습니다!");
       setSelectedParts({}); // 선택된 부품 초기화
       setCurrentStep(0); // 초기화
     } else {
@@ -369,13 +369,13 @@ const OwnPC = () => {
 
       <div style={styles.cartButtonContainer}>
         <button onClick={addToCart} style={styles.cartButton}>
-          장바구니에 추가
+          커스텀 PC 구성하기
         </button>
       </div>
 
       {cart.length > 0 && (
         <div style={styles.cart}>
-          <h3>장바구니</h3>
+          <h3>커스텀 PC</h3>
           <ul>
             {cart.map((pc, index) => (
               <li key={index}>
@@ -405,12 +405,11 @@ const OwnPC = () => {
               </li>
             ))}
           </ul>
-          <h3>
-            전체 장바구니 총 가격: {formatPrice(calculateCartTotalPrice())}
-          </h3>
+          <h3>전체 구성 총 가격: {formatPrice(calculateCartTotalPrice())}</h3>
           <button onClick={handleOrderNow} style={styles.orderButton}>
             구매하기
           </button>
+          <button style={styles.cartButton}>장바구니</button>
         </div>
       )}
     </div>
@@ -530,6 +529,17 @@ const styles = {
     border: "1px solid #ddd",
     borderRadius: "5px",
     cursor: "pointer",
+    marginTop: "20px",
+  },
+  cartButton: {
+    padding: "12px 20px",
+    fontSize: "16px",
+    backgroundColor: "#f4f4f4",
+    color: "black",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginLeft: "2px",
     marginTop: "20px",
   },
 };
