@@ -24,7 +24,7 @@ import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
 import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
 
 import AdminTab from "./pages/admin/AdminTab.js";
-
+import PasswordInput from "./pages/admin/etc/password.js";
 function App() {
   return (
     // RecoilRoot로 앱을 감싸서 Recoil 상태 관리 사용
@@ -48,6 +48,7 @@ function App() {
               <Route path="/order" element={<Order />} />
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route />
+              <Route path="/password" element={<PasswordInput />} />
               <Route path="/adminTab" element={<AdminTab />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
