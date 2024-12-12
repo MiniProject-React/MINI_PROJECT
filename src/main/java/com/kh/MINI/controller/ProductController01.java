@@ -6,6 +6,7 @@ import com.kh.MINI.vo.ProductWithReviewVo01;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,18 @@ public class ProductController01 {
 
         // 서비스 메서드를 호출하여 정렬된 제품 리스트를 가져옵니다.
         return productDao.getProductsSorted(categoryId, sortColumn, sortOrder);
+    }
+    @GetMapping("/products/category/{productId}")
+    public ResponseEntity<Integer> getCategoryId(@PathVariable("productId") int productId) {
+        try {
+            // findCategoryId 메서드를 호출하여 카테고리 ID를 얻음
+            int categoryId = productDao.findCategoryId(productId);
+
+            // 정상적인 경우 카테고리 ID를 반환
+            return ResponseEntity.ok(categoryId);
+        } catch (Exception e) {
+            // 예외가 발생한 경우 500 서버 에러 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

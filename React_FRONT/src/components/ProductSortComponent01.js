@@ -13,7 +13,7 @@ import {
   ActionButtons,
 } from "../styles/ProductSortStyle01";
 import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../api/firebase";
+import { storage, listAll } from "../api/firebase";
 
 const ProductSortComponent = ({
   categoryId,
@@ -25,6 +25,16 @@ const ProductSortComponent = ({
   const [quantity, setQuantity] = useState({});
   const [imageUrls, setImageUrls] = useState({});
   const [imageError, setImageError] = useState({}); // 이미지를 불러오지 못한 상태를 저장
+
+  const categoryMap = {
+    //카테고리id를 이름으로 전환용
+    1: "CPU",
+    2: "GPU",
+    3: "메인보드",
+    4: "RAM",
+    5: "SSD",
+    6: "파워",
+  };
 
   const navigate = useNavigate();
   const formatPrice = (price) => {
@@ -58,9 +68,10 @@ const ProductSortComponent = ({
 
   const fetchImages = async (products) => {
     const imagePromises = products.map(async (product) => {
+      const categoryName = categoryMap[product.CATEGORY_ID];
       const imageRef = ref(
         storage,
-        `images/${product.CATEGORY_ID}/${product.NAME}.jpg`
+        `images/${categoryName}/${product.NAME}.jpg`
       );
       try {
         const downloadUrl = await getDownloadURL(imageRef);
@@ -102,28 +113,15 @@ const ProductSortComponent = ({
     <ProductSort>
       {categoryList.map((product) => (
         <ProductCard key={product.PRODUCT_ID}>
-          {!product.IMAGE_URL || imageError[product.PRODUCT_ID] ? (
-            <PlaceholderImage
-              onClick={() =>
-                navigate(
-                  `/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`
-                )
-              }
-            >
-              No Image
-            </PlaceholderImage>
-          ) : (
-            <ProductImage
-              onClick={() =>
-                navigate(
-                  `/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`
-                )
-              }
-              src={imageUrls[product.PRODUCT_ID] || product.IMAGE_URL}
-              alt={product.NAME}
-              onError={() => handleImageError(product.PRODUCT_ID)} // 이미지 로드 실패 시 호출
-            />
-          )}
+          <ProductImage
+            onClick={() =>
+              navigate(`/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`)
+            }
+            src={imageUrls[product.PRODUCT_ID] || product.IMAGE_URL}
+            alt={product.NAME}
+            onError={() => handleImageError(product.PRODUCT_ID)} // 이미지 로드 실패 시 호출
+          />
+
           <ProductDetails
             onClick={() =>
               navigate(`/product/${product.CATEGORY_ID}/${product.PRODUCT_ID}`)
