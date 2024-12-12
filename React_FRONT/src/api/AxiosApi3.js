@@ -29,9 +29,8 @@ const AxiosApi3 = {
   },
   // 권한 확인 (회원 등급 확인)
   roleCheck: async (email, password) => {
-    console.log("이메일 : ", email);
-    console.log("패스워드 : ", password);
-
+    console.log("이메일 api: ", email);
+    console.log("패스워드 api: ", password);
     const params = {
       email: email,
       password: password,
@@ -136,6 +135,13 @@ const AxiosApi3 = {
   // 커스텀 목록
   custom: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/custom/${user_id}`);
+  },
+  // order product
+  orderProducts: async (params) => {
+    console.log(params); // 확인용 로그
+    return await axios.get(KH_DOMAIN + `/products/order_products`, {
+      params: params, // 파라미터를 올바르게 전달
+    });
   },
 };
 

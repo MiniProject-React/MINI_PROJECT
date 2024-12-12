@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import AxiosApi3 from "../../../api/AxiosApi3";
 import OrderModal from "./OrderModal";
 import CustomModal from "./CustomModal";
+import AddOrderModalWindow from "./AddOrderModal";
+import AddCustomModalWindow from "./AddCustomModal";
 const AdminUserOrderList = () => {
   const { user_id } = useParams();
   const [orderList, setOrderList] = useState([]);
@@ -11,6 +13,8 @@ const AdminUserOrderList = () => {
   const [custom, setCustom] = useState([]);
   const [modal, setModal] = useState(false);
   const [modal1, setModal1] = useState(false);
+  const [modal2, setModal2] = useState(false);
+  const [modal3, setModal3] = useState(false);
   useEffect(() => {
     OrderList(user_id);
     CustomOrderList(user_id);
@@ -54,6 +58,21 @@ const AdminUserOrderList = () => {
   const closeModal1 = () => {
     setModal1(false);
   };
+
+  const AddOrderModal = () => {
+    setModal2(true);
+  };
+
+  const AddCustomModal = () => {
+    setModal3(true);
+  };
+  const closeModal2 = () => {
+    setModal2(false);
+  };
+  const closeModal3 = () => {
+    setModal3(false);
+  };
+
   return (
     <>
       <div className="container my-4">
@@ -66,7 +85,15 @@ const AdminUserOrderList = () => {
               <th>총액</th>
               <th>주문일자</th>
               <th>상태</th>
-              <th></th>
+              <th>
+                {" "}
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={AddOrderModal}
+                >
+                  주문 추가
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -98,12 +125,20 @@ const AdminUserOrderList = () => {
         </table>
 
         <h3 className="mt-5">커스텀 PC 주문</h3>
+
         <table className="table table-bordered table-hover">
           <thead className="thead-dark">
             <tr>
               <th>주문</th>
               <th>총액</th>
-              <th></th>
+              <th>
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={AddCustomModal}
+                >
+                  주문 추가
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -144,6 +179,8 @@ const AdminUserOrderList = () => {
         type={true}
         customOrderList={customOrderList}
       />
+      <AddOrderModalWindow open={modal2} close={closeModal2} type={true} />
+      <AddCustomModalWindow open={modal3} close={closeModal3} type={true} />
     </>
   );
 };

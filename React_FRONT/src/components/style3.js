@@ -1,20 +1,22 @@
 import styled from "styled-components";
 
 export const Button3 = styled.button`
-  background-color: #4caf50;
+  background-color: #4a4b4d;
   color: white;
   border: none;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  display: inline-block; /* 기본 block 특성을 제거 */
+  margin: 10px; /* 간격 추가 */
+  position: relative; /* 필요하면 위치 설정 */
 
   &:hover {
-    background-color: #45a049;
+    background-color: #8e918f;
   }
 
   &:disabled {
@@ -61,7 +63,9 @@ export const StyledInput3 = styled.input`
     color: ${(props) => props.placeholderColor || "#999"};
   }
 
-  ${(props) => props.disabled && `
+  ${(props) =>
+    props.disabled &&
+    `
     background-color: #f5f5f5;
     cursor: not-allowed;
     color: #ccc;
