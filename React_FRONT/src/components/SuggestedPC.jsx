@@ -511,7 +511,7 @@ const SuggestedPC = () => {
             </div>
           ))}
           <h3>
-            전체 장바구니 총 가격: {formatPrice(calculateCartTotalPrice())}
+            선택된 PC 전체 총 가격: {formatPrice(calculateCartTotalPrice())}
           </h3>
           <button onClick={handleOrderNow} style={styles.orderButton}>
             구매하기
