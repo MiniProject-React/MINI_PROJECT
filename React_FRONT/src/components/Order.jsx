@@ -128,7 +128,7 @@ const Order = () => {
     orderSummary.discount,
   ]);
 
-  // 카드 번호 변경 처리
+  // 카드 번호 변경 처리 (하이픈 기능)
   const handleCardNumberChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 16) {
@@ -141,6 +141,23 @@ const Order = () => {
 
     const type = getCardType(value);
     setCardType(type);
+  };
+
+  // 연락처 입력 처리 함수 (하이픈 기능)
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, ""); // 숫자만 남기고 제거
+    let formatted = value;
+
+    if (value.length >= 4 && value.length <= 7) {
+      formatted = value.replace(/(\d{3})(\d{1,4})/, "$1-$2");
+    } else if (value.length >= 8) {
+      formatted = value.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
+    }
+
+    setShippingInfo((prevState) => ({
+      ...prevState,
+      phone: formatted,
+    }));
   };
 
   // 결제 정보 핸들러
@@ -158,19 +175,6 @@ const Order = () => {
     setShippingInfo((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
-
-  // 연락처 입력 처리 함수 (하이픈 추가)
-  const handlePhoneChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // 숫자만 남기고 제거
-    if (value.length <= 11) {
-      // 전화번호 형식으로 하이픈 추가
-      value = value.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-    }
-    setShippingInfo((prevState) => ({
-      ...prevState,
-      phone: value,
     }));
   };
 
