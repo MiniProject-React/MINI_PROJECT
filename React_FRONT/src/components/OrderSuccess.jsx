@@ -89,7 +89,9 @@ const OrderSuccess = () => {
           {paymentInfo?.paymentMethod === "신용카드" && (
             <p>카드 번호: {maskCardNumber(paymentInfo.cardNumber)}</p>
           )}
-          {paymentInfo?.paymentMethod === "TOSS" && <p>TOSS 결제 완료</p>}
+          {paymentInfo?.paymentMethod === "가상화폐" && (
+            <p>가상화폐 결제 완료</p>
+          )}
         </section>
       </div>
 
