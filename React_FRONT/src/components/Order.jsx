@@ -82,8 +82,8 @@ const Order = () => {
     phone: "",
     email: "",
     address: "",
-    city: "",
     postalCode: "",
+    emailDomain: "@gmail.com", // 이메일 도메인 기본값 설정
   });
 
   const [message, setMessage] = useState("");
@@ -178,6 +178,14 @@ const Order = () => {
     }));
   };
 
+  // 이메일 도메인 변경 핸들러
+  const handleEmailDomainChange = (e) => {
+    setShippingInfo((prevState) => ({
+      ...prevState,
+      emailDomain: e.target.value,
+    }));
+  };
+
   // 결제 처리
   const handlePlaceOrder = () => {
     if (
@@ -235,14 +243,25 @@ const Order = () => {
           maxLength={13}
         />
         <label>이메일:</label>
-        <input
-          type="email"
-          name="email"
-          value={shippingInfo.email}
-          onChange={handleShippingChange}
-          style={styles.input}
-          required
-        />
+        <div style={styles.emailContainer}>
+          <input
+            type="email"
+            name="email"
+            value={shippingInfo.email}
+            onChange={handleShippingChange}
+            style={styles.input}
+            required
+          />
+          <select
+            value={shippingInfo.emailDomain}
+            onChange={handleEmailDomainChange}
+            style={styles.select}
+          >
+            <option value="@gmail.com">@gmail.com</option>
+            <option value="@naver.com">@naver.com</option>
+            <option value="@kakao.com">@kakao.com</option>
+          </select>
+        </div>
         <label>우편번호:</label>
         <input
           type="text"
@@ -427,12 +446,22 @@ const styles = {
     border: "1px solid #ddd",
     borderRadius: "5px",
   },
-
+  emailContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
+  select: {
+    padding: "10px",
+    marginLeft: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ddd",
+  },
   pwdInput: {
-    width: "5%",
+    width: "2%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
+    marginLeft: "10px",
     marginRight: "10px", // 마스킹 박스와 간격
   },
   maskBox: {
@@ -440,10 +469,11 @@ const styles = {
     marginRight: "20px", // CVC와 간격
   },
   cvcInput: {
-    width: "5%",
+    width: "3%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
+    marginLeft: "10px",
   },
   expiryBox: {
     display: "flex",
@@ -451,8 +481,9 @@ const styles = {
     alignItems: "center",
   },
   slash: {
-    fontSize: "1.5em",
-    padding: "0 10px",
+    fontSize: "2em",
+    marginBottom: "20px",
+    alignSelf: "center",
   },
   select: {
     width: "100%",
