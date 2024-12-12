@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const OwnPC = () => {
   const [currentStep, setCurrentStep] = useState(0); // 현재 단계
   const [selectedParts, setSelectedParts] = useState({}); // 선택된 부품
-  const [cart, setCart] = useState([]); // 장바구니 상태
+  const [cart, setCart] = useState([]); // 커스텀PC 구성 창 상태
   const navigate = useNavigate(); // 구매하기 버튼 누르면 Order.jsx 페이지로 전환
 
   // 가격 포맷 (원화, 3자리마다 쉼표)
@@ -227,7 +227,7 @@ const OwnPC = () => {
     });
   };
 
-  // 장바구니에 추가
+  // 커스텀PC 구성 창에 추가
   const addToCart = () => {
     if (Object.keys(selectedParts).length === partsOptions.length) {
       setCart((prevCart) => [...prevCart, { ...selectedParts }]);
@@ -253,7 +253,7 @@ const OwnPC = () => {
     }
   };
 
-  // 장바구니에서 항목 제거
+  // 커스텀PC 구성 창에서 항목 제거
   const removeFromCart = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
@@ -267,7 +267,7 @@ const OwnPC = () => {
     );
   };
 
-  // 장바구니 전체 총 금액 계산
+  // 커스텀PC 구성 전체 총 금액 계산
   const calculateCartTotalPrice = () => {
     return cart.reduce((total, pc) => total + calculateTotalPrice(pc), 0);
   };
@@ -277,14 +277,12 @@ const OwnPC = () => {
 
   const handleOrderNow = () => {
     if (cart.length === 0) {
-      alert("장바구니에 구성된 PC가 없습니다. 먼저 PC를 구성하세요.");
       return;
     }
-    // Update this to pass both ownPCCart and suggestedPCCart to the Order page
     navigate("/order", {
       state: {
-        ownPCCart: cart, // Pass the current cart as ownPCCart
-        suggestedPCCart: [], // Empty array for suggested PC cart
+        ownPCCart: cart, // OwnPC 페이지의 커스텀PC 구성 창 데이터는 cart로 전달
+        suggestedPCCart: [], // SuggestedPC 페이지의 선택 완료된 PC 창 데이터는 빈 배열로 전달
       },
     });
   };
