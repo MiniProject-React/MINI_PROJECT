@@ -323,7 +323,7 @@ const Order = () => {
           style={styles.select}
         >
           <option value="신용카드">신용카드</option>
-          <option value="TOSS">TOSS</option>
+          <option value="가상화폐">가상화폐</option>
         </select>
 
         {paymentInfo.paymentMethod === "신용카드" && (
@@ -449,12 +449,6 @@ const styles = {
   emailContainer: {
     display: "flex",
     alignItems: "center",
-  },
-  select: {
-    padding: "10px",
-    marginLeft: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ddd",
   },
   pwdInput: {
     width: "2%",
