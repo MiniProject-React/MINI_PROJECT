@@ -332,7 +332,7 @@ const SuggestedPC = () => {
       } else {
         setCart((prevCart) => [...prevCart, selectedPC]); // 기존 장바구니에 선택된 PC 추가
       }
-      alert(`${selectedPC.name}가 선택 되었습니다!`);
+      alert(`${selectedPC.name}가 선택 완료되었습니다!`);
       setSelectedPC(null); // 선택된 PC 초기화
     }
   };
