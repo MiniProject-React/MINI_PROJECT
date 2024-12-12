@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import AdminHome from "./AdminProducts/AdminHome";
 import { AdminUsersMap } from "../../api/provider/UserSearchContextProvider";
+import { Container } from "./style/Container";
 import "./style/Tab.css";
 
 const AdminTab = () => {
   const [activeTab, setActiveTab] = useState("products");
 
   return (
-    <div className="products-users">
+    <Container className="products-users">
       <ul className="tabmenu">
         <li
           className={activeTab === "products" ? "active" : ""}
@@ -35,7 +36,7 @@ const AdminTab = () => {
           </div>
         )}
       </div>
-    </div>
+    </Container>
   );
 };
 

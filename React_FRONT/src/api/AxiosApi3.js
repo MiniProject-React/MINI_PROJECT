@@ -29,9 +29,8 @@ const AxiosApi3 = {
   },
   // 권한 확인 (회원 등급 확인)
   roleCheck: async (email, password) => {
-    console.log("이메일 : ", email);
-    console.log("패스워드 : ", password);
-
+    console.log("이메일 api: ", email);
+    console.log("패스워드 api: ", password);
     const params = {
       email: email,
       password: password,

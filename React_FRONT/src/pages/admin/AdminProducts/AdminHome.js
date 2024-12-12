@@ -177,7 +177,9 @@ export default function AdminHome() {
 
   return (
     <>
-      <Button3 onClick={modalState1}>상품 추가</Button3>
+      <button className="btn btn-secondary" onClick={modalState1}>
+        상품 추가
+      </button>
 
       {/* Render each category swiper */}
       {renderSwiper("cpu", cpu, cpuImage)}

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../../api/AxiosApi3.js";
 import MyComponent from "../../components/MyComponent.js";
 import axios from "axios";
+import { InputPasswordComponent } from "../../components/InputComponent";
 const Signup = () => {
   const navigate = useNavigate();
   // 키보드 입력
@@ -156,6 +157,8 @@ const Signup = () => {
     }
   };
   const onChangePw = (e) => {
+    console.log(e.target.value);
+
     //const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
     const passwordCurrent = e.target.value;
@@ -193,6 +196,7 @@ const Signup = () => {
     }
   };
   const onChangeConPw = (e) => {
+    console.log(e.target.value);
     const passwordCurrent = e.target.value;
     setInputConPw(passwordCurrent);
     if (passwordCurrent !== inputPw) {
@@ -332,7 +336,7 @@ const Signup = () => {
         )}
       </Items>
       <Items variant="item2">
-        <Input
+        <InputPasswordComponent
           type="password"
           placeholder="패스워드"
           value={inputPw}
@@ -348,7 +352,7 @@ const Signup = () => {
         )}
       </Items>
       <Items variant="item2">
-        <Input
+        <InputPasswordComponent
           type="password"
           placeholder="패스워드 확인"
           value={inputConPw}

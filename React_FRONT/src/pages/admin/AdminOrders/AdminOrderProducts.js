@@ -13,7 +13,9 @@ const AdminOrderProducts = () => {
   useEffect(() => {
     ProductList();
   }, [searchKeyword]);
-
+  useEffect(() => {
+    console.log(selectedProducts);
+  }, [selectedProducts]);
   const ProductList = async (cpage) => {
     cpage = cpage || 1;
     const params = {
@@ -29,20 +31,24 @@ const AdminOrderProducts = () => {
   };
 
   // 체크박스 값 변경 처리
-  const handleCheckboxChange = (product) => {
+  const handleCheckboxChange = (id, name, price) => {
     setSelectedProducts((prevSelected) => {
-      const newSelected = { ...prevSelected };
-      const productId = product.product_id;
+      const newSelected = {
+        ...prevSelected,
+        product_id: id,
+        product: name,
+        price: price,
+      };
 
-      if (newSelected[productId]) {
-        // 이미 선택된 경우, 체크 해제
-        delete newSelected[productId];
-      } else {
-        // 선택되지 않은 경우, 체크
-        newSelected[productId] = true;
-      }
+      // if (newSelected[productId]) {
+      //   // 이미 선택된 경우, 체크 해제
+      //   delete newSelected[productId];
+      // } else {
+      //   // 선택되지 않은 경우, 체크
+      //   newSelected[productId] = true;
+      // }
 
-      return newSelected;
+      // return newSelected;
     });
   };
 
@@ -71,7 +77,13 @@ const AdminOrderProducts = () => {
                       value={product.product_id}
                       className="form-check-input"
                       checked={selectedProducts[product] || false}
-                      onChange={() => handleCheckboxChange(product)}
+                      onChange={() =>
+                        handleCheckboxChange(
+                          product.product_id,
+                          product,
+                          product.price
+                        )
+                      }
                     />
                   </td>
                   <td>{product.category}</td>

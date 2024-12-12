@@ -8,6 +8,7 @@ import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
+import { InputPasswordComponent } from "../../components/InputComponent";
 
 const Img = styled.img`
   width: 180px;
@@ -65,7 +66,6 @@ const Login = () => {
     }
   };
   const onClickLogin = async (role) => {
-    console.log("로그인으로 넘어오나");
     try {
       const rsp = await AxiosApi.login(inputEmail, inputPw);
       // 로그인 수정 등급을 가져와서 등급에서 따라 다른 곳으로 navigate
@@ -102,7 +102,7 @@ const Login = () => {
       </Items>
 
       <Items margin="10px">
-        <Input
+        <InputPasswordComponent
           type="password"
           placeholder="패스워드"
           value={inputPw}

@@ -18,7 +18,6 @@ import SuggestedPC from "./components/SuggestedPC";
 import Order from "./components/Order";
 import OrderSuccess from "./components/OrderSuccess";
 
-import AdminHome from "./pages/admin/AdminProducts/AdminHome.js";
 import { UserContextProvider } from "./api/provider/UserContextProvider.js";
 import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
 import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
@@ -52,7 +51,7 @@ function App() {
               <Route path="/adminTab" element={<AdminTab />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/admin" element={<AdminHome />} />
+              <Route path="/admin" element={<AdminTab />} />
               <Route path="/users" element={<AdminUsersMap />} />
               <Route
                 path="/users/orderlist/:user_id"

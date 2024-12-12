@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Button3 = styled.button`
-  background-color: #4caf50;
+  background-color: #4a4b4d;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -16,7 +16,7 @@ export const Button3 = styled.button`
   position: relative; /* 필요하면 위치 설정 */
 
   &:hover {
-    background-color: #45a049;
+    background-color: #8e918f;
   }
 
   &:disabled {
