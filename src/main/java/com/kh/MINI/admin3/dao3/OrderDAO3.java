@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
+
 @Repository
 @RequiredArgsConstructor
 @Slf4j
@@ -64,7 +64,10 @@ public class OrderDAO3 {
     private final String ORDERS ="SELECT * FROM ORDERS WHERE USER_ID = ? ";
     // 커스텀 조회
     private final String CUSTOM ="SELECT * FROM CUSTOM_ORDERS WHERE USER_ID = ?";
-
+    // 관리자 주문 추가
+    private final String ORDER_ORDER = "INSERT INTO ORDERS (TOTAL_PRICE, ORDER_DATE, STATUS, USER_ID) " +
+            "VALUES (?, sysdate, '결제 대기', ?) " +
+            "RETURNING order_id";
     // 주문 상세 조회
     public List<OrdersVO3> orderList(int userId) {
         try {
@@ -103,6 +106,22 @@ public class OrderDAO3 {
             throw e;
         }
     }
+
+    public Integer orderorder( int totalPrice, int userId) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    ORDER_ORDER,
+                    new Object[]{totalPrice,  userId},
+                    Integer.class
+            );
+        } catch (DataAccessException e) {
+            log.error("관리자 오더 추가 시 에러 발생 : ", e);
+            throw e;
+        }
+    }
+
+
+
 
     public class OrderRowMapper implements RowMapper<OrdersVO3> {
 

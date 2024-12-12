@@ -24,6 +24,7 @@ import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js"
 
 import AdminTab from "./pages/admin/AdminTab.js";
 import PasswordInput from "./pages/admin/etc/password.js";
+import PracticeSelect from "./pages/admin/AdminOrders/PracticeSelect.js";
 function App() {
   return (
     // RecoilRoot로 앱을 감싸서 Recoil 상태 관리 사용
@@ -53,6 +54,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminTab />} />
               <Route path="/users" element={<AdminUsersMap />} />
+              <Route path="/select" element={<PracticeSelect />} />
               <Route
                 path="/users/orderlist/:user_id"
                 element={<AdminUserOrderList />}

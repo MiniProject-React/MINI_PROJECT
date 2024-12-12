@@ -60,5 +60,18 @@ public class OrderController3 {
         return resultMap;
     }
 
+    @PostMapping("/order")
+    public Map<String, Object> orderorder ( @RequestBody OrdersVO3 vo){
+        Map<String, Object> resultMap =new HashMap<>();
+        int total = vo.getTotal_price();
+        int price = vo.getPrice();
+        log.info("총합 : {} , 가격 : {}", total, price);
+        Integer orderorder = orderDAO3.orderorder(total, price );
+        System.out.println(orderorder);
+        log.info("주문 추가 시 order_id 반환 확인 : {}", orderorder);
+        resultMap.put("orderorder",orderorder);
+        return resultMap;
+    }
+
 
 }

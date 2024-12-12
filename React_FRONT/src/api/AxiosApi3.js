@@ -138,9 +138,21 @@ const AxiosApi3 = {
   },
   // order product
   orderProducts: async (params) => {
-    console.log(params); // 확인용 로그
     return await axios.get(KH_DOMAIN + `/products/order_products`, {
       params: params, // 파라미터를 올바르게 전달
+    });
+  },
+  orderorder: async (total, user_id) => {
+    console.log("API 토탈 확인", total);
+    console.log("API 유저 확인", user_id);
+    const params = {
+      total_price: total,
+      user_id: user_id,
+    };
+    return await axios.put(KH_DOMAIN + "/order/order", params, {
+      headers: {
+        "Content-Type": "application/json", // 서버가 JSON 형식의 데이터를 받을 경우 설정
+      },
     });
   },
 };

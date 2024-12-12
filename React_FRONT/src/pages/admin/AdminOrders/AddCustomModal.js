@@ -1,8 +1,12 @@
 import { ModalStyle, ModalButton } from "../style/ModalStyle";
+import { useNavigate } from "react-router-dom";
 
 const AddCustomModal = (props) => {
   const { open, close, type } = props;
-
+  const navigate = useNavigate();
+  const CustomOrder = () => {
+    navigate("/select"); // '/about' 경로로 이동
+  };
   return (
     <ModalStyle>
       <div
@@ -25,7 +29,9 @@ const AddCustomModal = (props) => {
                   />
                 </header>
                 <main>
-                  <div></div>
+                  <button className="btn btn-secondary" onClick={CustomOrder}>
+                    커스텀 주문으로 이동하기
+                  </button>
                 </main>
                 <footer>
                   <button

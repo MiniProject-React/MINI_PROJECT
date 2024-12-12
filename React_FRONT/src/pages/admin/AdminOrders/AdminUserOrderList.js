@@ -172,6 +172,7 @@ const AdminUserOrderList = () => {
         close={closeModal}
         type={true}
         orderList={orderList}
+        user_id={user_id}
       />
       <CustomModal
         open={modal1}
