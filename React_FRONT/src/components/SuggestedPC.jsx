@@ -332,7 +332,8 @@ const SuggestedPC = () => {
       } else {
         setCart((prevCart) => [...prevCart, selectedPC]); // 기존 장바구니에 선택된 PC 추가
       }
-      alert(`${selectedPC.name}가 장바구니에 추가되었습니다!`);
+      alert(`${selectedPC.name}가 선택 되었습니다!`);
+      setSelectedPC(null); // 선택된 PC 초기화
     }
   };
 
@@ -477,7 +478,7 @@ const SuggestedPC = () => {
                 총 가격 : {formatPrice(selectedPC.price * selectedPC.quantity)}
               </h4>
               <button style={styles.cartbutton} onClick={addToCart}>
-                장바구니에 추가
+                선택 완료
               </button>
             </div>
           )}
@@ -487,7 +488,7 @@ const SuggestedPC = () => {
       {/* 장바구니 출력 */}
       {cart.length > 0 && (
         <div style={styles.cart}>
-          <h2>장바구니</h2>
+          <h2>선택된 PC</h2>
           {cart.map((pc, index) => (
             <div key={index} style={styles.cartItem}>
               <h3>{pc.name}</h3>
@@ -515,6 +516,7 @@ const SuggestedPC = () => {
           <button onClick={handleOrderNow} style={styles.orderButton}>
             구매하기
           </button>
+          <button style={styles.cartButton}>장바구니</button>
         </div>
       )}
     </div>
@@ -639,6 +641,17 @@ const styles = {
     border: "1px solid #ddd",
     borderRadius: "5px",
     cursor: "pointer",
+    marginTop: "20px",
+  },
+  cartButton: {
+    padding: "12px 20px",
+    fontSize: "16px",
+    backgroundColor: "#f4f4f4",
+    color: "black",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginLeft: "2px",
     marginTop: "20px",
   },
 };
