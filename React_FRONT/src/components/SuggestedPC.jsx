@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const SuggestedPC = () => {
   const [pcs, setPcs] = useState([]); // 가격대별 PC 목록
   const [selectedPC, setSelectedPC] = useState(null); // 선택된 PC
-  const [cart, setCart] = useState([]); // 장바구니
+  const [cart, setCart] = useState([]); // 선택 완료된 PC 목록 창
   const [currentStep, setCurrentStep] = useState(0); // 현재 단계
   const navigate = useNavigate(); // 구매하기 버튼 누르면 OrderSuccess.jsx 페이지로 전환
 
@@ -316,10 +316,10 @@ const SuggestedPC = () => {
     }
   };
 
-  // 장바구니에 추가하는 함수
+  // 선택 완료된 PC 창에 추가하는 함수
   const addToCart = () => {
     if (selectedPC) {
-      // 장바구니에 이미 선택된 PC가 있으면 수량만 업데이트
+      // 선택 완료된 PC 창에 이미 선택된 PC가 있으면 수량만 업데이트
       const existingPC = cart.find((pc) => pc.id === selectedPC.id);
       if (existingPC) {
         setCart(
@@ -330,19 +330,19 @@ const SuggestedPC = () => {
           )
         );
       } else {
-        setCart((prevCart) => [...prevCart, selectedPC]); // 기존 장바구니에 선택된 PC 추가
+        setCart((prevCart) => [...prevCart, selectedPC]); // 기존 선택 완료된 PC 창에 선택된 PC 추가
       }
       alert(`${selectedPC.name}가 선택 완료되었습니다!`);
       setSelectedPC(null); // 선택된 PC 초기화
     }
   };
 
-  // 장바구니에서 삭제하는 함수
+  // 선택 완료된 PC 창에서 삭제하는 함수
   const removeFromCart = (pcId) => {
-    setCart(cart.filter((pc) => pc.id !== pcId)); // 해당 PC를 장바구니에서 삭제
+    setCart(cart.filter((pc) => pc.id !== pcId)); // 해당 PC를 선택 완료된 PC 창에서 삭제
   };
 
-  // 장바구니 전체 총 금액 계산
+  // 선택 완료된 PC 창 전체 총 금액 계산
   const calculateCartTotalPrice = () => {
     return cart.reduce((total, pc) => total + pc.price * pc.quantity, 0);
   };
@@ -350,12 +350,11 @@ const SuggestedPC = () => {
     if (cart.length > 0) {
       navigate("/order", {
         state: {
-          ownPCCart: [], // OwnPC 장바구니 데이터는 빈 배열로 전달
-          suggestedPCCart: cart, // SuggestedPC 장바구니 데이터는 cart로 전달
+          ownPCCart: [], // OwnPC 페이지의 커스텀PC 구성 창 데이터는 빈 배열로 전달
+          suggestedPCCart: cart, // SuggestedPC 페이지의 선택 완료된 PC 창 데이터는 cart로 전달
         },
       });
     } else {
-      alert("장바구니가 비어 있습니다.");
     }
   };
 
@@ -485,10 +484,10 @@ const SuggestedPC = () => {
         </div>
       </div>
 
-      {/* 장바구니 출력 */}
+      {/* 선택 완료된 PC 창 출력 */}
       {cart.length > 0 && (
         <div style={styles.cart}>
-          <h2>선택된 PC</h2>
+          <h2>선택 완료된 PC</h2>
           {cart.map((pc, index) => (
             <div key={index} style={styles.cartItem}>
               <h3>{pc.name}</h3>
@@ -511,7 +510,8 @@ const SuggestedPC = () => {
             </div>
           ))}
           <h3>
-            선택된 PC 전체 총 가격: {formatPrice(calculateCartTotalPrice())}
+            선택 완료된 PC 전체 총 가격:{" "}
+            {formatPrice(calculateCartTotalPrice())}
           </h3>
           <button onClick={handleOrderNow} style={styles.orderButton}>
             구매하기
