@@ -12,22 +12,25 @@ import {
   EmptyCart,
   CheckoutSection,
 } from "../../styles/UserCartStyle01";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../api/firebase";
 
 const UserCart01 = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
 
-  // const user = {
-  //   // 임시 회원정보
-  //   user_id: "1",
-  //   username: "testuser",
-  //   password: "abc123",
-  //   email: "testuser@example.com",
-  //   address: "123 Test Street, Test City",
-  //   phone_number: "010-1234-5678",
-  //   role: "USER",
-  // };
+  const categoryMap = {
+    //카테고리id를 이름으로 전환용
+    1: "CPU",
+    2: "GPU",
+    3: "메인보드",
+    4: "RAM",
+    5: "SSD",
+    6: "파워",
+  };
 
   // 페이지 로딩시 장바구니 데이터 가져오기
   useEffect(() => {
@@ -35,8 +38,10 @@ const UserCart01 = ({ user }) => {
       setIsLoading(true);
       // 장바구니 데이터 가져오기
       try {
-        const rsp = await AxiosApi01.getCartList(user.user_id); // 회원의 장바구니 목록 조회
+        const rsp = await AxiosApi01.getCartList(user.email); // 회원의 장바구니 목록 조회
         setCartItems(rsp.data); // 장바구니 목록 설정
+        await fetchImages(rsp.data); // 이미지 불러오기
+        console.log(rsp.data);
       } catch (error) {
         console.log("장바구니 목록 조회 실패", error);
         setError("장바구니를 불러오는데 실패했습니다.");
@@ -44,6 +49,47 @@ const UserCart01 = ({ user }) => {
         setIsLoading(false);
       }
     };
+
+    const fetchImages = async (products) => {
+      const imagePromises = products.map(async (product) => {
+        try {
+          // 카테고리 ID 가져오기
+          const categoryResponse = await AxiosApi01.getCategoryId(
+            product.productId
+          );
+          const categoryName = categoryMap[categoryResponse.categoryId]; // 카테고리 ID를 이름으로 변환
+
+          if (!categoryName) {
+            console.error("카테고리 이름을 찾을 수 없음", product.productId);
+            return { productId: product.productName, downloadUrl: null };
+          }
+
+          // Firebase에서 이미지 가져오기
+          const imageRef = ref(
+            storage,
+            `images/${categoryName}/${product.productName}.jpg`
+          );
+
+          const downloadUrl = await getDownloadURL(imageRef);
+          return { productId: product.productName, downloadUrl };
+        } catch (err) {
+          console.error(
+            `Error fetching category or image for ${product.productName}:`,
+            err
+          );
+          return { productId: product.productName, downloadUrl: null };
+        }
+      });
+
+      const results = await Promise.all(imagePromises);
+      const imageMap = results.reduce((acc, cur) => {
+        acc[cur.productId] = cur.downloadUrl;
+        return acc;
+      }, {});
+
+      setImageUrls(imageMap);
+    };
+
     storedCartItems();
   }, []);
 
@@ -88,14 +134,14 @@ const UserCart01 = ({ user }) => {
   return (
     <div>
       <CartContainer>
-        <CartTitle>{user.username}님의 장바구니</CartTitle>
+        <CartTitle>{user.userName}님의 장바구니</CartTitle>
         {cartItems &&
           cartItems.map((item) => (
             <CartItem key={item.cartItemId}>
               <ProductImage>
-                {item.productImageUrl ? (
+                {imageUrls[item.cartItemId] ? (
                   <img
-                    src={item.productImageUrl}
+                    src={imageUrls[item.cartItemId]}
                     alt={item.productName}
                     onError={(e) => {
                       e.target.style.display = "none";

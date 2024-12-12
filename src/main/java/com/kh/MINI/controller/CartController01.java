@@ -21,10 +21,10 @@ public class CartController01 {
     @Autowired
     private final CartDao01 cartDao;
 
-    @GetMapping("/carts/{userId}")
-    public ResponseEntity<List<CartVo01>> getCartList (@PathVariable("userId") String userID) {
+    @GetMapping("/carts/{userEmail}")
+    public ResponseEntity<List<CartVo01>> getCartList (@PathVariable("userEmail") String userEmail) {
         try {
-            List<CartVo01> cartList = cartDao.cartList(userID);
+            List<CartVo01> cartList = cartDao.cartListByEmail(userEmail);
             return ResponseEntity.ok(cartList);
         } catch (Exception e) {
             log.error("장바구니 조회 실패", e);
@@ -35,13 +35,13 @@ public class CartController01 {
     // 프론트엔드에서 리퀘스트 파람으로 값을 가져와 성공 실패 확인
     @PostMapping("/carts")
     public ResponseEntity<String> insertItemToCart (
-            @RequestParam(value = "userId") int userId,
+            @RequestParam(value = "userEmail") String userEmail,
             @RequestParam(value = "productId") int productId,
             @RequestParam(value = "quantity") int quantity
     ) {
 
         try {
-            boolean isInserted = cartDao.insertOrUpdateCartItem(userId, productId, quantity);
+            boolean isInserted = cartDao.insertOrUpdateCartItem(userEmail, productId, quantity);
             if (isInserted) {
                 return ResponseEntity.ok("장바구니에 아이템이 추가되었습니다.");
             } else {

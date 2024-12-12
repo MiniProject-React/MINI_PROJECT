@@ -18,7 +18,20 @@ import java.util.List;
 @Slf4j
 public class OrderDao01 {
     private final JdbcTemplate jdbcTemplate;
-    private final String SELECT_ORDER_BY_EMAIL = "SELECT o.order_id, o.shipping_address, o.order_date, o.status, u.user_id, u.email, u.username FROM ORDERS o JOIN USERS u ON o.user_id = u.user_id WHERE u.email = ?";   // USERS 테이블과 JOIN을 걸어서 가져오기
+    private final String SELECT_ORDER_BY_EMAIL = "SELECT o.order_id, \n" +
+            "       o.order_date, \n" +
+            "       o.status, \n" +
+            "       u.user_id, \n" +
+            "       o.name, \n" +
+            "       o.phone, \n" +
+            "       o.email, \n" +
+            "       o.postal_code, \n" +
+            "       o.address, \n" +
+            "       o.card_number\n" +
+            "  FROM ORDERS o \n" +
+            "  JOIN USERS u \n" +
+            "    ON o.user_id = u.user_id \n" +
+            " WHERE u.email = ?";   // USERS 테이블과 JOIN을 걸어서 가져오기
     private final String GET_ORDER_BY_USERID ="";
     private final String SELECT_ORDER_DETAILS_BY_ORDER_ID = "SELECT * FROM ORDER_DETAILS WHERE order_id = ?";
 
@@ -47,12 +60,15 @@ public class OrderDao01 {
         public OrderVo01 mapRow(ResultSet rs, int nowNum) throws SQLException {
             return new OrderVo01(
                     rs.getInt("order_id"),
-                    rs.getString("shipping_address"),
                     rs.getDate("order_date"),
                     rs.getString("status"),
                     rs.getInt("user_id"),
-                    rs.getString("email"),
-                    rs.getString("username")
+                    rs.getString("name"),         // name 필드 매핑
+                    rs.getString("phone"),        // phone 필드 매핑
+                    rs.getString("email"),        // email 필드 매핑
+                    rs.getString("postal_code"),  // postalCode 필드 매핑
+                    rs.getString("address"),      // address 필드 매핑
+                    rs.getString("card_number")   // cardNumber 필드 매핑
             );
         }
     }

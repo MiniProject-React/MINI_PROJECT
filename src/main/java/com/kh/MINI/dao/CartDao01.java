@@ -20,31 +20,48 @@ import java.util.List;
 public class CartDao01 {
     private final JdbcTemplate jdbcTemplate;
 
-    private final String SELECT_CART_ITEMS_BY_USER_ID = "SELECT ci.cart_item_id, ci.user_id, ci.product_id, ci.quantity, " +
-            "p.name, p.description, p.price, p.stock, p.image_url, " +
-            "co.custom_id, co.total_price " +
-            "FROM CART_ITEMS ci " +
-            "JOIN PRODUCTS p ON ci.product_id = p.product_id " +
-            "LEFT JOIN CUSTOM_ORDERS co ON ci.custom_id = co.custom_id " + // 커스텀 주문 정보 LEFT JOIN
-            "WHERE ci.user_id = ?";
+    private final String SELECT_CART_ITEMS_BY_USER_EMAIL =
+            "SELECT ci.cart_item_id, ci.user_id, ci.product_id, ci.quantity, " +
+                    "p.name, p.description, p.price, p.stock, p.image_url, " +
+                    "co.custom_id, co.total_price " +
+                    "FROM CART_ITEMS ci " +
+                    "JOIN PRODUCTS p ON ci.product_id = p.product_id " +
+                    "LEFT JOIN CUSTOM_ORDERS co ON ci.custom_id = co.custom_id " +
+                    "JOIN USERS u ON ci.user_id = u.user_id " + // 유저 테이블 추가 JOIN
+                    "WHERE u.email = ?";
+    private final String SELECT_USER_ID_BY_EMAIL = "SELECT user_id FROM USERS WHERE email = ?";
     private final String INSERT_CART_ITEMS = "INSERT INTO CART_ITEMS (user_id, product_id, quantity) VALUES (?,?,?)";
     private final String DELETE_CART_ITEM = "DELETE FROM CART_ITEMS WHERE CART_ITEM_ID = ?";
     private final String SELECT_ITEM_QUANTITY = "SELECT quantity FROM CART_ITEMS WHERE user_id = ? AND product_id = ?";
     private final String UPDATE_ITEM_QUANTITY = "UPDATE CART_ITEMS SET quantity = ? WHERE user_id = ? AND product_id = ?";
     private final String UPDATE_ITEM_QUANTITY_BY_CART_ID = "UPDATE CART_ITEMS SET quantity = ? WHERE cart_item_id = ?";
-    // 유저 아이디값 입력하여 카트 리스트 출력
-    public List<CartVo01> cartList(String id) {
-        log.error(id);
+
+    private int findUserIdByEmail(String email) {
         try {
-            return jdbcTemplate.query(SELECT_CART_ITEMS_BY_USER_ID,new Object[]{id}, new CartRowMapper());
+            return jdbcTemplate.queryForObject(SELECT_USER_ID_BY_EMAIL, new Object[]{email}, Integer.class);
         } catch (DataAccessException e) {
-            log.error("유저 ID.No로 장바구니 조회 실패");
+            log.error("유저 이메일로 user_id 조회 실패: email={}", email, e);
+            throw new RuntimeException("유저 이메일로 user_id 조회 중 문제가 발생했습니다.", e);
+        }
+    }
+
+    public List<CartVo01> cartListByEmail(String email) {
+        log.error(email);
+        try {
+            return jdbcTemplate.query(SELECT_CART_ITEMS_BY_USER_EMAIL, new Object[]{email}, new CartRowMapper());
+        } catch (DataAccessException e) {
+            log.error("유저 이메일로 장바구니 조회 실패");
             throw e;
         }
     }
-    // 유저아이디, 상품아이디, 수량 입력받아 데이터베이스에 삽입 또는 수정
-    public boolean insertOrUpdateCartItem(int userId, int productId, int quantity) {
+    // 유저이메일, 상품아이디, 수량 입력받아 데이터베이스에 삽입 또는 수정
+    public boolean insertOrUpdateCartItem(String email, int productId, int quantity) {
         try {
+            log.error("DAO 호출: email 파라미터 값 = {}", email);
+
+            // email로 user_id 조회
+            int userId = findUserIdByEmail(email);
+
             // 장바구니에 이미 해당 상품이 있는지 확인
             List<Integer> result = jdbcTemplate.query(
                     SELECT_ITEM_QUANTITY,
@@ -53,15 +70,14 @@ public class CartDao01 {
             );
 
             if (!result.isEmpty()) {
-                // 이미 같은 상품이 존재: 수량 업데이트 (단, 0 이하가 되지 않도록)
+                // 이미 같은 상품이 존재: 수량 업데이트
                 int currentQuantity = result.get(0);
                 int updatedQuantity = currentQuantity + quantity;
 
                 if (updatedQuantity > 0) { // 수량이 0 이상이어야 함
                     jdbcTemplate.update(UPDATE_ITEM_QUANTITY, updatedQuantity, userId, productId);
                 } else {
-                    // 0 이하가 되지 않도록 수량을 유지
-                    jdbcTemplate.update(UPDATE_ITEM_QUANTITY, 0, userId, productId); // 수량을 0으로 설정
+                    jdbcTemplate.update(UPDATE_ITEM_QUANTITY, 0, userId, productId); // 수량 0으로 설정
                 }
             } else {
                 // 같은 상품이 없을 경우: 새로 추가
@@ -69,7 +85,7 @@ public class CartDao01 {
             }
             return true;
         } catch (DataAccessException e) {
-            log.error("장바구니에 아이템 추가 또는 수량 업데이트 실패: userId={}, productId={}, quantity={}", userId, productId, quantity, e);
+            log.error("장바구니에 아이템 추가 또는 수량 업데이트 실패: email={}, productId={}, quantity={}", email, productId, quantity, e);
             throw new RuntimeException("장바구니에 아이템 추가 또는 업데이트 중 문제가 발생했습니다.", e);
         }
     }

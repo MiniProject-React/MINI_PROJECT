@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import UserCart01 from "../components/userPageComponents01/UserCart01";
 import UserProfile01 from "../components/userPageComponents01/UserProfile01";
 import OrderHistory01 from "../components/userPageComponents01/OrderHistory01";
 import ReviewList01 from "../components/userPageComponents01/ReviewList01";
+import UseUserContext01 from "../api/provider/UseUserContext01";
 import {
   Container,
   Sidebar,
@@ -10,21 +11,19 @@ import {
   Content,
 } from "../styles/UserPageStyle01";
 import PasswordCheckModal from "../components/userPageComponents01/PasswordCheckComponent";
+import { UserContext } from "../api/provider/UserContextProvider";
 
 const UserPage01 = () => {
   const [selectedMenu, setSelectedMenu] = useState("cart");
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
-  const user = {
-    // 임시 회원정보
-    user_id: "1",
-    username: "testuser",
-    password: "abc123",
-    email: "testuser@example.com",
-    address: "123 Test Street, Test City",
-    phone_number: "010-1234-5678",
-    role: "USER",
-  };
+  const { user } = useContext(UserContext);
+
+  // user 객체 접근
+  console.log("현재 로그인 상태: ", user.isLogin);
+  console.log("사용자 이메일: ", user.email);
+  console.log("사용자 이름: ", user.userName);
+  console.log("사용자 역할: ", user.role);
 
   // 비밀번호 확인 함수
   const handlePasswordVerification = (inputPassword) => {

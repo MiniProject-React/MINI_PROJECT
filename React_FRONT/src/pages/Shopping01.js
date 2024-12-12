@@ -1,9 +1,11 @@
 import ProductSortComponent from "../components/ProductSortComponent01";
-import { useEffect, useState } from "react";
+import { UserContext } from "../api/provider/UserContextProvider";
+import React, { useContext, useEffect, useState } from "react";
 import AxiosApi01 from "../api/AxiosApi01";
 import CartListComponent from "../components/CartListComponent01";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import UseUserContext01 from "../api/provider/UseUserContext01";
 
 const Container = styled.div`
   width: 100%;
@@ -91,6 +93,14 @@ const Shopping = () => {
   const [categoryData, setCategoryData] = useState([]);
   const { urlCategoryId } = useParams();
 
+  const { user } = useContext(UserContext);
+
+  // user 객체 접근
+  console.log("현재 로그인 상태: ", user.isLogin);
+  console.log("사용자 이메일: ", user.email);
+  console.log("사용자 이름: ", user.userName);
+  console.log("사용자 역할: ", user.role);
+
   // 주소 데이터 가져오기
   useEffect(() => {
     if (urlCategoryId) {
@@ -111,21 +121,10 @@ const Shopping = () => {
     fetchCategoryData();
   }, []);
 
-  const user = {
-    // 임시 회원정보
-    user_id: "1",
-    username: "testuser",
-    password: "abc123",
-    email: "testuser@example.com",
-    address: "123 Test Street, Test City",
-    phone_number: "010-1234-5678",
-    role: "USER",
-  };
-
   // 장바구니 데이터 가져오기
   const getCartData = async () => {
     try {
-      const rsp = await AxiosApi01.getCartList(user.user_id); // 회원의 장바구니 목록 조회
+      const rsp = await AxiosApi01.getCartList(user.email); // 회원의 장바구니 목록 조회
       setCartData(rsp.data); // 장바구니 목록 설정
     } catch (error) {
       console.log("장바구니 목록 조회 실패", error);
@@ -140,7 +139,7 @@ const Shopping = () => {
   const addProductToCart = async (product) => {
     try {
       await AxiosApi01.addCart(
-        user.user_id,
+        user.email,
         product.PRODUCT_ID,
         product.quantity
       ); // 상품 추가 요청
