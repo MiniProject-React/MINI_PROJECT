@@ -147,9 +147,10 @@ const AxiosApi3 = {
     console.log("API 유저 확인", user_id);
     const params = {
       total_price: total,
-      user_id: user_id,
+      user_id: user_id.user_id,
     };
-    return await axios.put(KH_DOMAIN + "/order/order", params, {
+    console.log("왜 못받을까? 파람스 : ", params);
+    return await axios.post(KH_DOMAIN + "/order/order", params, {
       headers: {
         "Content-Type": "application/json", // 서버가 JSON 형식의 데이터를 받을 경우 설정
       },

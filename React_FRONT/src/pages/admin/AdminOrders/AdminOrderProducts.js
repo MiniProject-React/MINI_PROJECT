@@ -18,7 +18,7 @@ const AdminOrderProducts = () => {
 
   useEffect(() => {
     console.log("총합:", total); // total이 변경될 때마다 실행
-    console.log(userId);
+    console.log("주문 모달창에서 user_id 확인 ", userId);
   }, [total]);
 
   useEffect(() => {
@@ -33,7 +33,10 @@ const AdminOrderProducts = () => {
 
   // orders테이블 컬럼 order_id : 트리거 , total_price : 계산,
   //order_date : sysdate, status : 초기값 = 결제 대기, user_id = ?
-  const Order = async (total, userId) => {
+  const Order = async () => {
+    console.log("order 함수내에서 값 확인 total : ", total);
+    console.log("order 함수내에서 값 확인 userId : ", userId);
+
     const rsp = await AxiosApi3.orderorder(total, userId);
   };
   const OrderProduct = async (selectedProducts) => {
