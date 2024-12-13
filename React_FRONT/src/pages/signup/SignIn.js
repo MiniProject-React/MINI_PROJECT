@@ -15,7 +15,7 @@ const Img = styled.img`
   object-fit: cover;
 `;
 
-const SignIn = () => {
+const Login = () => {
   const { setIsLogin, setUserId, setEmail, setRole, setUserName } =
     useContext(UserContext);
   // State for inputs
@@ -145,4 +145,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
