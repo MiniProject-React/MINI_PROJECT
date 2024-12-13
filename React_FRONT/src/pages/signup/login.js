@@ -1,7 +1,6 @@
 import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import Button from "../../components/ButtonComponent";
 import Input from "../../components/InputComponent";
 import { Container, Items } from "../../components/SignupComponent";
