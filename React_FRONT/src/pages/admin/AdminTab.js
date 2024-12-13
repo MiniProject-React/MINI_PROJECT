@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHome from "./AdminProducts/AdminHome";
 import { AdminUsersMap } from "../../api/provider/UserSearchContextProvider";
 import { Container } from "./style/Container";
 import "./style/Tab.css";
-
+import { UserContext } from "../../api/provider/UserContextProvider";
+import { useNavigate } from "react-router-dom";
 const AdminTab = () => {
   const [activeTab, setActiveTab] = useState("products");
+  const navigate = useNavigate();
 
   return (
     <Container className="products-users">

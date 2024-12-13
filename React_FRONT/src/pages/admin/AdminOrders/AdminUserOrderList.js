@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import AxiosApi3 from "../../../api/AxiosApi3";
 import OrderModal from "./OrderModal";
 import CustomModal from "./CustomModal";
 import AddOrderModalWindow from "./AddOrderModal";
 import AddCustomModalWindow from "./AddCustomModal";
+import { UserContext } from "../../../api/provider/UserContextProvider";
 const AdminUserOrderList = () => {
   const { user_id } = useParams();
   const [orderList, setOrderList] = useState([]);
@@ -15,6 +16,14 @@ const AdminUserOrderList = () => {
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [modal3, setModal3] = useState(false);
+  const navigate = useNavigate();
+  const { email } = useContext(UserContext);
+  useEffect(() => {
+    console.log("contextAPI로 email 검증 확인 : ", email);
+    if (!email) {
+      navigate("/");
+    }
+  }, [email, navigate]);
   useEffect(() => {
     OrderList(user_id);
     CustomOrderList(user_id);

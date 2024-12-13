@@ -23,7 +23,6 @@ import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
 import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
 
 import AdminTab from "./pages/admin/AdminTab.js";
-import PasswordInput from "./pages/admin/etc/password.js";
 import PracticeSelect from "./pages/admin/AdminOrders/PracticeSelect.js";
 function App() {
   return (
@@ -48,8 +47,6 @@ function App() {
               <Route path="/order" element={<Order />} />
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route />
-              <Route path="/password" element={<PasswordInput />} />
-              <Route path="/adminTab" element={<AdminTab />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminTab />} />

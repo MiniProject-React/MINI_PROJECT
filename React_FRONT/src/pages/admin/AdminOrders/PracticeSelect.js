@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AxiosApi3 from "../../../api/AxiosApi3";
 import "../style/Tab.css";
 import { Container } from "../style/Container";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../api/provider/UserContextProvider";
 const PracticeSelect = () => {
   const [activeTab, setActiveTab] = useState("cpu");
   const [productList, setProductList] = useState([]);
@@ -11,6 +13,14 @@ const PracticeSelect = () => {
   const [ram, setRam] = useState([]);
   const [ssd, setSsd] = useState([]);
   const [power, setPower] = useState([]);
+  const navigate = useNavigate();
+  const { email } = useContext(UserContext);
+  useEffect(() => {
+    console.log("contextAPI로 email 검증 확인 : ", email);
+    if (!email) {
+      navigate("/");
+    }
+  }, [email, navigate]);
   useEffect(() => {
     productListForSelect();
   }, []);
