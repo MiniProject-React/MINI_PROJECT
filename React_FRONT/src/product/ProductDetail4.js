@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import "../css/ProductDetail4.css";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/firebase";
+import { UserContext } from "../api/provider/UserContextProvider";
+import AxiosApi01 from "../api/AxiosApi01";
 
 const ProductDetail4 = () => {
   const { category, productId } = useParams(); // URL 파라미터 추출
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [imageUrl, setImageUrl] = useState(""); // Firebase 이미지 URL 저장
+  const [quantity, setQuantity] = useState(1);
+
+  const { user } = useContext(UserContext);
 
   const categoryMap = {
     // 카테고리 ID를 이름으로 전환용
@@ -57,6 +62,21 @@ const ProductDetail4 = () => {
     return <div>Error: Product not found.</div>;
   }
 
+  // 장바구니에 담기
+  const addProductToCart = async (productId) => {
+    // 장바구니에 상품을 추가하는 코드
+    if (!user.isLogin) {
+      alert("로그인 후 사용할 수 있습니다.");
+      Navigate("/login");
+    }
+    try {
+      await AxiosApi01.addCart(user.email, productId, quantity);
+      console.log("상품 추가 요청 성공");
+    } catch (error) {
+      console.error("상품 추가 요청 실패", error);
+    }
+  };
+
   return (
     <div className="product-detail">
       {/* 제품 이미지와 정보가 포함된 컨테이너 */}
@@ -79,16 +99,37 @@ const ProductDetail4 = () => {
             <p>
               <strong>{product.name}</strong>
             </p>
-            <p>
-              <strong>가격:</strong> {`${product.price.toLocaleString()}원`}
-            </p>
+            <p>{`${product.price.toLocaleString()}원`}</p>
             <br />
             <br />
 
+            {/* 수량 선택 버튼 */}
+            <div className="quantity-controls">
+              <button
+                className="quantity-decrease"
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
+                -
+              </button>
+              <span className="quantity-display">{quantity}</span>
+              <button
+                className="quantity-increase"
+                onClick={() => setQuantity((prev) => prev + 1)}
+              >
+                +
+              </button>
+            </div>
+
             <div className="product-actions">
-              <a href="/cart" className="add-to-cart">
+              {/* 장바구니 버튼 */}
+              <button
+                className="add-to-cart"
+                onClick={() => addProductToCart(productId)}
+              >
                 장바구니에 담기
-              </a>
+              </button>
+
+              {/* 바로 구매 버튼 */}
               <a href="/buy" className="buy-now">
                 구매하기
               </a>
