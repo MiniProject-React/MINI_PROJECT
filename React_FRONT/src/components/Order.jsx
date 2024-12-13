@@ -82,8 +82,8 @@ const Order = () => {
     phone: "",
     email: "",
     address: "",
-    city: "",
     postalCode: "",
+    emailDomain: "@gmail.com", // 이메일 도메인 기본값 설정
   });
 
   const [message, setMessage] = useState("");
@@ -128,7 +128,7 @@ const Order = () => {
     orderSummary.discount,
   ]);
 
-  // 카드 번호 변경 처리
+  // 카드 번호 변경 처리 (하이픈 기능)
   const handleCardNumberChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 16) {
@@ -141,6 +141,23 @@ const Order = () => {
 
     const type = getCardType(value);
     setCardType(type);
+  };
+
+  // 연락처 입력 처리 함수 (하이픈 기능)
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, ""); // 숫자만 남기고 제거
+    let formatted = value;
+
+    if (value.length >= 4 && value.length <= 7) {
+      formatted = value.replace(/(\d{3})(\d{1,4})/, "$1-$2");
+    } else if (value.length >= 8) {
+      formatted = value.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
+    }
+
+    setShippingInfo((prevState) => ({
+      ...prevState,
+      phone: formatted,
+    }));
   };
 
   // 결제 정보 핸들러
@@ -161,16 +178,11 @@ const Order = () => {
     }));
   };
 
-  // 연락처 입력 처리 함수 (하이픈 추가)
-  const handlePhoneChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // 숫자만 남기고 제거
-    if (value.length <= 11) {
-      // 전화번호 형식으로 하이픈 추가
-      value = value.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-    }
+  // 이메일 도메인 변경 핸들러
+  const handleEmailDomainChange = (e) => {
     setShippingInfo((prevState) => ({
       ...prevState,
-      phone: value,
+      emailDomain: e.target.value,
     }));
   };
 
@@ -231,14 +243,25 @@ const Order = () => {
           maxLength={13}
         />
         <label>이메일:</label>
-        <input
-          type="email"
-          name="email"
-          value={shippingInfo.email}
-          onChange={handleShippingChange}
-          style={styles.input}
-          required
-        />
+        <div style={styles.emailContainer}>
+          <input
+            type="email"
+            name="email"
+            value={shippingInfo.email}
+            onChange={handleShippingChange}
+            style={styles.input}
+            required
+          />
+          <select
+            value={shippingInfo.emailDomain}
+            onChange={handleEmailDomainChange}
+            style={styles.select}
+          >
+            <option value="@gmail.com">@gmail.com</option>
+            <option value="@naver.com">@naver.com</option>
+            <option value="@kakao.com">@kakao.com</option>
+          </select>
+        </div>
         <label>우편번호:</label>
         <input
           type="text"
@@ -300,7 +323,7 @@ const Order = () => {
           style={styles.select}
         >
           <option value="신용카드">신용카드</option>
-          <option value="TOSS">TOSS</option>
+          <option value="가상화폐">가상화폐</option>
         </select>
 
         {paymentInfo.paymentMethod === "신용카드" && (
@@ -423,12 +446,16 @@ const styles = {
     border: "1px solid #ddd",
     borderRadius: "5px",
   },
-
+  emailContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
   pwdInput: {
-    width: "5%",
+    width: "2%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
+    marginLeft: "10px",
     marginRight: "10px", // 마스킹 박스와 간격
   },
   maskBox: {
@@ -436,10 +463,11 @@ const styles = {
     marginRight: "20px", // CVC와 간격
   },
   cvcInput: {
-    width: "5%",
+    width: "3%",
     padding: "10px",
     border: "1px solid #ddd",
     borderRadius: "5px",
+    marginLeft: "10px",
   },
   expiryBox: {
     display: "flex",
@@ -447,8 +475,9 @@ const styles = {
     alignItems: "center",
   },
   slash: {
-    fontSize: "1.5em",
-    padding: "0 10px",
+    fontSize: "2em",
+    marginBottom: "20px",
+    alignSelf: "center",
   },
   select: {
     width: "100%",

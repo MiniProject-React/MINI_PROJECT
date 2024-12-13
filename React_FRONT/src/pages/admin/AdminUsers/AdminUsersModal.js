@@ -6,10 +6,9 @@ import MyComponent from "../../../components/MyComponent";
 import { ModalStyle, ModalButton } from "../style/ModalStyle";
 import { useEffect, useState } from "react";
 import AxiosApi from "../../../api/AxiosApi3";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 import { StyledPasswordMask } from "../../../components/InputComponent";
+
 const AdminUsersModal = (props) => {
   const { open, close, type, user_id } = props;
   const navigate = useNavigate();
@@ -286,9 +285,7 @@ const AdminUsersModal = (props) => {
                 <main>
                   {" "}
                   <Container>
-                    <Items className="sign">
-                      <span>회원 가입</span>
-                    </Items>
+                    <Items className="sign"></Items>
                     {detailUserInfoList ? (
                       <>
                         <Items variant="item2">

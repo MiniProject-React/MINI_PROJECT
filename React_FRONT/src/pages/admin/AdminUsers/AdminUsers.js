@@ -3,6 +3,8 @@ import AxiosApi from "../../../api/AxiosApi3";
 import { UserSearchContext } from "../../../api/provider/UserSearchContextProvider";
 import { PageNavigate } from "../../../api/Pagination/PageNavigate";
 import AdminUsersModal from "./AdminUsersModal";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../api/provider/UserContextProvider";
 
 const AdminUsers = () => {
   const { searchKeyword } = useContext(UserSearchContext);
@@ -12,7 +14,14 @@ const AdminUsers = () => {
   const [modal, setModal] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [userId, setUserId] = useState("");
-
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  useEffect(() => {
+    console.log("contextAPI로 email 검증 확인 : ", user.email);
+    if (!user.role !== 1) {
+      navigate("/");
+    }
+  }, [user.email, navigate]);
   // 유저 리스트 출력
   useEffect(() => {
     console.log("전역변수 확인 ", searchKeyword);

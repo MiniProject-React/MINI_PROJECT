@@ -8,6 +8,7 @@ import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
 
+import { PasswordInputComponent } from "../../components/InputComponent";
 const Img = styled.img`
   width: 180px;
   object-fit: cover;
@@ -106,7 +107,7 @@ const SignIn = () => {
       </Items>
 
       <Items margin="10px">
-        <Input
+        <PasswordInputComponent
           type="password"
           placeholder="패스워드"
           value={inputPw}
