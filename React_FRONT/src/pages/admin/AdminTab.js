@@ -11,11 +11,14 @@ const AdminTab = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   useEffect(() => {
-    console.log("contextAPI로 email 검증 확인 : ", user.email);
-    if (!user.role !== 1) {
+    console.log("현재 로그인 상태: ", user.isLogin);
+    console.log("사용자 이메일: ", user.email);
+    console.log("사용자 이름: ", user.userName);
+    console.log("사용자 역할: ", user.role);
+    if (user.role !== 1) {
       navigate("/");
     }
-  }, [user.email, navigate]);
+  }, [user.role, navigate]);
   return (
     <Container className="products-users">
       <ul className="tabmenu">
