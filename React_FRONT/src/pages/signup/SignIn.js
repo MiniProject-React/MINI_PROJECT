@@ -7,6 +7,7 @@ import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
+import { PasswordInputComponent } from "../../components/InputComponent";
 
 const Img = styled.img`
   width: 180px;
@@ -14,6 +15,7 @@ const Img = styled.img`
 `;
 
 const SignIn = () => {
+
   const { setIsLogin, setUserId, setEmail, setRole, setUserName } =
     useContext(UserContext);
   // State for inputs
@@ -106,7 +108,8 @@ const SignIn = () => {
       </Items>
 
       <Items margin="10px">
-        <Input
+
+        <PasswordInputComponent
           type="password"
           placeholder="패스워드"
           value={inputPw}
@@ -144,3 +147,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+

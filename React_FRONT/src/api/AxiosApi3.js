@@ -29,9 +29,8 @@ const AxiosApi3 = {
   },
   // 권한 확인 (회원 등급 확인)
   roleCheck: async (email, password) => {
-    console.log("이메일 : ", email);
-    console.log("패스워드 : ", password);
-
+    console.log("이메일 api: ", email);
+    console.log("패스워드 api: ", password);
     const params = {
       email: email,
       password: password,
@@ -115,19 +114,47 @@ const AxiosApi3 = {
     return await axios.post(KH_DOMAIN + "/users/userupdate", params);
   },
 
-  // 주문 목록 조회
+  // 주문 목록 상세 조회
   orderList: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/orderList/${user_id}`);
   },
 
-  // 커스텀 PC 주문 목록 조회
+  // 커스텀 PC 주문 목록 상세 조회
   customOrderList: async (user_id) => {
     return await axios.get(KH_DOMAIN + `/order/customOrderList/${user_id}`);
   },
 
   // 제품 리스트 출력
   productList: async () => {
-    return await axios.get(KH_DOMAIN + "produts/list");
+    return await axios.get(KH_DOMAIN + "/products/list");
+  },
+  // 주문 목록
+  order: async (user_id) => {
+    return await axios.get(KH_DOMAIN + `/order/list/${user_id}`);
+  },
+  // 커스텀 목록
+  custom: async (user_id) => {
+    return await axios.get(KH_DOMAIN + `/order/custom/${user_id}`);
+  },
+  // order product
+  orderProducts: async (params) => {
+    return await axios.get(KH_DOMAIN + `/products/order_products`, {
+      params: params, // 파라미터를 올바르게 전달
+    });
+  },
+  orderorder: async (total, user_id) => {
+    console.log("API 토탈 확인", total);
+    console.log("API 유저 확인", user_id);
+    const params = {
+      total_price: total,
+      user_id: user_id.user_id,
+    };
+    console.log("왜 못받을까? 파람스 : ", params);
+    return await axios.post(KH_DOMAIN + "/order/order", params, {
+      headers: {
+        "Content-Type": "application/json", // 서버가 JSON 형식의 데이터를 받을 경우 설정
+      },
+    });
   },
 };
 

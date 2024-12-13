@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // 가격 포맷 (원화, 3자리마다 쉼표)
@@ -12,6 +12,16 @@ const formatPrice = (price) => {
 const OrderSuccess = () => {
   const location = useLocation();
   const { orderSummary, paymentInfo, shippingInfo } = location.state || {};
+
+  // 이메일 도메인 선택
+  const [emailDomain, setEmailDomain] = useState(
+    shippingInfo?.emailDomain || "@gmail.com"
+  );
+
+  // 이메일 도메인 변경 시 email 업데이트
+  const handleEmailDomainChange = (e) => {
+    setEmailDomain(e.target.value);
+  };
 
   // 주문 번호 생성 (오늘 날짜 + 현재시간 + 난수 코드)
   const generateOrderNumber = () => {
@@ -79,7 +89,9 @@ const OrderSuccess = () => {
           {paymentInfo?.paymentMethod === "신용카드" && (
             <p>카드 번호: {maskCardNumber(paymentInfo.cardNumber)}</p>
           )}
-          {paymentInfo?.paymentMethod === "TOSS" && <p>TOSS 결제 완료</p>}
+          {paymentInfo?.paymentMethod === "가상화폐" && (
+            <p>가상화폐 결제 완료</p>
+          )}
         </section>
       </div>
 
@@ -89,9 +101,15 @@ const OrderSuccess = () => {
           <h2 style={styles.sectionTitle}>배송 정보</h2>
           <p>이름: {shippingInfo?.name}</p>
           <p>연락처: {shippingInfo?.phone}</p>
+          <p>
+            이메일: {`${shippingInfo?.email.split("@")[0]}${emailDomain}`}
+          </p>{" "}
+          {/* 이메일 도메인 업데이트 */}
+          <p>우편번호: {shippingInfo?.postalCode}</p>
           <p>주소: {shippingInfo?.address}</p>
         </section>
       </div>
+
       <p style={styles.subHeader}>구매해주셔서 감사드립니다.</p>
     </div>
   );

@@ -30,6 +30,40 @@ const InputComponent = ({ value, onChange, placeholder, isValid }) => {
 
 export default InputComponent;
 
+export const PasswordInputComponent = ({
+  value,
+  onChange,
+  placeholder,
+  isValid,
+}) => {
+  return (
+    <StyledInput
+      type="password"
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      isValid={isValid} // 유효성 prop 전달
+    />
+  );
+};
+
+export const InputPasswordComponent = ({
+  value,
+  onChange,
+  placeholder,
+  isValid,
+}) => {
+  return (
+    <StyledInput
+      type="password"
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      isValid={isValid} // 유효성 prop 전달
+    />
+  );
+};
+
 // StyledPasswordMask 컴포넌트
 export const StyledPasswordMask = styled(PasswordMask)`
   margin: 0 30px;
