@@ -17,13 +17,13 @@ const AdminUserOrderList = () => {
   const [modal2, setModal2] = useState(false);
   const [modal3, setModal3] = useState(false);
   const navigate = useNavigate();
-  const { email } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    console.log("contextAPI로 email 검증 확인 : ", email);
-    if (!email) {
+    console.log("contextAPI로 email 검증 확인 : ", user.email);
+    if (!user.role !== 1) {
       navigate("/");
     }
-  }, [email, navigate]);
+  }, [user.email, navigate]);
   useEffect(() => {
     OrderList(user_id);
     CustomOrderList(user_id);
