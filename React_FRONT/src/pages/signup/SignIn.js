@@ -15,7 +15,6 @@ const Img = styled.img`
 `;
 
 const SignIn = () => {
-
   const { setIsLogin, setUserId, setEmail, setRole, setUserName } =
     useContext(UserContext);
   // State for inputs
@@ -147,4 +146,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-

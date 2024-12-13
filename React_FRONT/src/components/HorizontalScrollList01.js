@@ -4,11 +4,13 @@ import "../css/HorizontalScrollList01.css";
 import AxiosApi01 from "../api/AxiosApi01";
 import { storage } from "../api/firebase"; // firebase.js에서 storage를 가져옵니다.
 import { ref, getDownloadURL } from "firebase/storage"; // getDownloadURL과 ref를 가져옵니다.
+import { debounce } from "lodash";
 
 function HorizontalScrollList01({ categoryId, categoryName }) {
   const [products, setProducts] = useState([]);
   const [imageUrls, setImageUrls] = useState({});
   const [isAtEnd, setIsAtEnd] = useState(false); // 스크롤 끝 감지 상태
+  const [isButtonVisible, setIsButtonVisible] = useState(false); // '더 보기' 버튼 상태
   const scrollContainerRef = useRef(null);
 
   // 상품 리스트 가져오기
@@ -47,14 +49,14 @@ function HorizontalScrollList01({ categoryId, categoryName }) {
   }, [categoryId, categoryName]);
 
   // 스크롤 끝 감지
-  const handleScroll = () => {
+  const handleScroll = debounce(() => {
     const container = scrollContainerRef.current;
-    if (container) {
-      const isAtEnd =
-        container.scrollWidth === container.scrollLeft + container.clientWidth;
-      setIsAtEnd(isAtEnd); // 스크롤이 끝에 있으면 true로 설정
-    }
-  };
+    const isAtEnd =
+      container.scrollLeft + container.clientWidth >=
+      container.scrollWidth - 10;
+    setIsAtEnd(isAtEnd); // isAtEnd 상태 업데이트
+    setIsButtonVisible(isAtEnd); // 스크롤 끝에 도달하면 버튼 표시
+  }, 100); // 100ms 간격으로 호출
 
   // 스크롤 드래그 핸들러
   const handleMouseDown = (e) => {
@@ -82,44 +84,51 @@ function HorizontalScrollList01({ categoryId, categoryName }) {
       {/* 상품 리스트가 있으면 렌더링 */}
       {products.length > 0 ? (
         <>
-          <h2 className="category-title">
-            <Link to={`/product/sorted/${categoryId}`}>{categoryName}</Link>
-          </h2>
-          <div
-            className="scroll-container"
-            ref={scrollContainerRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUpOrLeave}
-            onMouseLeave={handleMouseUpOrLeave}
-            onScroll={handleScroll} // 스크롤 이벤트 추가
-          >
-            {products.map((product) => (
-              <div key={product.productId} className="product-card">
-                <div className="image-container">
-                  <Link to={`/product/${categoryId}/${product.productId}`}>
-                    <img
-                      src={imageUrls[product.productId]} // Firebase에서 가져온 이미지 URL 사용
-                      alt={product.name}
-                      className="product-image"
-                    />
-                    <div className="overlay">
-                      <span className="product-name">{product.name}</span>
-                    </div>
-                  </Link>
+          <div className="category-container">
+            <h2 className="category-title">
+              <Link to={`/product/sorted/${categoryId}`}>{categoryName}</Link>
+            </h2>
+            <div
+              className="scroll-container"
+              ref={scrollContainerRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              onScroll={handleScroll} // 스크롤 이벤트 추가
+            >
+              {products.map((product) => (
+                <div key={product.productId} className="product-card">
+                  <div className="image-container">
+                    <Link to={`/product/${categoryId}/${product.productId}`}>
+                      <img
+                        src={imageUrls[product.productId]} // Firebase에서 가져온 이미지 URL 사용
+                        alt={product.name}
+                        className="product-image"
+                      />
+                      <div className="overlay">
+                        <span className="product-name">{product.name}</span>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-
           {/* 스크롤 끝에 다다르면 '더 보기' 버튼이 보임 */}
-          {isAtEnd && (
-            <div className="view-more-button">
+          {isButtonVisible && (
+            <div
+              className="view-more-button"
+              style={{
+                opacity: isAtEnd ? 1 : 0,
+                visibility: isAtEnd ? "visible" : "hidden",
+              }}
+            >
               <Link
                 to={`/product/sorted/${categoryId}`}
                 className="view-more-link"
               >
-                더 보기
+                <span>더 보기</span>
               </Link>
             </div>
           )}
