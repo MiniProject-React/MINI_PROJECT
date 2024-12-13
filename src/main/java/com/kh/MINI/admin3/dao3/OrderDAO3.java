@@ -7,17 +7,13 @@ import com.kh.MINI.admin3.vo3.OrdersVO3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.stereotype.Repository;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.sql.*;
 import java.util.List;
 
 @Repository
@@ -73,6 +69,15 @@ public class OrderDAO3 {
     private static final String INSERT_ORDER_SQL = "INSERT INTO ORDERS (TOTAL_PRICE, ORDER_DATE, STATUS, USER_ID) " +
             "VALUES (?, CURRENT_TIMESTAMP, '결제 대기', ?) " +
             "RETURNING order_id INTO ?";
+    // 최근 등록된 ORDER_ID값 조회
+    private static final String FIND_NEW_ORDER = "SELECT order_id " +
+            "FROM ( " +
+            "    SELECT * " +
+            "    FROM orders " +
+            "    WHERE user_id = ? " +
+            "    ORDER BY order_date DESC " +
+            ") " +
+            "WHERE ROWNUM = 1";
     // 주문 상세 조회
     public List<OrdersVO3> orderList(int userId) {
         try {
@@ -112,17 +117,27 @@ public class OrderDAO3 {
         }
     }
 
-    public Integer orderorder(int totalPrice, int userId) {
+    public boolean orderorder(int totalPrice, int userId) {
         // 'RETURNING' 절을 처리할 수 있도록 수정한 SQL 쿼리
         String sql = "INSERT INTO ORDERS (TOTAL_PRICE, ORDER_DATE, STATUS, USER_ID) " +
-                "VALUES (?, CURRENT_TIMESTAMP, '결제 대기', ?) " +
-                "RETURNING order_id INTO order_id"; // 'INTO ?'는 JDBC에서 처리할 수 없으므로 제거
+                "VALUES (?, CURRENT_TIMESTAMP, '결제 대기', ?) ";
 
         try {
             // 쿼리 실행 후 order_id 반환
-            return jdbcTemplate.queryForObject(sql, Integer.class, totalPrice, userId);
+            int result = jdbcTemplate.update(sql, totalPrice, userId);
+            return result > 0;
         } catch (DataAccessException e) {
             log.error("주문 추가 시 에러 발생: ", e);
+            return false;
+        }
+
+    }
+
+    public Integer orderId(int user_id) {
+        try{
+            return jdbcTemplate.queryForObject(FIND_NEW_ORDER, new Object[]{user_id},Integer.class);
+        }catch (DataAccessException e){
+            log.error("최근 주문 아이디 검색 ",e);
             throw e;
         }
     }

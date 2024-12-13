@@ -31,13 +31,13 @@ export const UserContextProvider = ({ children }) => {
 
 export const AdminUsersMap = () => {
   const navigate = useNavigate();
-  const { email } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    // console.log("contextAPI로 email 검증 확인 : ", email);
-    // if (!email) {
-    //   navigate("/");
-    // }
-  }, [email, navigate]);
+    console.log("contextAPI로 role 검증 확인 : ", user.role);
+    if (user.role !== 1) {
+      navigate("/");
+    }
+  }, [user, navigate]);
   return (
     <>
       <UserContextProvider>
