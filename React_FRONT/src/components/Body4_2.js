@@ -1,78 +1,37 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom"; // Link 컴포넌트 추가
+import AxiosApi01 from "../api/AxiosApi01";
 import "../css/Body4_2.css";
+import HorizontalScrollList01 from "./HorizontalScrollList01";
 
 function Body2() {
-  const scrollContainerRefs = useRef([]);
+  const [categories, setCategories] = useState([]);
 
-  const handleMouseDown = (e, index) => {
-    const container = scrollContainerRefs.current[index];
-    container.isDragging = true;
-    container.startX = e.pageX - container.offsetLeft;
-    container.scrollLeft = container.scrollLeft || 0;
-  };
+  // 카테고리 데이터 가져오기
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await AxiosApi01.getCategoryList();
+        setCategories(response.data); // 카테고리 데이터 설정
+        console.log("Categories:", response.data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
 
-  const handleMouseMove = (e, index) => {
-    const container = scrollContainerRefs.current[index];
-    if (!container.isDragging) return;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - container.startX) * 1.5; // 스크롤 속도 조절
-    container.scrollLeft -= walk;
-  };
-
-  const handleMouseUpOrLeave = (index) => {
-    const container = scrollContainerRefs.current[index];
-    container.isDragging = false;
-  };
-
-  const categories = [
-    "완성형 조립식 컴퓨터",
-    "CPU Models",
-    "Board Models",
-    "RAM Models",
-    "GPU Models",
-    "SSD Models",
-    "HDD Models",
-  ];
+    fetchCategories();
+  }, []);
 
   return (
     <div className="body2-wrapper">
-      {categories.map((category, sectionIndex) => (
-        <div className="product-section" key={sectionIndex}>
-          <h2 className="section-title">
-            <Link to={`/product/${category}`}>{category}</Link>
-          </h2>
-          <div
-            className="body2-container"
-            ref={(el) => (scrollContainerRefs.current[sectionIndex] = el)}
-            onMouseDown={(e) => handleMouseDown(e, sectionIndex)}
-            onMouseMove={(e) => handleMouseMove(e, sectionIndex)}
-            onMouseUp={() => handleMouseUpOrLeave(sectionIndex)}
-            onMouseLeave={() => handleMouseUpOrLeave(sectionIndex)}
-          >
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="body2-box">
-                <div className="image-section">
-                  <Link to={`/product/${category}/${index + 1}`}>
-                    <img
-                      src={`/1_Image4/product-${sectionIndex + 1}-${
-                        index + 1
-                      }.jpg`}
-                      alt={`Product ${index + 1}`}
-                    />
-                  </Link>
-                </div>
-                <div className="description-section">
-                  <Link to={`/product/${category}/${index + 1}`}>
-                    <h3>{`Product ${index + 1} Title`}</h3>
-                    <p>{`This is a description for Product ${index + 1}.`}</p>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      {categories &&
+        categories.map((category) => (
+          <HorizontalScrollList01
+            key={category.categoryId}
+            categoryId={category.categoryId}
+            categoryName={category.name}
+          />
+        ))}
     </div>
   );
 }
