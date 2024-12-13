@@ -162,6 +162,18 @@ const AxiosApi01 = {
       throw error;
     }
   },
+
+  getProductByCategoryId: async (categoryId) => {
+    try {
+      const url = `${MINI_DOMAIN}/products/category/${categoryId}`;
+      const response = await axios.get(url);
+      console.log("[getProductByCategoryId] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getProductByCategoryId] Error:", error);
+      throw error;
+    }
+  },
 };
 
 export default AxiosApi01;
