@@ -360,7 +360,6 @@ const SuggestedPC = () => {
 
   return (
     <div style={styles.container}>
-      <h1>추천 PC</h1>
 
       <div style={styles.stepButtons}>
         <button
@@ -532,7 +531,7 @@ const styles = {
   },
   stepButton: {
     padding: "16px",
-    fontSize: "13px",
+    fontSize: "12px",
     border: "1px solid #ddd",
     borderRadius: "5px",
     cursor: "pointer",
