@@ -14,13 +14,13 @@ const PracticeSelect = () => {
   const [ssd, setSsd] = useState([]);
   const [power, setPower] = useState([]);
   const navigate = useNavigate();
-  const { email } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    console.log("contextAPI로 email 검증 확인 : ", email);
-    if (!email) {
-      navigate("/");
+    console.log("contextAPI로 email 검증 확인 : ", user.email);
+    if (!user.role !== 1) {
+      navigate("/login");
     }
-  }, [email, navigate]);
+  }, [user.email, navigate]);
   useEffect(() => {
     productListForSelect();
   }, []);

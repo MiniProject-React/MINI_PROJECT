@@ -12,7 +12,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../style/style1.css";
 import "../style/product.css";
-import { Button3 } from "../../../components/style3";
 import Modal from "../modal/ProductUpdateModal";
 import { UserContext } from "../../../api/provider/UserContextProvider";
 import ProductSaveModal from "../modal/ProductSaveModal";
@@ -41,7 +40,12 @@ export default function AdminHome() {
   const [powerImage, setPowerImage] = useState({});
 
   // useContext
-  const { email, role, userName } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  console.log("현재 로그인 상태: ", user.isLogin);
+  console.log("사용자 이메일: ", user.email);
+  console.log("사용자 이름: ", user.userName);
+  console.log("사용자 역할: ", user.role);
+
   const closeModal = () => {
     setModalOpen(false);
     totalList();
@@ -132,7 +136,6 @@ export default function AdminHome() {
 
   // Fetch data when the component mounts
   useEffect(() => {
-    console.log("user context : ", email, role, userName);
     totalList();
   }, []);
 

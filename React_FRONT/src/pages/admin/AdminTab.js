@@ -3,12 +3,19 @@ import AdminHome from "./AdminProducts/AdminHome";
 import { AdminUsersMap } from "../../api/provider/UserSearchContextProvider";
 import { Container } from "./style/Container";
 import "./style/Tab.css";
-import { UserContext } from "../../api/provider/UserContextProvider";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../api/provider/UserContextProvider";
+
 const AdminTab = () => {
   const [activeTab, setActiveTab] = useState("products");
   const navigate = useNavigate();
-
+  const { user } = useContext(UserContext);
+  useEffect(() => {
+    console.log("contextAPI로 email 검증 확인 : ", user.email);
+    if (!user.role !== 1) {
+      navigate("/");
+    }
+  }, [user.email, navigate]);
   return (
     <Container className="products-users">
       <ul className="tabmenu">
