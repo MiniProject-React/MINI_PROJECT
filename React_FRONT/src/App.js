@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil"; // RecoilRoot 임포트
 import Home from "./pages/Home.js";
-import Login from "./pages/signup/login.js";
+import Login from "./pages/signup/Login.js";
 import Signup from "./pages/signup/Signup";
 import Shopping01 from "./pages/Shopping01";
 import UserPage01 from "./pages/UserPage01";
