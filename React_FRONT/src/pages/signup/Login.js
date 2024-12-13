@@ -1,7 +1,6 @@
 import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import imgLogo from "../../images/kakaoLion.png";
 import Button from "../../components/ButtonComponent";
 import Input from "../../components/InputComponent";
 import { Container, Items } from "../../components/SignupComponent";
@@ -15,7 +14,8 @@ const Img = styled.img`
 `;
 
 const Login = () => {
-  const { setEmail, setRole, setUserName } = useContext(UserContext);
+  const { setIsLogin, setUserId, setEmail, setRole, setUserName } =
+    useContext(UserContext);
   // State for inputs
   const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -31,6 +31,8 @@ const Login = () => {
   // State for validation
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
+
+  const { updateUser } = useContext(UserContext);
 
   // Modal 모달창 닫는 함수
   const closeMadal = () => {
@@ -52,14 +54,16 @@ const Login = () => {
   const roleCheck = async () => {
     try {
       const rsp = await AxiosApi.roleCheck(inputEmail, inputPw);
-      console.log("rsp 확인 : ", rsp.data);
-      console.log("롤 확인", rsp.data.roleCheck[0].role);
-      console.log("이름 확인 : ", rsp.data.roleCheck[0].username);
-      setEmail(inputEmail);
-      setRole(rsp.data.roleCheck[0].role);
-      setUserName(rsp.data.roleCheck[0].username);
+      const userData = rsp.data.roleCheck[0];
 
-      onClickLogin(rsp.data.roleCheck[0]);
+      updateUser({
+        isLogin: true,
+        email: inputEmail,
+        userName: userData.username,
+        role: userData.role,
+      });
+
+      onClickLogin(userData);
     } catch (e) {
       alert("서버가 응답하지 않습니다."); // 모달 구문 추가하며 뻄
     }
@@ -74,7 +78,7 @@ const Login = () => {
       console.log(rsp.data);
 
       if (role.role === 0) {
-        navigate("/home");
+        navigate("/");
       } else if (role.role === 1) {
         navigate("/admin");
       } else {
@@ -91,9 +95,7 @@ const Login = () => {
 
   return (
     <Container>
-      <Items variant="sign">
-        <Img src={imgLogo} alt="Logo" />
-      </Items>
+      <Items variant="sign"></Items>
 
       <Items margin="10px">
         <Input
