@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil"; // RecoilRoot 임포트
 import Home from "./pages/Home.js";
-import Login from "./pages/signup/Login.js";
+import SignIn from "./pages/signup/SignIn.js";
 import Signup from "./pages/signup/Signup";
 import Shopping01 from "./pages/Shopping01";
 import UserPage01 from "./pages/UserPage01";
@@ -14,13 +14,12 @@ import OrderSuccess from "./components/OrderSuccess";
 // import AdminHome from "./pages/admin/AdminHome";
 import { UserContextProvider } from "./api/provider/UserContextProvider.js";
 // import { AdminUsersMap } from "./api/provider/UserSearchContextProvider.js";
-import AdminUserOrder from "./pages/admin/AdminOrders/AdminUserOrder.js";
+import AdminUserOrderList from "./pages/admin/AdminOrders/AdminUserOrderList.js";
 import Header4 from "./components/Header4";
 import Body4_1 from "./components/Body4_1";
 import Body4_2 from "./components/Body4_2";
 import Footer4 from "./components/Footer4";
 import ProductDetail4 from "./product/ProductDetail4";
-import AdminDashboard from "./pages/admin/AdminDashboard.js";
 // 상세 페이지 컴포넌트 추가
 import AdminTab from "./pages/admin/AdminTab.js";
 function App() {
@@ -46,12 +45,12 @@ function App() {
               <Route path="/order" element={<Order />} />
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin/*" element={<AdminTab />} />
               <Route
                 path="/users/orderlist/:user_id"
-                element={<AdminUserOrder />}
+                element={<AdminUserOrderList />}
               />
               <Route
                 path="/"
