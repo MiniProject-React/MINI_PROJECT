@@ -1,6 +1,8 @@
-import { useState, createContext } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import AdminUsersSearch from "../../pages/admin/AdminUsers/AdminUsersSearch";
 import AdminUsers from "../../pages/admin/AdminUsers/AdminUsers";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContextProvider";
 const defaultValue = {
   searchkeyword: {},
   setSearchKeyword: () => {},
@@ -28,6 +30,14 @@ export const UserContextProvider = ({ children }) => {
 };
 
 export const AdminUsersMap = () => {
+  const navigate = useNavigate();
+  const { email } = useContext(UserContext);
+  useEffect(() => {
+    // console.log("contextAPI로 email 검증 확인 : ", email);
+    // if (!email) {
+    //   navigate("/");
+    // }
+  }, [email, navigate]);
   return (
     <>
       <UserContextProvider>

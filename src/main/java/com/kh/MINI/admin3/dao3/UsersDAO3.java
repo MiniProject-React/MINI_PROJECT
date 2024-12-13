@@ -61,6 +61,7 @@ public class UsersDAO3 {
 
     // 회원 정보 업데이트
     private static final String UPDATE_USER = "UPDATE USERS SET USERNAME = ? , PASSWORD = ? , ADDRESS = ? , PHONE_NUMBER = ? WHERE EMAIL = ?";
+
     public List<UserVO3> userList(Map<String, Object> paramMap) {
         try {
             // pageIndex와 pageSize를 추출
