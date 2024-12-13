@@ -1,5 +1,5 @@
 import React from "react";
-import AdminHome from "./AdminHome";
+import AdminHome from "./AdminProducts/AdminHome";
 import { AdminUsersMap } from "../../api/provider/UserSearchContextProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 
