@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil"; // RecoilRoot 임포트
 import Home from "./pages/Home.js";
-import Login from "./pages/signup/Login.js";
+import SignIn from "./pages/signup/SignIn.js";
 import Signup from "./pages/signup/Signup";
 import Shopping01 from "./pages/Shopping01";
 import UserPage01 from "./pages/UserPage01";
@@ -52,7 +52,7 @@ function App() {
               <Route path="/order" element={<Order />} />
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/address" element={<Address />} />
               <Route path="/mail" element={<EmailVerification />} />

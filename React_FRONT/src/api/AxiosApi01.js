@@ -2,6 +2,18 @@ import axios from "axios";
 
 const MINI_DOMAIN = "http://localhost:8112";
 const AxiosApi01 = {
+  // 모든 상품 가져오기
+  getAllProducts: async () => {
+    try {
+      const url = `${MINI_DOMAIN}/products`;
+      const response = await axios.get(url);
+      console.log("[getAllProducts] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getAllProducts] Error:", error);
+      throw error;
+    }
+  },
   // 상품 정렬 요청
   getSortedProducts: async (categoryId, sortColumn, sortOrder) => {
     try {
