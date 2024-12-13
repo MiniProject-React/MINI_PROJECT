@@ -431,6 +431,7 @@ const styles = {
   header: {
     textAlign: "center",
     color: "#333",
+    marginBottom: "20px"
   },
   section: {
     marginBottom: "30px",
@@ -438,6 +439,7 @@ const styles = {
   sectionTitle: {
     fontSize: "1.5em",
     color: "#333",
+    marginBottom: "20px"
   },
   input: {
     width: "97%",
