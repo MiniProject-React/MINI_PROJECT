@@ -57,11 +57,18 @@ const UserCart01 = ({ user }) => {
           const categoryResponse = await AxiosApi01.getCategoryId(
             product.productId
           );
-          const categoryName = categoryMap[categoryResponse.categoryId]; // 카테고리 ID를 이름으로 변환
+          const categoryId = categoryResponse.data;
+          const categoryName = categoryMap[categoryId]; // 카테고리 ID를 이름으로 변환
 
           if (!categoryName) {
             console.error("카테고리 이름을 찾을 수 없음", product.productId);
-            return { productId: product.productName, downloadUrl: null };
+            console.log(categoryResponse.data);
+            return { productId: product.productId, downloadUrl: null };
+          }
+
+          if (!product.productName) {
+            console.error("상품 이름을 찾을 수 없음", product.productId);
+            return { productId: product.productId, downloadUrl: null };
           }
 
           // Firebase에서 이미지 가져오기
@@ -71,13 +78,13 @@ const UserCart01 = ({ user }) => {
           );
 
           const downloadUrl = await getDownloadURL(imageRef);
-          return { productId: product.productName, downloadUrl };
+          return { productId: product.productId, downloadUrl };
         } catch (err) {
           console.error(
-            `Error fetching category or image for ${product.productName}:`,
+            `Error fetching category or image for ${product.productId}:`,
             err
           );
-          return { productId: product.productName, downloadUrl: null };
+          return { productId: product.productId, downloadUrl: null };
         }
       });
 
@@ -139,9 +146,9 @@ const UserCart01 = ({ user }) => {
           cartItems.map((item) => (
             <CartItem key={item.cartItemId}>
               <ProductImage>
-                {imageUrls[item.cartItemId] ? (
+                {imageUrls[item.productId] ? ( // cartItemId가 아닌 productId를 사용
                   <img
-                    src={imageUrls[item.cartItemId]}
+                    src={imageUrls[item.productId]} // 여기에서도 productId로 변경
                     alt={item.productName}
                     onError={(e) => {
                       e.target.style.display = "none";

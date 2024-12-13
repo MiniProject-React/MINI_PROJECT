@@ -115,15 +115,6 @@ const AxiosApi01 = {
     }
   },
 
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Fetches the list of orders for a specific user based on their email.
-   *
-   * @param {string} email - The email of the user whose orders are to be retrieved.
-   * @returns {Promise<Object>} - A promise that resolves to the response object containing the list of orders.
-   * @throws {Error} - If an error occurs during the HTTP request, it will be logged and rethrown.
-   */
-  /******  d3f4c044-00f3-4187-8b33-858c6eb83b21  *******/
   getOrdersList: async (email) => {
     try {
       const url = `${MINI_DOMAIN}/orders/${email}`;
@@ -150,7 +141,7 @@ const AxiosApi01 = {
 
   getCategoryId: async (productId) => {
     try {
-      const url = `${MINI_DOMAIN}/products/category/${productId}`;
+      const url = `${MINI_DOMAIN}/products/categoryId/${productId}`;
       const response = await axios.get(url);
       console.log("[getCategoryId] Response:", response.data);
       return response;

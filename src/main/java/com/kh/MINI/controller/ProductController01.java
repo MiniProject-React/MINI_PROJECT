@@ -6,6 +6,7 @@ import com.kh.MINI.vo.ProductWithReviewVo01;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
@@ -27,6 +29,7 @@ public class ProductController01 {
     public List<ProductVo01> getAllProducts() {
         return productDao.productList();
     }
+
     @GetMapping("/products/category/{categoryId}")
     public ResponseEntity<List<ProductVo01>> getProductsByCategory(@PathVariable("categoryId") String categoryId) {
         List<ProductVo01> productList = productDao.productListByCategory(categoryId);
@@ -48,16 +51,23 @@ public class ProductController01 {
         // 서비스 메서드를 호출하여 정렬된 제품 리스트를 가져옵니다.
         return productDao.getProductsSorted(categoryId, sortColumn, sortOrder);
     }
-    @GetMapping("/products/category/{productId}")
+    @GetMapping("/products/categoryId/{productId}")
     public ResponseEntity<Integer> getCategoryId(@PathVariable("productId") int productId) {
         try {
-            // findCategoryId 메서드를 호출하여 카테고리 ID를 얻음
             int categoryId = productDao.findCategoryId(productId);
-
-            // 정상적인 경우 카테고리 ID를 반환
+            log.debug("Category ID: " + categoryId);
             return ResponseEntity.ok(categoryId);
+        } catch (NoSuchElementException e) {
+            // 특정 예외 처리: 데이터가 없을 경우 404 반환
+            log.error("Category not found for productId: " + productId, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (DataAccessException e) {
+            // 데이터베이스 관련 예외 처리: 500 반환
+            log.error("Database error occurred", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
-            // 예외가 발생한 경우 500 서버 에러 처리
+            // 기타 예외 처리
+            log.error("Unexpected error occurred", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
