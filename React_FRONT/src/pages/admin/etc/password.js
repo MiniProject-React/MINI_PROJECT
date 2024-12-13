@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import PasswordMask from "react-password-mask";
 
 const PasswordInput = () => {
   const [password, setPassword] = useState(""); // 비밀번호 입력값 상태 관리

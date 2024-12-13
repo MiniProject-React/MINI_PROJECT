@@ -42,6 +42,18 @@ public class ProductDao01 {
             "        WHEN ? = 'review_count' THEN review_count\n" +
             "        ELSE p.product_id\n" +
             "    END";
+    private static final String SELECT_CATEGORY_ID_BY_PRODUCT_ID = "SELECT category_id FROM PRODUCTS WHERE product_id = ?";
+
+    // 카테고리 ID로 프로덕트 ID 찾기
+    public int findCategoryId(int productId) {
+        try {
+            // 단일 값을 반환하는 쿼리 실행
+            return jdbcTemplate.queryForObject(SELECT_CATEGORY_ID_BY_PRODUCT_ID, new Object[]{productId}, Integer.class);
+        } catch (DataAccessException e) {
+            log.error("상품 ID로 카테고리 ID 조회 중 에러 발생", e);
+            throw e;  // 예외를 상위로 던져서 처리
+        }
+    }
     // 전체 부품 리스트
     public List<ProductVo01> productList() {
         try {

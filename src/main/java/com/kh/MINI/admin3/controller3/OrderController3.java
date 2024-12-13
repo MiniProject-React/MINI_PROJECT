@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,19 @@ public class OrderController3 {
         Map<String, Object> resultMap = new HashMap<>();
         List<CustomVO3> custom = orderDAO3.custom(user_id);
         resultMap.put("custom", custom);
+        return resultMap;
+    }
+
+    @PostMapping("/order")
+    public Map<String, Object> orderorder ( @RequestBody OrdersVO3 vo) throws SQLException {
+        Map<String, Object> resultMap =new HashMap<>();
+        int total = vo.getTotal_price();
+        int user_id = vo.getUser_id();
+        log.info("총합 : {} , 가격 : {}", total, user_id);
+        Integer orderorder = orderDAO3.orderorder(total, user_id );
+        System.out.println(orderorder);
+        log.info("주문 추가 시 order_id 반환 확인 : {}", orderorder);
+        resultMap.put("orderorder",orderorder);
         return resultMap;
     }
 
