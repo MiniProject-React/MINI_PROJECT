@@ -18,7 +18,7 @@ const AdminUsers = () => {
   const { user } = useContext(UserContext);
   useEffect(() => {
     console.log("contextAPI로 email 검증 확인 : ", user.email);
-    if (!user.role !== 1) {
+    if (user.role !== 1) {
       navigate("/");
     }
   }, [user.email, navigate]);

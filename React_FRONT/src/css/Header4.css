@@ -68,3 +68,13 @@
 .nav-menu li a:hover {
   color: #007bff;
 }
+
+.logout {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: #007bff;
+}

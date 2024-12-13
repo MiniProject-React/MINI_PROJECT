@@ -15,7 +15,8 @@ function Header4() {
   const logout = () => {
     console.log("log out !!!!!!!!!!!!!!");
     localStorage.removeItem("user");
-    navigate("/login");
+    navigate("/");
+    window.location.reload();
   };
   return (
     <header className="header">
@@ -49,13 +50,15 @@ function Header4() {
                   <a href="/admin">Admin</a>
                 </li>
               </>
-            ) : (
+            ) : user.role === 0 ? (
               <>
                 {" "}
                 <li>
                   <a href="/userpage">My Page</a>
                 </li>
               </>
+            ) : (
+              <></>
             )}
           </ul>
 
@@ -63,7 +66,9 @@ function Header4() {
           {user.email ? (
             <>
               <li>
-                <div onClick={logout}>Log out</div>
+                <p className="logout" onClick={logout}>
+                  Log out
+                </p>
               </li>
             </>
           ) : (

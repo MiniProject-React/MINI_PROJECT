@@ -49,7 +49,7 @@ function App() {
               <Route />
               <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/admin/*" element={<AdminTab />} />
+              <Route path="/admin" element={<AdminTab />} />
               <Route path="/select" element={<PracticeSelect />} />
               <Route
                 path="/users/orderlist/:user_id"

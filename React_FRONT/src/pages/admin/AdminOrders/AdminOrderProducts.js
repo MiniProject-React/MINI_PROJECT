@@ -15,6 +15,7 @@ const AdminOrderProducts = () => {
   const [price, setPrice] = useState([]);
   const [total, setTotal] = useState("");
   const userId = useContext(USERID);
+  const [order_id, setOrder_id] = useState("");
 
   useEffect(() => {
     console.log("총합:", total); // total이 변경될 때마다 실행
@@ -37,10 +38,39 @@ const AdminOrderProducts = () => {
     console.log("order 함수내에서 값 확인 total : ", total);
     console.log("order 함수내에서 값 확인 userId : ", userId);
 
-    const rsp = await AxiosApi3.orderorder(total, userId);
+    try {
+      // 1. 서버로부터 findOrderId 가져오기
+      const rsp = await AxiosApi3.orderorder(total, userId);
+      const findOrderId = rsp.data.findOrderId; // 응답 데이터
+      console.log("order order 테이블", findOrderId);
+
+      // 2. order_id와 selectedProducts 업데이트
+      if (findOrderId > 0) {
+        setOrder_id(findOrderId);
+
+        // selectedProducts 업데이트
+        const updatedProducts = selectedProducts.map((item) => ({
+          ...item,
+          order_id: findOrderId,
+        }));
+        setSelectedProducts(updatedProducts);
+
+        // 3. OrderProduct 호출
+        await OrderProduct(updatedProducts); // 업데이트된 products 전달
+      }
+    } catch (error) {
+      console.error("Order 함수 실행 중 오류 발생: ", error);
+    }
   };
+
   const OrderProduct = async (selectedProducts) => {
-    const rsp = await AxiosApi3.order_product(selectedProducts);
+    try {
+      console.log("OrderProduct 호출됨:", selectedProducts);
+      const rsp = await AxiosApi3.order_product(selectedProducts);
+      console.log("OrderProduct 응답: ", rsp.data);
+    } catch (error) {
+      console.error("OrderProduct 실행 중 오류 발생: ", error);
+    }
   };
 
   const ProductList = async (cpage) => {

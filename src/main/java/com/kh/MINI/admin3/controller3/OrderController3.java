@@ -8,6 +8,7 @@ import com.kh.MINI.admin3.vo3.OrdersVO3;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -62,17 +63,31 @@ public class OrderController3 {
     }
 
     @PostMapping("/order")
-    public Map<String, Object> orderorder ( @RequestBody OrdersVO3 vo) throws SQLException {
-        Map<String, Object> resultMap =new HashMap<>();
+    public Map<String, Object> orderorder (@RequestBody OrdersVO3 vo) throws SQLException {
+        Map<String, Object> resultMap = new HashMap<>();
         int total = vo.getTotal_price();
         int user_id = vo.getUser_id();
-        log.info("총합 : {} , 가격 : {}", total, user_id);
-        Integer orderorder = orderDAO3.orderorder(total, user_id );
-        System.out.println(orderorder);
-        log.info("주문 추가 시 order_id 반환 확인 : {}", orderorder);
-        resultMap.put("orderorder",orderorder);
-        return resultMap;
+        log.info("총합 : {} , user_id : {}", total, user_id);
+
+        boolean isSuccess = orderDAO3.orderorder(total, user_id);
+        Integer findOrderId = null;
+
+        if (isSuccess) {
+            findOrderId = orderDAO3.orderId(user_id);
+
+
+        }
+        System.out.printf("order_id : %d ", findOrderId);
+        resultMap.put("findOrderId", findOrderId);
+//        if (findOrderId != null){
+//            isSuccess = orderDAO3.orderorderDetail(vo);
+//            return ResponseEntity.ok(isSuccess);
+//        }
+
+    return resultMap;
     }
+
+
 
 
 }

@@ -156,6 +156,10 @@ const AxiosApi3 = {
       },
     });
   },
+  // 배열이 입력 되어야 함
+  order_product: async (selectProduct) => {
+    return await axios.post(KH_DOMAIN + "/order/orderdetail", selectProduct);
+  },
 };
 
 export default AxiosApi3;
