@@ -35,6 +35,7 @@ const UserPage01 = () => {
   };
 
   // 컴포넌트 렌더링(유저 프로필은 비밀번호 체크)
+
   const renderComponent = () => {
     if (selectedMenu === "profile") {
       return isPasswordVerified ? (

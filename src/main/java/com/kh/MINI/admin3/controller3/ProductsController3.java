@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -101,5 +102,58 @@ public class ProductsController3 {
     public ResponseEntity<Boolean> delete_product(@RequestBody ProductsVO3 vo) {
         boolean isSuccess = productsDAO3.deleteProduct(vo.getProduct_id());
         return ResponseEntity.ok(isSuccess);
+    }
+
+    // 주문 추가시 상품 검색
+    @GetMapping("/order_products")
+    public Map<String, Object> order_products(@RequestParam Map<String, Object> paramMap){
+        Map<String, Object> resultMap = new HashMap<>();
+        //List<ProductsVO3> order_products = productsDAO3.order_products();
+        System.out.println(paramMap);
+        int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
+        int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+        int pageIndex = (currentPage - 1) * pageSize;
+
+        String searchCategoryStr = (String) paramMap.get("searchCategory");
+        int searchCategory =-1;
+
+        if(searchCategoryStr != null && !searchCategoryStr.isEmpty()) {
+            try{
+                searchCategory = Integer.parseInt(searchCategoryStr);
+            }catch (NumberFormatException e) {
+                log.error("잘못된  형식의 searchCategory : {}", searchCategoryStr);
+            }
+        } else {
+            log.warn("searchCategory 값이 null 또는 빈문자입니다.");
+        }
+        paramMap.put("pageIndex", pageIndex);
+        paramMap.put("pageSize", pageSize);
+        paramMap.put("searchCategory", searchCategory);
+        resultMap.put("cpage", currentPage);
+
+        String searchKeyword = (String) paramMap.get("searchKeyword");
+        String searchCondition = (String) paramMap.get("searchCondition");
+
+        // 검색어가 없고 전체 조회일 경우
+        if (Objects.equals(searchKeyword, "") && searchCategory == -1) {
+            // 검색어와 카테고리 조건이 없을 경우
+            List<ProductsVO3> order_products = productsDAO3.order_products(paramMap);
+            resultMap.put("order_products", order_products);
+            int totalCount = productsDAO3.totalCount(paramMap);
+            resultMap.put("totalCount", totalCount);
+        } else if (Objects.equals(searchKeyword, "") && searchCategory != -1) {
+            // 검색어는 없고 카테고리 조건이 있을 때
+            List<ProductsVO3> noSearchKeywordProductList = productsDAO3.noSearchKeywordProductList(paramMap);
+            resultMap.put("order_products", noSearchKeywordProductList);
+            int noSearchKeywordProductCount = productsDAO3.noSearchKeywordProductCount(paramMap);
+            resultMap.put("totalCount", noSearchKeywordProductCount);
+        } else if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            // 검색어가 있을 경우
+            List<ProductsVO3> searchKeywordProductList = productsDAO3.searchKeywordProductList(paramMap);
+            resultMap.put("order_products", searchKeywordProductList);
+        }
+
+
+        return resultMap;
     }
 }

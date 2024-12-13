@@ -1,6 +1,7 @@
 import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import Button from "../../components/ButtonComponent";
 import Input from "../../components/InputComponent";
 import { Container, Items } from "../../components/SignupComponent";
@@ -8,6 +9,7 @@ import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
 
+import { PasswordInputComponent } from "../../components/InputComponent";
 const Img = styled.img`
   width: 180px;
   object-fit: cover;
@@ -106,7 +108,7 @@ const Login = () => {
       </Items>
 
       <Items margin="10px">
-        <Input
+        <PasswordInputComponent
           type="password"
           placeholder="패스워드"
           value={inputPw}
