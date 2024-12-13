@@ -288,7 +288,6 @@ const OwnPC = () => {
   };
   return (
     <div style={styles.container}>
-      <h1>단계별 커스텀 PC</h1>
 
       <div style={styles.stepButtons}>
         {partsOptions.map((part, index) => (
