@@ -84,10 +84,10 @@ function HorizontalScrollList01({ categoryId, categoryName }) {
       {/* 상품 리스트가 있으면 렌더링 */}
       {products.length > 0 ? (
         <>
+          <h2 className="category-title">
+            <Link to={`/product/sorted/${categoryId}`}>{categoryName}</Link>
+          </h2>
           <div className="category-container">
-            <h2 className="category-title">
-              <Link to={`/product/sorted/${categoryId}`}>{categoryName}</Link>
-            </h2>
             <div
               className="scroll-container"
               ref={scrollContainerRef}
@@ -114,24 +114,24 @@ function HorizontalScrollList01({ categoryId, categoryName }) {
                 </div>
               ))}
             </div>
+            {isButtonVisible && (
+              <div
+                className="view-more-button"
+                style={{
+                  opacity: isAtEnd ? 1 : 0,
+                  visibility: isAtEnd ? "visible" : "hidden",
+                }}
+              >
+                <Link
+                  to={`/product/sorted/${categoryId}`}
+                  className="view-more-link"
+                >
+                  <span>더 보기</span>
+                </Link>
+              </div>
+            )}
           </div>
           {/* 스크롤 끝에 다다르면 '더 보기' 버튼이 보임 */}
-          {isButtonVisible && (
-            <div
-              className="view-more-button"
-              style={{
-                opacity: isAtEnd ? 1 : 0,
-                visibility: isAtEnd ? "visible" : "hidden",
-              }}
-            >
-              <Link
-                to={`/product/sorted/${categoryId}`}
-                className="view-more-link"
-              >
-                <span>더 보기</span>
-              </Link>
-            </div>
-          )}
         </>
       ) : (
         <p></p> // 상품 리스트가 없을 때 표시
