@@ -47,6 +47,7 @@ const OrderHistory01 = ({ user }) => {
   // 주문 목록 가져오기
   useEffect(() => {
     const fetchOrders = async () => {
+      console.log("이메일", user.email);
       try {
         const rsp = await AxiosApi01.getOrdersList(user.email); // 회원의 주문 목록 조회
         setOrdersList(rsp.data); // 주문 목록 설정
@@ -78,7 +79,7 @@ const OrderHistory01 = ({ user }) => {
       }
     };
     fetchOrders();
-  }, [user.email]);
+  }, []);
 
   const formatPrice = (price) => {
     // undefined 또는 null 값에 대한 처리 추가

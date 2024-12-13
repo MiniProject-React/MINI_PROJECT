@@ -30,9 +30,9 @@ const AxiosApi01 = {
     }
   },
   // 특정 유저의 장바구니 목록 조회
-  getCartList: async (userId) => {
+  getCartList: async (userEmail) => {
     try {
-      const url = `${MINI_DOMAIN}/carts/${userId}`;
+      const url = `${MINI_DOMAIN}/carts/${userEmail}`;
       const response = await axios.get(url);
       console.log("[getCartList] Response:", response.data);
       return response;
@@ -43,11 +43,11 @@ const AxiosApi01 = {
   },
 
   // 장바구니에 상품 추가
-  addCart: async (userId, productId, quantity) => {
+  addCart: async (userEmail, productId, quantity) => {
     try {
-      const url = `${MINI_DOMAIN}/carts?userId=${userId}&productId=${productId}&quantity=${quantity}`;
+      const url = `${MINI_DOMAIN}/carts?userEmail=${userEmail}&productId=${productId}&quantity=${quantity}`;
       const response = await axios.post(url, {
-        userId,
+        userEmail,
         productId,
         quantity,
       });
@@ -72,11 +72,11 @@ const AxiosApi01 = {
     }
   },
   // 장바구니 아이템 수량 업데이트
-  updateCart: async (userId, productId, quantity) => {
+  updateCart: async (userEmail, productId, quantity) => {
     try {
       const url = `${MINI_DOMAIN}/carts/update`;
       const response = await axios.put(url, {
-        userId,
+        userEmail,
         productId,
         quantity,
       });
@@ -135,6 +135,18 @@ const AxiosApi01 = {
       return response;
     } catch (error) {
       console.error("[getOrderDetails] Error:", error);
+      throw error;
+    }
+  },
+
+  getCategoryId: async (productId) => {
+    try {
+      const url = `${MINI_DOMAIN}/products/categoryId/${productId}`;
+      const response = await axios.get(url);
+      console.log("[getCategoryId] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[getCategoryId] Error:", error);
       throw error;
     }
   },

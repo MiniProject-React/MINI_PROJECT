@@ -1,32 +1,24 @@
-import { useState, createContext, useEffect } from "react";
+import { createContext, useState } from "react";
 
-// 전역 변수 정의
-export const UserContext = createContext(null);
-export const UserContextProvider = ({ children }) => {
-  const [email, setEmail] = useState(localStorage.getItem("email" || null));
-  const [userName, setUserName] = useState("");
-  const [role, setRole] = useState("");
+const UserContext = createContext();
 
-  useEffect(() => {
-    if (email) {
-      localStorage.setItem("email", email);
-    } else {
-      localStorage.removeItem("email");
-    }
-  }, [email]);
-  useEffect(() => {
-    if (userName) {
-      localStorage.setItem("userName", userName);
-    } else {
-      localStorage.removeItem("userName");
-    }
-  }, [userName]);
+const UserContextProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    return savedUser || { isLogin: false, email: "", userName: "", role: "" };
+  });
+
+  const updateUser = (newData) => {
+    const updatedUser = { ...user, ...newData };
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser)); // 업데이트 시 localStorage 저장
+  };
 
   return (
-    <UserContext.Provider
-      value={{ email, setEmail, userName, setUserName, role, setRole }}
-    >
+    <UserContext.Provider value={{ user, updateUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export { UserContextProvider, UserContext };

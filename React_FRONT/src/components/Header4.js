@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../css/Header4.css";
 import logo from "../images/C_logo_black4.png";
-import { UserContext } from "../api/provider/UserContextProvider";
 
 function Header4() {
-  const { email, userName, role } = useContext(UserContext);
-
   return (
     <header className="header">
       <nav className="nav">
@@ -21,35 +18,33 @@ function Header4() {
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/products">Products</a>
+              <a href="/product/sorted">Products</a>
             </li>
             <li>
-              <a href="/pc">PC</a>
+              <a href="/own-pc">Custom PC</a>
             </li>
             <li>
-              <a href="/about-us">About Us</a>
+              <a href="/suggested-pc">Builded PC</a>
             </li>
             <li>
-              <a href="/contact-us">Contact Us</a>
+              <a href="/userpage">My Page</a>
+            </li>
+            <li>
+              <a href="/admin">Admin</a>
+            </li>
+            <li>
+              <a href="/admin/users">Users List</a>
             </li>
           </ul>
 
           {/* 우측 정렬 메뉴 */}
           <ul className="nav-menu right-menu">
-            {email ? (
-              <li>
-                <a>{userName} 님 반갑습니다.</a>
-              </li>
-            ) : (
-              <>
-                <li>
-                  <a href="/sign-in">Sign In</a>
-                </li>
-                <li>
-                  <a href="/sign-up">Sign Up</a>
-                </li>
-              </>
-            )}
+            <li>
+              <a href="/login">Sign In</a>
+            </li>
+            <li>
+              <a href="/signup">Sign Up</a>
+            </li>
           </ul>
         </div>
       </nav>

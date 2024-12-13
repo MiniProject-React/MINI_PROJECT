@@ -11,10 +11,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class OrderVo01 {
     private int orderId;
-    private String shippingAddress;
     private Date orderDate;
     private String status;
     private int userId;
+    private String name;
+    private String phone;
     private String email;
-    private String userName;
+    private String postalCode;
+    private String address;
+    private String cardNumber;
 }
