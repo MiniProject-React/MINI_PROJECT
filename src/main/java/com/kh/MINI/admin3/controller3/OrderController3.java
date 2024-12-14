@@ -26,7 +26,7 @@ public class OrderController3 {
 
     // 개별 상품 상세 주문 목록 조회
     @GetMapping("/orderList/{user_id}")
-    public Map<String, Object> orderList (@PathVariable int user_id) {
+    public Map<String, Object> orderList (@PathVariable("user_id") int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         List<OrdersVO3> orderList = orderDAO3.orderList(user_id);
         resultMap.put("orderList", orderList);
@@ -35,7 +35,7 @@ public class OrderController3 {
 
     // 커스텀 상품 상세 주문 목록 조회
     @GetMapping("/customOrderList/{user_id}")
-    public Map<String, Object> customOrderList(@PathVariable int user_id) {
+    public Map<String, Object> customOrderList(@PathVariable("user_id") int user_id) {
 
         Map<String, Object> resultMap = new HashMap<>();
         List<CustomPCVO3> customOrderList = orderDAO3.customOrderList(user_id);
@@ -46,7 +46,7 @@ public class OrderController3 {
 
     // 주문 목록
     @GetMapping("/list/{user_id}")
-    public Map<String, Object> order (@PathVariable int user_id) {
+    public Map<String, Object> order (@PathVariable("user_id") int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         List<OVO3> order = orderDAO3.order(user_id);
         resultMap.put("order",order);
@@ -55,7 +55,7 @@ public class OrderController3 {
 
     // 커스텀 목록
     @GetMapping("/custom/{user_id}")
-    public Map<String, Object> custom (@PathVariable int user_id) {
+    public Map<String, Object> custom (@PathVariable("user_id") int user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         List<CustomVO3> custom = orderDAO3.custom(user_id);
         resultMap.put("custom", custom);
@@ -85,6 +85,13 @@ public class OrderController3 {
 //        }
 
     return resultMap;
+    }
+    // 오더 상세 추가
+    @PostMapping("/orderdetail")
+    public ResponseEntity<Boolean> orderdetail(@RequestBody List<OrdersVO3> vo) {
+        log.info("주문 상세에서 list로 주문 목록 확인하기 : {}",vo);
+        boolean isSuccess =  orderDAO3.orderdetail(vo);
+        return ResponseEntity.ok(isSuccess);
     }
 
 

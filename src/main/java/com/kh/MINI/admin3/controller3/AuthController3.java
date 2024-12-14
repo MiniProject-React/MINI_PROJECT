@@ -22,7 +22,7 @@ public class AuthController3 {
 
     //로그인
     @GetMapping("/roleCheck")
-    public Map<String, Object> roleCheck(@RequestParam String email, @RequestParam String password) {
+    public Map<String, Object> roleCheck(@RequestParam(value="email") String email, @RequestParam(value = "password") String password) {
         Map<String, Object> resultMap = new HashMap<>();
         List<UserVO3> roleCheck = adminDAO3.gradeCheck(email, password);  // Integer로 타입 명시
         resultMap.put("roleCheck", roleCheck);
@@ -46,7 +46,7 @@ public class AuthController3 {
     }
     // 가입 여부 확인
     @GetMapping("/exists/{email}")
-    public ResponseEntity<Boolean> exists(@PathVariable String email) {
+    public ResponseEntity<Boolean> exists(@PathVariable("email") String email) {
         log.error("email : {}", email );
         boolean isExist = adminDAO3.isEmailExist(email);
         return ResponseEntity.ok(!isExist);

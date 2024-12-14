@@ -108,7 +108,7 @@ public class UsersController3 {
 
     // 유저 상세 정보 조회
     @GetMapping("/detailUser")
-    public Map<String, Object> detailUser (@RequestParam  int user_id) {
+    public Map<String, Object> detailUser (@RequestParam(value="user_id")  int user_id) {
         System.out.printf("detailUser : %d",user_id);
         Map<String, Object> resultMap = new HashMap<>();
         List<UserVO3> detailUser = usersDAO3.detailUserInfo(user_id);
