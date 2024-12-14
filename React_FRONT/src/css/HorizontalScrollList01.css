@@ -117,11 +117,11 @@
   opacity: 1;
 }
 
-.product-name {
+.product-name2 {
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
-  color: white !important; /* 글씨를 흰색으로 설정 */
+  color: white; /* 글씨를 흰색으로 설정 */
 }
 
 .view-more-button {
