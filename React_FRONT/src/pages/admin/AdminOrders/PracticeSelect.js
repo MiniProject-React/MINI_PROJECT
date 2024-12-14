@@ -4,6 +4,8 @@ import "../style/Tab.css";
 import { Container } from "../style/Container";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../api/provider/UserContextProvider";
+import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap 스타일 추가
+
 const PracticeSelect = () => {
   const [activeTab, setActiveTab] = useState("cpu");
   const [productList, setProductList] = useState([]);
@@ -15,15 +17,18 @@ const PracticeSelect = () => {
   const [power, setPower] = useState([]);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
   useEffect(() => {
     console.log("contextAPI로 email 검증 확인 : ", user.email);
     if (user.role !== 1) {
       navigate("/login");
     }
   }, [user.email, navigate]);
+
   useEffect(() => {
     productListForSelect();
   }, []);
+
   const productListForSelect = async () => {
     const rsp = await AxiosApi3.productList();
     setProductList(rsp.data);
@@ -38,224 +43,269 @@ const PracticeSelect = () => {
   return (
     <>
       <Container className="product-users">
-        <ul className="tabmenu">
-          <li
-            className={activeTab === "cpu" ? "active" : ""}
-            onClick={() => setActiveTab("cpu")}
-          >
-            <a href="#cpu">CPU</a>
+        {/* Bootstrap 클래스를 사용하여 탭 스타일 적용 */}
+        <ul className="nav nav-pills bg-dark p-2">
+          <li className="nav-item" onClick={() => setActiveTab("cpu")}>
+            <a
+              className={`nav-link ${
+                activeTab === "cpu" ? "active" : ""
+              } text-white`}
+              href="#cpu"
+            >
+              CPU
+            </a>
           </li>
-          <li
-            className={activeTab === "gpu" ? "active" : ""}
-            onClick={() => setActiveTab("gpu")}
-          >
-            <a href="#gpu">GPU</a>
+          <li className="nav-item" onClick={() => setActiveTab("gpu")}>
+            <a
+              className={`nav-link ${
+                activeTab === "gpu" ? "active" : ""
+              } text-white`}
+              href="#gpu"
+            >
+              GPU
+            </a>
           </li>
-          <li
-            className={activeTab === "main" ? "active" : ""}
-            onClick={() => setActiveTab("main")}
-          >
-            <a href="#main">MAIN</a>
+          <li className="nav-item" onClick={() => setActiveTab("main")}>
+            <a
+              className={`nav-link ${
+                activeTab === "main" ? "active" : ""
+              } text-white`}
+              href="#main"
+            >
+              MAIN
+            </a>
           </li>
-          <li
-            className={activeTab === "ram" ? "active" : ""}
-            onClick={() => setActiveTab("ram")}
-          >
-            <a href="#ram">RAM</a>
+          <li className="nav-item" onClick={() => setActiveTab("ram")}>
+            <a
+              className={`nav-link ${
+                activeTab === "ram" ? "active" : ""
+              } text-white`}
+              href="#ram"
+            >
+              RAM
+            </a>
           </li>
-          <li
-            className={activeTab === "ssd" ? "active" : ""}
-            onClick={() => setActiveTab("ssd")}
-          >
-            <a href="#ssd">SSD</a>
+          <li className="nav-item" onClick={() => setActiveTab("ssd")}>
+            <a
+              className={`nav-link ${
+                activeTab === "ssd" ? "active" : ""
+              } text-white`}
+              href="#ssd"
+            >
+              SSD
+            </a>
           </li>
-          <li
-            className={activeTab === "power" ? "active" : ""}
-            onClick={() => setActiveTab("power")}
-          >
-            <a href="#power">POWER</a>
+          <li className="nav-item" onClick={() => setActiveTab("power")}>
+            <a
+              className={`nav-link ${
+                activeTab === "power" ? "active" : ""
+              } text-white`}
+              href="#power"
+            >
+              POWER
+            </a>
           </li>
         </ul>
-        <div className="tabcontent">
+
+        {/* 탭 콘텐츠 영역 */}
+        <div className="tabcontent bg-dark text-white p-4">
+          {/* CPU 탭 */}
           {activeTab === "cpu" && (
             <div id="cpu" className="active">
-              <table>
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {cpu ? (
+                  {cpu.length > 0 ? (
                     cpu.map((cpu) => (
                       <tr key={cpu.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{cpu.product_id}</td>
-                        <td>{cpu.product}</td>
+                        <td>{cpu.name}</td>
                         <td>{cpu.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           )}
+
+          {/* GPU 탭 */}
           {activeTab === "gpu" && (
-            <div id="gpud" className="active">
-              {" "}
-              <table>
+            <div id="gpu" className="active">
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {gpu ? (
+                  {gpu.length > 0 ? (
                     gpu.map((gpu) => (
                       <tr key={gpu.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{gpu.product_id}</td>
-                        <td>{gpu.product}</td>
+                        <td>{gpu.name}</td>
                         <td>{gpu.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           )}
+
+          {/* MAIN 탭 */}
           {activeTab === "main" && (
-            <div id="gpud" className="active">
-              {" "}
-              <table>
+            <div id="main" className="active">
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {main ? (
+                  {main.length > 0 ? (
                     main.map((main) => (
                       <tr key={main.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{main.product_id}</td>
-                        <td>{main.product}</td>
+                        <td>{main.name}</td>
                         <td>{main.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           )}
+
+          {/* RAM 탭 */}
           {activeTab === "ram" && (
-            <div id="gpud" className="active">
-              {" "}
-              <table>
+            <div id="ram" className="active">
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {ram ? (
+                  {ram.length > 0 ? (
                     ram.map((ram) => (
                       <tr key={ram.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{ram.product_id}</td>
-                        <td>{ram.product}</td>
+                        <td>{ram.name}</td>
                         <td>{ram.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           )}
+
+          {/* SSD 탭 */}
           {activeTab === "ssd" && (
-            <div id="gpud" className="active">
-              {" "}
-              <table>
+            <div id="ssd" className="active">
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {ssd ? (
+                  {ssd.length > 0 ? (
                     ssd.map((ssd) => (
                       <tr key={ssd.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{ssd.product_id}</td>
-                        <td>{ssd.product}</td>
+                        <td>{ssd.name}</td>
                         <td>{ssd.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           )}
+
+          {/* POWER 탭 */}
           {activeTab === "power" && (
-            <div id="gpud" className="active">
-              {" "}
-              <table>
+            <div id="power" className="active">
+              <table className="table table-dark">
                 <thead>
-                  <th></th>
-                  <th>상품 ID</th>
-                  <th>상품 명</th>
-                  <th>상품 가격</th>
+                  <tr>
+                    <th></th>
+                    <th>상품 ID</th>
+                    <th>상품 명</th>
+                    <th>상품 가격</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {power ? (
+                  {power.length > 0 ? (
                     power.map((power) => (
                       <tr key={power.product_id}>
                         <td>
-                          <input type="checkbox"></input>
+                          <input type="checkbox" />
                         </td>
                         <td>{power.product_id}</td>
-                        <td>{power.product}</td>
+                        <td>{power.name}</td>
                         <td>{power.price}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td>데이터가 없습니다.</td>
+                      <td colSpan="4">데이터가 없습니다.</td>
                     </tr>
                   )}
                 </tbody>

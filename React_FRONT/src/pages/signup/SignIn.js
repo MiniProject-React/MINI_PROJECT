@@ -8,6 +8,7 @@ import AxiosApi from "../../api/AxiosApi3";
 import Modal from "../../utils/Modal";
 import { UserContext } from "../../api/provider/UserContextProvider";
 import { PasswordInputComponent } from "../../components/InputComponent";
+import comnawaImage from "./comnawa.jpg";
 
 const Img = styled.img`
   width: 180px;
@@ -96,7 +97,24 @@ const SignIn = () => {
 
   return (
     <Container>
-      <Items variant="sign"></Items>
+      <Items variant="sign">
+        <div
+          style={{
+            width: "420px",
+            height: "150px",
+            backgroundColor: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "white",
+            fontSize: "100px", // 글자 크기 최대화
+            fontWeight: "bold", // 글자 굵기 최대화
+            margin: 0, // 기본 margin을 없애기 위한 설정
+          }}
+        >
+          <h1>COMNAWA</h1>
+        </div>
+      </Items>
 
       <Items margin="10px">
         <Input
@@ -107,7 +125,6 @@ const SignIn = () => {
       </Items>
 
       <Items margin="10px">
-
         <PasswordInputComponent
           type="password"
           placeholder="패스워드"
@@ -125,12 +142,23 @@ const SignIn = () => {
           <Button disabled>SIGN IN</Button>
         )}
       </Items>
+      <div
+        style={{
+          margin: "10px 40px 200px 40px",
+          width: "420px", // div 너비를 420px로 설정
+          display: "flex", // 자식 요소들을 수평으로 배치
+          marginBottom: "200px", // 아래쪽 여백을 200px로 설정
+          justifyContent: "space-between",
+        }}
+      >
+        <Link to="/Signup" className="link_style" style={{ color: "black" }}>
+          <span>아이디/ 비밀번호 찾기</span>
+        </Link>
 
-      <Items variant="signup">
-        <Link to="/Signup" className="link_style">
+        <Link to="/Signup" className="link_style" style={{ color: "black" }}>
           <span>Sign Up</span>
         </Link>
-      </Items>
+      </div>
 
       <Modal
         open={modalOpen}

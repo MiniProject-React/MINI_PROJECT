@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class ProductsVO3 {
     private int product_id;
-    private String product;
+    private String name;
     private String description;
     private int price;
     private int stock;

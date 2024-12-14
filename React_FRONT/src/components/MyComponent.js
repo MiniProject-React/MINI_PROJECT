@@ -2,21 +2,21 @@ import styled, { css } from "styled-components";
 import React from "react";
 
 const StyledButton = styled.button`
-  margin: 0;
+  margin: 0 30px;
   font-weight: bold;
   width: 100%;
   height: 50px;
   color: white;
   background-color: #999;
   font-size: 15px;
-  border-radius: 18px;
+  border-radius: 10px;
   border: orange;
   font-weight: 700;
 
   ${(props) =>
     props.isValid &&
     css`
-      background-color: green;
+      background-color: black;
     `};
 
   &:active {

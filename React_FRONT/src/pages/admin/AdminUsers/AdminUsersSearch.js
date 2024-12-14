@@ -75,7 +75,7 @@ export const AdminUsersSearch = () => {
           />
         </div>
         <div>
-          <button className="btn btn-primary" onClick={handlerSearch}>
+          <button className="btn btn-secondary" onClick={handlerSearch}>
             검색
           </button>
         </div>
