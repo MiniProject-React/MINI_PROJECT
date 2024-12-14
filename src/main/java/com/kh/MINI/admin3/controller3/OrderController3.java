@@ -79,10 +79,7 @@ public class OrderController3 {
         }
         System.out.printf("order_id : %d ", findOrderId);
         resultMap.put("findOrderId", findOrderId);
-//        if (findOrderId != null){
-//            isSuccess = orderDAO3.orderorderDetail(vo);
-//            return ResponseEntity.ok(isSuccess);
-//        }
+
 
     return resultMap;
     }

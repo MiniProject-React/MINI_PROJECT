@@ -112,7 +112,7 @@ const AdminUsers = () => {
                 <td>{user.role}</td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                     onClick={() => OrderList(user.user_id)}
                   >
                     주문 목록 조회

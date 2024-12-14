@@ -97,7 +97,7 @@ const AdminUserOrderList = () => {
               <th>
                 {" "}
                 <button
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-secondary btn-sm"
                   onClick={AddOrderModal}
                 >
                   주문 추가
@@ -115,7 +115,7 @@ const AdminUserOrderList = () => {
                   <td>{order.status}</td>
                   <td>
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-secondary btn-sm"
                       onClick={OrderDetailModal}
                     >
                       상세 정보
@@ -142,7 +142,7 @@ const AdminUserOrderList = () => {
               <th>총액</th>
               <th>
                 <button
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-secondary btn-sm"
                   onClick={AddCustomModal}
                 >
                   주문 추가
@@ -158,7 +158,7 @@ const AdminUserOrderList = () => {
                   <td>{custom.total_price}</td>
                   <td>
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-secondary btn-sm"
                       onClick={CustomDetailModal}
                     >
                       상세 정보

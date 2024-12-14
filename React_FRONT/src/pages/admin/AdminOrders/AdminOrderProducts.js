@@ -18,7 +18,6 @@ const AdminOrderProducts = () => {
   const userId = useContext(USERID);
   const [order_id, setOrder_id] = useState("");
   const navigate = useNavigate();
-  const { userNumber } = useParams();
   useEffect(() => {
     console.log("총합:", total); // total이 변경될 때마다 실행
     console.log("주문 모달창에서 user_id 확인 ", userId);
@@ -72,7 +71,6 @@ const AdminOrderProducts = () => {
       console.log("OrderProduct 응답: ", rsp.data);
       if (rsp.data === true) {
         alert("주문 추가에 성공하였습니다.");
-        navigate(`/users/orderlist/${userNumber}`);
       }
     } catch (error) {
       console.error("OrderProduct 실행 중 오류 발생: ", error);

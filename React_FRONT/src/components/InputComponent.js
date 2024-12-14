@@ -7,10 +7,9 @@ const StyledInput = styled.input`
   width: 100%;
   height: auto;
   line-height: normal;
-  border: ${(props) =>
-    props.isValid ? "3px solid #32cd32" : "1px solid #ccc"};
+  border: ${(props) => (props.isValid ? "3px solid black" : "1px solid #ccc")};
   padding: 1em;
-  border-radius: 18px;
+  border-radius: 10px;
   outline: none;
   transition: border 0.3s ease; /* 부드러운 전환 효과 추가 */
 `;
