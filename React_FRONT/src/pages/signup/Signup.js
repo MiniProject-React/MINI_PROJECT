@@ -294,20 +294,14 @@ const Signup = () => {
         />
       </Items>
       <Items className="item2">
-        {isMail ? (
-          <MyComponent type="button" isValid={sendMail} onClick={sendNumber}>
-            인증번호 발송
-          </MyComponent>
-        ) : (
-          <MyComponent
-            type="button"
-            disabled
-            isValid={sendMail}
-            onClick={sendNumber}
-          >
-            인증번호 발송
-          </MyComponent>
-        )}
+        <MyComponent
+          type="button"
+          disabled={!isMail} // isMail이 false일 때 버튼 비활성화
+          isValid={sendMail}
+          onClick={sendNumber}
+        >
+          인증번호 발송
+        </MyComponent>
       </Items>
       <Items>
         {isCodeSent && (
