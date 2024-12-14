@@ -107,7 +107,7 @@ function HorizontalScrollList01({ categoryId, categoryName }) {
                         className="product-image"
                       />
                       <div className="overlay">
-                        <span className="product-name">{product.name}</span>
+                        <span className="product-name2">{product.name}</span>
                       </div>
                     </Link>
                   </div>
