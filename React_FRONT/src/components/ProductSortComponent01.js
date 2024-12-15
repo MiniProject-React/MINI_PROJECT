@@ -25,7 +25,8 @@ const ProductSortComponent = ({
   const [quantity, setQuantity] = useState({});
   const [imageUrls, setImageUrls] = useState({});
   const [imageError, setImageError] = useState({}); // 이미지를 불러오지 못한 상태를 저장
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  
   const categoryMap = {
     //카테고리id를 이름으로 전환용
     1: "CPU",
@@ -105,6 +106,27 @@ const ProductSortComponent = ({
     }));
   };
 
+  const handleSelectProduct = (product) => {
+    // 선택된 상품을 상태에 저장
+    setSelectedProduct({
+      ...product,
+      quantity: quantity[product.PRODUCT_ID],
+    });
+  };
+  const handlePurchaseButtonClick = () => {
+    if (selectedProduct) {
+      const purchasePayload = [{
+        customId: null,
+        productId: selectedProduct.PRODUCT_ID,
+        productName: selectedProduct.NAME,
+        quantity: selectedProduct.quantity,
+        price: selectedProduct.PRICE,
+      }];
+      navigate("/purchase", { state: purchasePayload });
+    }
+  };
+
+
   if (categoryList.length === 0) {
     return <p>상품이 없습니다.</p>;
   }
@@ -167,9 +189,7 @@ const ProductSortComponent = ({
             </button>
             <button
               className="buy-btn"
-              onClick={(e) => {
-                alert("구매하기");
-              }}
+              onClick={handlePurchaseButtonClick} // 구매하기 버튼 클릭 시 처리
             >
               구매하기
             </button>

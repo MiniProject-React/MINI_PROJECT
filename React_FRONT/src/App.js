@@ -23,6 +23,7 @@ import ProductDetail4 from "./product/ProductDetail4";
 // 상세 페이지 컴포넌트 추가
 import AdminTab from "./pages/admin/AdminTab.js";
 import PracticeSelect from "./pages/admin/AdminOrders/PracticeSelect.js";
+import PurchasePage from "./pages/PurchasePage01.js";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
               <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminTab />} />
+              <Route path="/purchase" element={<PurchasePage />} />
               <Route path="/select" element={<PracticeSelect />} />
               <Route
                 path="/users/orderlist/:user_id"
