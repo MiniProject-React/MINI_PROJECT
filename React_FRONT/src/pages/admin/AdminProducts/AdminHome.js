@@ -176,7 +176,7 @@ export default function AdminHome() {
                 )}
               </div>
               <div className="product-info">
-                <p className="product-name">{a.name}</p>
+                <p className="name">{a.name}</p>
                 <p className="product-price">{a.price.toLocaleString()}원</p>
               </div>
             </SwiperSlide>
