@@ -117,10 +117,16 @@ const UserCart01 = ({ user }) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
   const calculateTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.quantity * item.productPrice,
-      0
-    );
+    return cartItems.reduce((total, item) => {
+      if (item.productPrice) {
+        // 일반 상품 가격 계산
+        return total + item.quantity * item.productPrice;
+      } else if (item.customPrice) {
+        // 커스텀 상품 가격 계산
+        return total + item.quantity * item.customPrice;
+      }
+      return total; // 가격 정보가 없으면 total 유지
+    }, 0);
   };
 
   if (isLoading) return <div>Loading...</div>;
