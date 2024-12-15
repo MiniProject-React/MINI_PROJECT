@@ -23,8 +23,9 @@
 }
 
 .tabmenu li.active a {
-  background: #fff;
+  background: black;
   font-weight: bold;
+  color: white;
 }
 
 .tabcontent {

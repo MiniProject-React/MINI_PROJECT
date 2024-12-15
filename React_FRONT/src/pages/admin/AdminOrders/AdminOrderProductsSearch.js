@@ -36,8 +36,17 @@ export const AdminOrderProductsSearch = () => {
   return (
     <>
       <div className="d-flex flex-row mb-3">
-        <div className="me-3">
-          <select className="form-select" onChange={checkCategoryChange}>
+        <div className="me-3" style={{ flex: 1 }}>
+          <select
+            className="form-select"
+            onChange={checkCategoryChange}
+            style={{
+              backgroundColor: "#f7f7f7", // 연한 그레이 배경
+              color: "#555", // 텍스트 색상
+              borderColor: "#ccc", // 테두리 색상
+              width: "100%", // 전체 너비 100%
+            }}
+          >
             <option value={-1}>전체</option>
             {category && category.length > 0 ? (
               category.map((a, i) => (
@@ -50,24 +59,36 @@ export const AdminOrderProductsSearch = () => {
             )}
           </select>
         </div>
-        <div className="me-3">
+        <div className="me-3" style={{ flex: 1 }}>
           <select
             className="form-select"
             onChange={(e) =>
               setInput({ ...input, searchCondition: e.currentTarget.value })
             }
+            style={{
+              backgroundColor: "#f7f7f7", // 연한 그레이 배경
+              color: "#555", // 텍스트 색상
+              borderColor: "#ccc", // 테두리 색상
+              width: "100%", // 전체 너비 100%
+            }}
           >
-            <option value="name">상품명</option>
+            <option value="name">상품</option>
             <option value="price">가격</option>
           </select>
         </div>
-        <div className="me-3">
+        <div className="me-3" style={{ flex: 2 }}>
           <input
             className="form-control"
             type="text"
             onChange={(e) =>
               setInput({ ...input, searchKeyword: e.currentTarget.value })
             }
+            style={{
+              backgroundColor: "#f7f7f7", // 연한 그레이 배경
+              color: "#555", // 텍스트 색상
+              borderColor: "#ccc", // 테두리 색상
+              width: "100%", // 전체 너비 100%
+            }}
           />
         </div>
       </div>

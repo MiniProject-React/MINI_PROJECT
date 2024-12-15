@@ -179,7 +179,16 @@ const AdminOrderProducts = () => {
           </tbody>
         </table>
       </div>
-      <div className="d-flex justify-content-center">
+      {/* 페이지네이션 스타일 수정 */}
+      <div
+        className="d-flex justify-content-center"
+        style={{
+          backgroundColor: "#333", // 어두운 배경 색상
+          padding: "10px 20px", // 여백 추가
+          borderRadius: "5px", // 둥근 테두리
+          marginTop: "20px", // 상단 여백
+        }}
+      >
         <PageNavigate
           totalItemsCount={totalCnt}
           onChange={ProductList}
@@ -193,30 +202,28 @@ const AdminOrderProducts = () => {
         <div>
           {selectedProducts.length > 0 ? (
             selectedProducts.map((product) => (
-              <>
-                <div
-                  key={product.product_id}
-                  className="d-flex align-items-center"
-                >
-                  <span>
-                    <strong>{product.category}:</strong> {product.product} (
-                    {product.price}원)
-                  </span>
-                  <input
-                    type="number"
-                    value={product.quantity}
-                    min="1"
-                    className="form-control ml-2"
-                    style={{ width: "80px" }}
-                    onChange={(e) =>
-                      handleQuantityChange(
-                        product.product_id,
-                        Number(e.target.value)
-                      )
-                    }
-                  />
-                </div>
-              </>
+              <div
+                key={product.product_id}
+                className="d-flex align-items-center"
+              >
+                <span>
+                  <strong>{product.category}:</strong> {product.product} (
+                  {product.price}원)
+                </span>
+                <input
+                  type="number"
+                  value={product.quantity}
+                  min="1"
+                  className="form-control ml-2"
+                  style={{ width: "80px" }}
+                  onChange={(e) =>
+                    handleQuantityChange(
+                      product.product_id,
+                      Number(e.target.value)
+                    )
+                  }
+                />
+              </div>
             ))
           ) : (
             <div>

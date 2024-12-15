@@ -143,7 +143,17 @@ export default function AdminHome() {
   const renderSwiper = (category, items, imageMap) => (
     <div className="swiper-container">
       {/* 카테고리 제목은 슬라이드 외부 */}
-      <h3 className="category-title">{category}</h3>
+      <h3
+        className="category-title1"
+        style={{
+          textTransform: "uppercase",
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "10px",
+        }}
+      >
+        {category}
+      </h3>
       <Swiper
         slidesPerView={6}
         spaceBetween={30}
@@ -180,7 +190,7 @@ export default function AdminHome() {
 
   return (
     <>
-      <button className="btn btn-secondary" onClick={modalState1}>
+      <button className="btn btn-dark" onClick={modalState1}>
         상품 추가
       </button>
 

@@ -115,7 +115,7 @@ const AdminUserOrderList = () => {
                   <td>{order.status}</td>
                   <td>
                     <button
-                      className="btn btn-secondary btn-sm"
+                      className="btn btn-warning btn-sm"
                       onClick={OrderDetailModal}
                     >
                       상세 정보
@@ -158,7 +158,7 @@ const AdminUserOrderList = () => {
                   <td>{custom.total_price}</td>
                   <td>
                     <button
-                      className="btn btn-secondary btn-sm"
+                      className="btn btn-warnning btn-sm"
                       onClick={CustomDetailModal}
                     >
                       상세 정보

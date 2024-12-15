@@ -67,7 +67,7 @@ const SignIn = () => {
 
       onClickLogin(userData);
     } catch (e) {
-      alert("서버가 응답하지 않습니다."); // 모달 구문 추가하며 뻄
+      alert("아이디 혹은 비밀번호를 잘못입력하셨습니다."); // 모달 구문 추가하며 뻄
     }
   };
   const onClickLogin = async (role) => {
@@ -94,9 +94,14 @@ const SignIn = () => {
       setModalContent("로그인 서버가 응답하지 않습니다.");
     }
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && isId && isPw) {
+      roleCheck(); // Enter 키가 눌리면 로그인 함수 실행
+    }
+  };
 
   return (
-    <Container>
+    <Container onKeyDown={handleKeyDown}>
       <Items variant="sign">
         <div
           style={{
@@ -151,7 +156,7 @@ const SignIn = () => {
           justifyContent: "space-between",
         }}
       >
-        <Link to="/Signup" className="link_style" style={{ color: "black" }}>
+        <Link to="/find" className="link_style" style={{ color: "black" }}>
           <span>아이디/ 비밀번호 찾기</span>
         </Link>
 
