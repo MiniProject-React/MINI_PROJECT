@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import AxiosApi3 from "../../../api/AxiosApi3";
 import "../style/Tab.css";
-import { Container } from "../style/Container";
+import { Container1 } from "../style/Container";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../api/provider/UserContextProvider";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap 스타일 추가
-
+import "../style/radio.css";
 const PracticeSelect = () => {
   const [activeTab, setActiveTab] = useState("cpu");
   const [productList, setProductList] = useState([]);
@@ -39,10 +39,13 @@ const PracticeSelect = () => {
     setSsd(rsp.data.ssd);
     setPower(rsp.data.power);
   };
-
+  const handleTabClick = (e, tabName) => {
+    e.preventDefault(); // 기본 링크 동작 방지
+    setActiveTab(tabName); // 탭 활성화
+  };
   return (
     <>
-      <Container className="product-users">
+      <Container1 className="product-users">
         {/* Bootstrap 클래스를 사용하여 탭 스타일 적용 */}
         <ul className="nav nav-pills bg-dark p-2">
           <li className="nav-item" onClick={() => setActiveTab("cpu")}>
@@ -50,7 +53,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "cpu" ? "active" : ""
               } text-white`}
-              href="#cpu"
+              href="#"
+              onClick={(e) => handleTabClick(e, "cpu")}
             >
               CPU
             </a>
@@ -60,7 +64,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "gpu" ? "active" : ""
               } text-white`}
-              href="#gpu"
+              href="#"
+              onClick={(e) => handleTabClick(e, "gpu")}
             >
               GPU
             </a>
@@ -70,7 +75,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "main" ? "active" : ""
               } text-white`}
-              href="#main"
+              href="#"
+              onClick={(e) => handleTabClick(e, "main")}
             >
               MAIN
             </a>
@@ -80,7 +86,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "ram" ? "active" : ""
               } text-white`}
-              href="#ram"
+              href="#"
+              onClick={(e) => handleTabClick(e, "ram")}
             >
               RAM
             </a>
@@ -90,7 +97,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "ssd" ? "active" : ""
               } text-white`}
-              href="#ssd"
+              href="#"
+              onClick={(e) => handleTabClick(e, "ssd")}
             >
               SSD
             </a>
@@ -100,7 +108,8 @@ const PracticeSelect = () => {
               className={`nav-link ${
                 activeTab === "power" ? "active" : ""
               } text-white`}
-              href="#power"
+              href="#"
+              onClick={(e) => handleTabClick(e, "power")}
             >
               POWER
             </a>
@@ -126,7 +135,13 @@ const PracticeSelect = () => {
                     cpu.map((cpu) => (
                       <tr key={cpu.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${cpu.product_id}`}
+                            value={cpu.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{cpu.product_id}</td>
                         <td>{cpu.name}</td>
@@ -160,7 +175,13 @@ const PracticeSelect = () => {
                     gpu.map((gpu) => (
                       <tr key={gpu.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${gpu.product_id}`}
+                            value={gpu.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{gpu.product_id}</td>
                         <td>{gpu.name}</td>
@@ -194,7 +215,13 @@ const PracticeSelect = () => {
                     main.map((main) => (
                       <tr key={main.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${main.product_id}`}
+                            values={main.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{main.product_id}</td>
                         <td>{main.name}</td>
@@ -228,7 +255,13 @@ const PracticeSelect = () => {
                     ram.map((ram) => (
                       <tr key={ram.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${ram.product_id}`}
+                            value={ram.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{ram.product_id}</td>
                         <td>{ram.name}</td>
@@ -262,7 +295,13 @@ const PracticeSelect = () => {
                     ssd.map((ssd) => (
                       <tr key={ssd.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${ssd.product_id}`}
+                            value={ssd.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{ssd.product_id}</td>
                         <td>{ssd.name}</td>
@@ -296,7 +335,13 @@ const PracticeSelect = () => {
                     power.map((power) => (
                       <tr key={power.product_id}>
                         <td>
-                          <input type="checkbox" />
+                          <input
+                            type="radio"
+                            className="radio"
+                            id={`radio-${power.product_id}`}
+                            value={power.product_id}
+                            name="radio"
+                          />
                         </td>
                         <td>{power.product_id}</td>
                         <td>{power.name}</td>
@@ -313,7 +358,7 @@ const PracticeSelect = () => {
             </div>
           )}
         </div>
-      </Container>
+      </Container1>
     </>
   );
 };
