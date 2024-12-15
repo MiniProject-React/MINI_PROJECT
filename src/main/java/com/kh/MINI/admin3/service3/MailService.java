@@ -8,9 +8,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-
 import java.util.Properties;
 
 @Service
@@ -20,6 +17,7 @@ public class MailService {
     private static final String senderEmail = "gigattfyhig@gmail.com";
     private static int number;  // 인증 번호
     private static String userMail; // 인증번호를 보낸 이메일 저장
+    private static String Password;
 
     // JavaMailSender를 수동으로 설정하는 메서드
     public JavaMailSender getMailSender() {
@@ -73,5 +71,40 @@ public class MailService {
     // 인증번호 검증 메서드 추가
     public boolean verifyNumber( int enteredNumber, String mail) {
         return userMail.equals(mail) && number == enteredNumber;
+    }
+
+    public boolean idandpw(String mail, String password) {
+        Password = password;
+        try {
+            MimeMessage message = SendIdAndPassword(mail);
+            JavaMailSender mailSender = getMailSender();
+            mailSender.send(message);  // 이메일 전송 시도
+
+            return true;  // 전송 성공 시 true 반환
+        } catch (Exception e) {
+            // 이메일 전송 실패 시 예외 처리
+            e.printStackTrace();
+            return false;  // 전송 실패 시 false 반환
+        }
+    }
+
+
+    private MimeMessage SendIdAndPassword(String mail) {
+        JavaMailSender mailSender = getMailSender();
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            message.setFrom(senderEmail);
+            message.setRecipients(MimeMessage.RecipientType.TO, mail);
+            message.setSubject("PW 확인");
+            String body = "";
+            body += "<h3>" + "요청하신 password 입니다." + "</h3>";
+            body += "<h1>" + Password + "</h1>";
+            body += "<h3>" + "감사합니다." + "</h3>";
+            message.setText(body, "UTF-8", "html");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return message;
     }
 }

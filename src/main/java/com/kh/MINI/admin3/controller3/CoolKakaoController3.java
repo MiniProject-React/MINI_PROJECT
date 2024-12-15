@@ -10,6 +10,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -38,7 +39,9 @@ public class CoolKakaoController3 {
      * 알림톡 한건 발송 예제
      */
     @PostMapping("/send-one-ata")
-    public SingleMessageSentResponse sendOneAta() {
+    public SingleMessageSentResponse sendOneAta(@RequestParam(value = "username") String username ,@RequestParam(value = "phone_number") String phone_number) {
+        String cleanedPhoneNumber = phone_number.replaceAll("-", "");
+
         KakaoOption kakaoOption = new KakaoOption();
         // disableSms를 true로 설정하실 경우 문자로 대체발송 되지 않습니다.
         // kakaoOption.setDisableSms(true);
@@ -58,14 +61,19 @@ public class CoolKakaoController3 {
 
         Message message = new Message();
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom("발신번호 입력");
-        message.setTo("수신번호 입력");
+
+        message.setFrom("01090277477");
+        message.setTo(cleanedPhoneNumber);
         message.setKakaoOptions(kakaoOption);
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
 
         return response;
+    }
+    public static void createNumber(String mail) {
+        int code = (int) (Math.random() * (90000)) + 100000;  // 6자리 인증 번호
+
     }
 
     /**

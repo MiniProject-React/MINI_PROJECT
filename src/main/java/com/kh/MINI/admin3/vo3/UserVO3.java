@@ -17,7 +17,6 @@ public class UserVO3 {
     private int role;
     private String address;
     private String phone_number;
-
     public UserVO3(int role) {
         this.role = role;
     }
