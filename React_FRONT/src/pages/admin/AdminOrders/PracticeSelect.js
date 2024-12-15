@@ -136,7 +136,7 @@ const PracticeSelect = () => {
                       <tr key={cpu.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${cpu.product_id}`}
                             value={cpu.product_id}
@@ -176,7 +176,7 @@ const PracticeSelect = () => {
                       <tr key={gpu.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${gpu.product_id}`}
                             value={gpu.product_id}
@@ -216,7 +216,7 @@ const PracticeSelect = () => {
                       <tr key={main.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${main.product_id}`}
                             values={main.product_id}
@@ -256,7 +256,7 @@ const PracticeSelect = () => {
                       <tr key={ram.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${ram.product_id}`}
                             value={ram.product_id}
@@ -296,7 +296,7 @@ const PracticeSelect = () => {
                       <tr key={ssd.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${ssd.product_id}`}
                             value={ssd.product_id}
@@ -336,7 +336,7 @@ const PracticeSelect = () => {
                       <tr key={power.product_id}>
                         <td>
                           <input
-                            type="radio"
+                            type="checkbox"
                             className="radio"
                             id={`radio-${power.product_id}`}
                             value={power.product_id}

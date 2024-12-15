@@ -12,5 +12,6 @@
 .radio:checked {
   background-color: black; /* 선택 시 배경색 */
   border-color: gray;
+  color: black;
   transform: scale(1.2); /* 클릭 시 확대 효과 */
 }
