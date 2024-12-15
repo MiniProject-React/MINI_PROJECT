@@ -10,6 +10,7 @@ const OwnPc = () => {
   const [isTabCompleted, setIsTabCompleted] = useState(false);
   const [orderQuantity, setOrderQuantity] = useState(1); // 주문 갯수 상태
   const navigate = useNavigate();
+  const MINI_DOMAIN = "http://localhost:8112";
 
   const { user } = useContext(UserContext);
 
@@ -26,7 +27,7 @@ const OwnPc = () => {
   // 선택된 부품 정보를 리스트로 변환
   const getSelectedProductsList = () => {
     return Object.entries(selectedProducts).map(([categoryId, product]) => ({
-      productId: categoryId,
+      productId: product.productId,
       productName: product.productName,
       quantity: product.quantity,
       price: product.price,
@@ -46,13 +47,9 @@ const OwnPc = () => {
     setSelectedProducts((prevSelectedProducts) => {
       const updatedProducts = { ...prevSelectedProducts };
       
-      // 선택된 카테고리 ID가 이미 있다면 덮어쓰지 않고, 경고 메시지 출력
-      if (updatedProducts[product.CATEGORY_ID]) {
-        alert(`${categoryMap[product.CATEGORY_ID]} 부품은 이미 선택되었습니다.`);
-        return prevSelectedProducts;
-      }
-  
+      
       updatedProducts[product.CATEGORY_ID] = {
+        productId: product.PRODUCT_ID,
         productName: product.NAME,
         quantity: selectedQuantity,
         price: product.PRICE * selectedQuantity,
@@ -75,10 +72,47 @@ const OwnPc = () => {
       return;
     }
   
+    const payload = {
+      userEmail: user.email,
+      totalPrice: calculateTotalPrice(),
+      productDetails: getSelectedProductsList().map((product) => ({
+        productId: product.productId,
+        quantity: product.quantity,
+        price: product.price,
+      })),
+    };
+  
+    try {
+      // Step 1: CUSTOM_ORDERS 테이블에 주문 생성
+      const response = await axios.post(`${MINI_DOMAIN}/custom/create`, payload);
+      const customId = response.data.customId;
+  
+      // Step 2: CART_ITEMS 테이블에 데이터 추가
+      await axios.post(`${MINI_DOMAIN}/custom/addingCart`, {
+        userEmail: user.email,
+        customId,
+        quantity: orderQuantity,
+      });
+      setSelectedProducts({}); 
+      alert("장바구니에 추가되었습니다!");
+    } catch (error) {
+      console.error("Error adding to cart:", error.response || error.message);
+      alert("장바구니 추가에 실패했습니다.");
+    }
+  };
+  
+  
+  const handlePurchaseButtonClick = async () => {
+    if (!user.isLogin) {
+      alert("로그인 후 사용 가능합니다.");
+      navigate("/login");
+      return;
+    }
+  
     const selectedProductsList = getSelectedProductsList();
     const payload = {
-      userId: user.userId,  // 로그인된 사용자 ID
-      totalPrice: calculateTotalPrice(),  // 총합 가격
+      userEmail: user.email,
+      totalPrice: calculateTotalPrice(),
       productDetails: selectedProductsList.map(product => ({
         productId: product.productId,
         quantity: product.quantity,
@@ -87,31 +121,34 @@ const OwnPc = () => {
     };
   
     try {
-      const response = await axios.post("/api/custom-order/create", payload);
-      alert(response.data);
+      // Step 1: CUSTOM_ORDERS 테이블에 주문 데이터 생성
+      const orderResponse = await axios.post("/custom/addingCart", {
+        userId: payload.userId,
+        totalPrice: payload.totalPrice,
+      });
+  
+      const customId = orderResponse.data.customId;
+  
+      // Step 2: CUSTOM_ORDER_DETAILS 테이블에 상세 정보 추가
+      await Promise.all(
+        payload.productDetails.map(detail =>
+          axios.post("/api/customorder/details", {
+            customId,
+            productId: detail.productId,
+            quantity: detail.quantity,
+            price: detail.price,
+          })
+        )
+      );
+  
+      // Step 3: customId를 구매 페이지로 전송
+      navigate("/purchase", { state: { customId } });
     } catch (error) {
-      console.error("Error creating custom order:", error);
-      alert("주문 생성에 실패했습니다.");
+      console.error("Error processing purchase:", error);
+      alert("구매 요청에 실패했습니다.");
     }
   };
-
-  const handlePurchaseButtonClick = () => {
-    if (!user.isLogin) {
-      alert("로그인 후 사용 가능합니다.");
-      navigate("/login");
-      return;
-    }
-
-    const selectedProductsList = getSelectedProductsList();
-    const purchaseData = {
-      email: user.email,
-      products: selectedProductsList,
-      orderQuantity, // 주문 갯수 추가
-      totalPrice: calculateTotalPrice(), // 총합 가격 추가
-    };
-
-    navigate("/purchase", { state: purchaseData });
-  };
+  
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value, 10);

@@ -143,36 +143,68 @@ const UserCart01 = ({ user }) => {
       <CartContainer>
         <CartTitle>{user.userName}님의 장바구니</CartTitle>
         {cartItems &&
-          cartItems.map((item) => (
-            <CartItem key={item.cartItemId}>
-              <ProductImage>
-                {imageUrls[item.productId] ? ( // cartItemId가 아닌 productId를 사용
-                  <img
-                    src={imageUrls[item.productId]} // 여기에서도 productId로 변경
-                    alt={item.productName}
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                    }}
-                  />
-                ) : (
-                  <FallbackText>{item.productName}</FallbackText>
-                )}
-              </ProductImage>
-              <CartDetails>
-                <p> {item.productName}</p>
-                <p>수량: {item.quantity}개</p>
-                <p>가격: {formatPrice(item.productPrice)}원</p>
-                <p>
-                  총가격: {formatPrice(item.quantity * item.productPrice)}원
-                </p>
-              </CartDetails>
-              <RemoveButton
-                onClick={() => handleRemoveFromCart(item.cartItemId)}
-              >
-                장바구니에서 <br /> 제거
-              </RemoveButton>
-            </CartItem>
-          ))}
+  cartItems.map((item) => {
+    if (item.productId) {
+      // productId가 존재하는 경우 기존 방식 유지
+      return (
+        <CartItem key={item.cartItemId}>
+          <ProductImage>
+            {imageUrls[item.productId] ? (
+              <img
+                src={imageUrls[item.productId]}
+                alt={item.productName}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
+              />
+            ) : (
+              <FallbackText>{item.productName}</FallbackText>
+            )}
+          </ProductImage>
+          <CartDetails>
+            <p>{item.productName}</p>
+            <p>수량: {item.quantity}개</p>
+            <p>가격: {formatPrice(item.productPrice)}원</p>
+            <p>
+              총가격: {formatPrice(item.quantity * item.productPrice)}원
+            </p>
+          </CartDetails>
+          <RemoveButton
+            onClick={() => handleRemoveFromCart(item.cartItemId)}
+          >
+            장바구니에서 <br /> 제거
+          </RemoveButton>
+        </CartItem>
+      );
+    } else if (item.customId) {
+      // customId가 존재하는 경우 다른 형식으로 출력
+      return (
+        <CartItem key={item.cartItemId}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            {/* 이름을 좌측에 크고 굵게 출력 */}
+            <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "10px" }}>
+              PC No.{item.customId}
+            </h2>
+          </div>
+          <CartDetails>
+            <p>수량: {item.quantity}개</p>
+            <p>가격: {formatPrice(item.customPrice)}원</p>
+            <p>
+              총가격: {formatPrice(item.quantity * item.customPrice)}원
+            </p>
+          </CartDetails>
+          <RemoveButton
+            onClick={() => handleRemoveFromCart(item.cartItemId)}
+          >
+            장바구니에서 <br /> 제거
+          </RemoveButton>
+        </CartItem>
+      );
+    } else {
+      return null; // productId와 customId가 모두 없는 경우 렌더링하지 않음
+    }
+  })}
+
       </CartContainer>
       <CheckoutSection>
         <h3>총가격: {formatPrice(calculateTotalPrice())}원</h3>

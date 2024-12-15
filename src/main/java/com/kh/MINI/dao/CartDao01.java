@@ -25,7 +25,7 @@ public class CartDao01 {
                     "p.name, p.description, p.price, p.stock, p.image_url, " +
                     "co.custom_id, co.total_price " +
                     "FROM CART_ITEMS ci " +
-                    "JOIN PRODUCTS p ON ci.product_id = p.product_id " +
+                    "LEFT JOIN PRODUCTS p ON ci.product_id = p.product_id " +
                     "LEFT JOIN CUSTOM_ORDERS co ON ci.custom_id = co.custom_id " +
                     "JOIN USERS u ON ci.user_id = u.user_id " + // 유저 테이블 추가 JOIN
                     "WHERE u.email = ?";
