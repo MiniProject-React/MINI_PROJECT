@@ -123,7 +123,7 @@ public class ProductsDAO3 {
     // 상품 수정
     public boolean update(ProductsVO3 vo) {
         try{
-            int result = jdbcTemplate.update(UPDATE_PRODUCT, vo.getProduct(),vo.getPrice(),vo.getStock(),vo.getDescription(),vo.getProduct_id());
+            int result = jdbcTemplate.update(UPDATE_PRODUCT, vo.getName(),vo.getPrice(),vo.getStock(),vo.getDescription(),vo.getProduct_id());
             return result > 0;
         }catch (DataAccessException e){
             return false;
@@ -133,7 +133,7 @@ public class ProductsDAO3 {
     // 상품 등록
     public boolean save (ProductsVO3 vo) {
         try{
-            int result = jdbcTemplate.update(SAVE_PRODUCT, vo.getProduct(),vo.getDescription(),vo.getPrice(),vo.getStock(),vo.getCategory_id());
+            int result = jdbcTemplate.update(SAVE_PRODUCT, vo.getName(),vo.getDescription(),vo.getPrice(),vo.getStock(),vo.getCategory_id());
             return result > 0;
         }catch (DataAccessException e) {
             log.error("상품 등록 에러",e);

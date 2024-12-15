@@ -78,6 +78,8 @@ public class OrderDAO3 {
             "    ORDER BY order_date DESC " +
             ") " +
             "WHERE ROWNUM = 1";
+
+
     // 주문 상세 조회
     public List<OrdersVO3> orderList(int userId) {
         try {
@@ -140,6 +142,30 @@ public class OrderDAO3 {
             log.error("최근 주문 아이디 검색 ",e);
             throw e;
         }
+    }
+
+    public boolean orderdetail(List<OrdersVO3> orderDetails) {
+      boolean isSuccess = true;
+      for (OrdersVO3 vo : orderDetails){
+          log.info("주문 상세 수량 확인 : {} ", vo.getQuantity());
+          log.info("주문 상세 가격 확인 : {}", vo.getPrice());
+          log.info("주문 상세 상품 아이디 확인 : {}", vo.getProduct_id());
+          log.info("주문 상세 주문 아이디 확인 : {}", vo.getOrder_id());
+      }
+      for(OrdersVO3 vo : orderDetails) {
+          try{
+              int result = jdbcTemplate.update("insert into order_details (quantity, price, product_id, order_id) values (?,?,?,?)"
+                      ,vo.getQuantity(),vo.getPrice(), vo.getProduct_id(),vo.getOrder_id());
+            if(result <= 0) {
+                isSuccess = false;
+                break;
+            }
+          }catch (DataAccessException e) {
+              log.error("주문 디테일 입력시 에러", e);
+              throw e;
+          }
+      }
+      return isSuccess;
     }
 
 

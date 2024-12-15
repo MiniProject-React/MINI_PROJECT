@@ -23,7 +23,7 @@ public class AdminDAO3 {
                     "VALUES (?, ?, ?, ?, ?, 0)";
     private static final String CHECK_EMAIL = "SELECT COUNT(*) FROM USERS WHERE email = ?";
     private static final String CHECK_GRADE = "SELECT role , username FROM USERS WHERE email = ? AND password = ?";
-
+    private static final String CHECK_OUR_MEMBER = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PHONE_NUMBER = ?";
     // 로그인
     public boolean login(String email, String password) {
         try{
@@ -66,6 +66,16 @@ public class AdminDAO3 {
         } catch (DataAccessException e) {
             log.error("이메일 존재 여부 확인중 에러", e);
             return false;
+        }
+    }
+
+    public boolean isOurMember(String username, String phone) {
+        try {
+            int count =jdbcTemplate.queryForObject(CHECK_OUR_MEMBER, new Object[]{username, phone}, Integer.class);
+            return count > 0;
+        }catch (DataAccessException e) {
+            log.error("아이디 / 비밀번호 찾기 시 회원 정보 확인 ", e);
+            throw e;
         }
     }
 

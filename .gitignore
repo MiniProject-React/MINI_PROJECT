@@ -8,6 +8,10 @@ node_modules/
 /build/
 .gradle/
 
+# Ignore Spring application properties file
+/application.properties
+
+
 # Git LFS로 관리할 수 있는 대용량 파일 예시
 *.pack
 

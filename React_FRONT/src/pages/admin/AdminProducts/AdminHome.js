@@ -54,6 +54,9 @@ export default function AdminHome() {
     setModalOpen1(false);
     totalList();
   };
+  useEffect(() => {
+    console.log("이름을찾아서 ", cpu.name);
+  }, [cpu]);
 
   const modalState = (product_id, category, productName) => {
     console.log(product_id);
@@ -71,7 +74,7 @@ export default function AdminHome() {
       const response = await axios.get(KH_DOMAIN + "/products/list");
       const data = response.data;
       // Update the state with product categories
-
+      // console.log("이름이 어떤 식으로 출력되는지 봅시다.", data.cpu.product[0]);
       setCpu(data.cpu);
       setGpu(data.gpu);
       setMain(data.main);
@@ -106,10 +109,7 @@ export default function AdminHome() {
   // Fetch image URLs from Firebase
   const fetchImage = async (productList, category) => {
     const imagePromises = productList.map(async (item) => {
-      const imageRef = ref(
-        storage,
-        `images/${item.category}/${item.product}.jpg`
-      );
+      const imageRef = ref(storage, `images/${item.category}/${item.name}.jpg`);
       try {
         const downloadUrl = await getDownloadURL(imageRef);
         return { productId: item.product_id, downloadUrl };
@@ -143,7 +143,17 @@ export default function AdminHome() {
   const renderSwiper = (category, items, imageMap) => (
     <div className="swiper-container">
       {/* 카테고리 제목은 슬라이드 외부 */}
-      <h3 className="category-title">{category}</h3>
+      <h3
+        className="category-title1"
+        style={{
+          textTransform: "uppercase",
+          fontSize: "18px",
+          fontWeight: "bold",
+          marginTop: "10px",
+        }}
+      >
+        {category}
+      </h3>
       <Swiper
         slidesPerView={6}
         spaceBetween={30}
@@ -157,16 +167,16 @@ export default function AdminHome() {
             <SwiperSlide key={a.product_id} className="product-slide">
               <div
                 className="product-image"
-                onClick={() => modalState(a.product_id, a.category, a.product)}
+                onClick={() => modalState(a.product_id, a.category, a.name)}
               >
                 {imageMap[a.product_id] ? (
-                  <img src={imageMap[a.product_id]} alt={a.product} />
+                  <img src={imageMap[a.product_id]} alt={a.name} />
                 ) : (
                   <p>이미지를 불러오는 중...</p>
                 )}
               </div>
               <div className="product-info">
-                <h3 className="product-name">{a.product}</h3>
+                <p className="product-name">{a.name}</p>
                 <p className="product-price">{a.price.toLocaleString()}원</p>
               </div>
             </SwiperSlide>
@@ -180,7 +190,7 @@ export default function AdminHome() {
 
   return (
     <>
-      <button className="btn btn-secondary" onClick={modalState1}>
+      <button className="btn btn-dark" onClick={modalState1}>
         상품 추가
       </button>
 

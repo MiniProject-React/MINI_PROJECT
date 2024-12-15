@@ -4,6 +4,7 @@ import { PageNavigate } from "../../../api/Pagination/PageNavigate";
 import { ProductsSearchContext } from "../../../api/provider/ProductsSearchContextProvider";
 import AxiosApi3 from "../../../api/AxiosApi3";
 import { USERID } from "./AddOrderModal";
+import { useNavigate, useParams } from "react-router-dom";
 const AdminOrderProducts = () => {
   const { searchKeyword } = useContext(ProductsSearchContext);
   const [totalCnt, setTotalCnt] = useState(0);
@@ -16,7 +17,7 @@ const AdminOrderProducts = () => {
   const [total, setTotal] = useState("");
   const userId = useContext(USERID);
   const [order_id, setOrder_id] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("총합:", total); // total이 변경될 때마다 실행
     console.log("주문 모달창에서 user_id 확인 ", userId);
@@ -68,6 +69,9 @@ const AdminOrderProducts = () => {
       console.log("OrderProduct 호출됨:", selectedProducts);
       const rsp = await AxiosApi3.order_product(selectedProducts);
       console.log("OrderProduct 응답: ", rsp.data);
+      if (rsp.data === true) {
+        alert("주문 추가에 성공하였습니다.");
+      }
     } catch (error) {
       console.error("OrderProduct 실행 중 오류 발생: ", error);
     }
@@ -161,7 +165,7 @@ const AdminOrderProducts = () => {
                   </td>
                   <td>{product.category}</td>
                   <td>{product.product_id}</td>
-                  <td>{product.product}</td>
+                  <td>{product.name}</td>
                   <td>{product.price}</td>
                 </tr>
               ))
@@ -175,7 +179,16 @@ const AdminOrderProducts = () => {
           </tbody>
         </table>
       </div>
-      <div className="d-flex justify-content-center">
+      {/* 페이지네이션 스타일 수정 */}
+      <div
+        className="d-flex justify-content-center"
+        style={{
+          backgroundColor: "#333", // 어두운 배경 색상
+          padding: "10px 20px", // 여백 추가
+          borderRadius: "5px", // 둥근 테두리
+          marginTop: "20px", // 상단 여백
+        }}
+      >
         <PageNavigate
           totalItemsCount={totalCnt}
           onChange={ProductList}
@@ -189,30 +202,28 @@ const AdminOrderProducts = () => {
         <div>
           {selectedProducts.length > 0 ? (
             selectedProducts.map((product) => (
-              <>
-                <div
-                  key={product.product_id}
-                  className="d-flex align-items-center"
-                >
-                  <span>
-                    <strong>{product.category}:</strong> {product.product} (
-                    {product.price}원)
-                  </span>
-                  <input
-                    type="number"
-                    value={product.quantity}
-                    min="1"
-                    className="form-control ml-2"
-                    style={{ width: "80px" }}
-                    onChange={(e) =>
-                      handleQuantityChange(
-                        product.product_id,
-                        Number(e.target.value)
-                      )
-                    }
-                  />
-                </div>
-              </>
+              <div
+                key={product.product_id}
+                className="d-flex align-items-center"
+              >
+                <span>
+                  <strong>{product.category}:</strong> {product.product} (
+                  {product.price}원)
+                </span>
+                <input
+                  type="number"
+                  value={product.quantity}
+                  min="1"
+                  className="form-control ml-2"
+                  style={{ width: "80px" }}
+                  onChange={(e) =>
+                    handleQuantityChange(
+                      product.product_id,
+                      Number(e.target.value)
+                    )
+                  }
+                />
+              </div>
             ))
           ) : (
             <div>

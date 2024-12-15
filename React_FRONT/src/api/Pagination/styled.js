@@ -25,7 +25,7 @@ export const PageNavigateStyled = styled.div`
     }
 
     &:hover {
-      background-color: skyblue;
+      background-color: black;
       a {
         color: white;
       }
@@ -33,7 +33,7 @@ export const PageNavigateStyled = styled.div`
   }
 
   .active {
-    background-color: skyblue;
+    background-color: gray;
     border: 1px solid black;
     color: white;
     border-radius: 5px;

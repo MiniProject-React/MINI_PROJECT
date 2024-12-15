@@ -109,10 +109,18 @@ const AdminUsers = () => {
                 </td>
                 <td>{user.email}</td>
                 <td>{user.password}</td>
-                <td>{user.role}</td>
+                <td>
+                  {user.role === 0
+                    ? "회원"
+                    : user.role === 1
+                    ? "관리자"
+                    : user.role === 2
+                    ? "VIP"
+                    : ""}
+                </td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                     onClick={() => OrderList(user.user_id)}
                   >
                     주문 목록 조회

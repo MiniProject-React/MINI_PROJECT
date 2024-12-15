@@ -41,7 +41,6 @@ const OrderModal = (props) => {
                       <th>제품 명</th>
                       <th>가격</th>
                       <th>수량</th>
-                      <th>총액</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -52,7 +51,6 @@ const OrderModal = (props) => {
                           <td>{order.product}</td>
                           <td>{order.price}</td>
                           <td>{order.quantity}</td>
-                          <td>{order.subtotal}</td>
                         </tr>
                       ))
                     ) : (

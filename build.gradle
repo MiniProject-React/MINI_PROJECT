@@ -22,11 +22,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// Lombok
+	// Lombok (compileOnly는 빌드 시에만 필요)
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Oracle JDBC Driver
+	// Oracle JDBC Driver (runtimeOnly는 배포 시에만 필요)
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 
 	// Mail Starter
@@ -35,14 +35,29 @@ dependencies {
 	// Springdoc OpenAPI (Swagger)
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
-	// Development tools
+	// Development tools (개발 시에만 필요)
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// Testing
+	// Testing dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// SMS
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+	implementation 'net.nurigo:sdk:4.3.2'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs += "-parameters"
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.boot:spring-boot-dependencies:3.3.6'
+	}
 }

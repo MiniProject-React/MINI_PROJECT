@@ -62,7 +62,7 @@ export const Items = styled.div`
       font-size: 14px;
 
       .link_style {
-        color: orange;
+        color: black;
         text-decoration: none;
       }
     `}

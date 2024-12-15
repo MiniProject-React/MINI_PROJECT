@@ -83,8 +83,8 @@ public class ProductsController3 {
     // 상품 이름 유효성 검사
     @PostMapping("/product_name")
     public ResponseEntity<Boolean> product_name (@RequestBody ProductsVO3 vo) {
-        log.info("백단에서 확인하는 (컨트롤러) 상품 이름{} : ", vo.getProduct());
-        boolean isSuccess = productsDAO3.productName(vo.getProduct());
+        log.info("백단에서 확인하는 (컨트롤러) 상품 이름{} : ", vo.getName());
+        boolean isSuccess = productsDAO3.productName(vo.getName());
         return ResponseEntity.ok(!isSuccess);
     }
 

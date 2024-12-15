@@ -1,19 +1,22 @@
 import { ModalStyle, ModalButton } from "../style/ModalStyle";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddCustomModal = (props) => {
   const { open, close, type } = props;
+  const { user_id } = useParams(); // Destructure user_id from useParams
   const navigate = useNavigate();
+
   const CustomOrder = () => {
-    navigate("/select"); // '/about' 경로로 이동
+    navigate(`/select/${user_id}`); // Navigate to /select/${user_id}
   };
+
   return (
     <ModalStyle>
       <div
         className={open ? "modal fade show d-block" : "modal fade"}
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+        aria-hidden={open ? "false" : "true"} // Handle accessibility
       >
         {open && (
           <section>
