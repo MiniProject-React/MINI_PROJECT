@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AxiosApi3 from "../../api/AxiosApi3";
+import { useNavigate } from "react-router-dom";
 
 // users에서 휴대폰 번호가 존재하는 지 확인 한다.
 // 이름과 휴대폰 번호를 입력 받고 인증 번호를 전송해 준다
@@ -17,6 +18,7 @@ const Find_ID_or_PW = () => {
   // 문자 전송 버튼 한번만 클릭 되도록
   const [sendSMS, setSendSMS] = useState(false);
   // 입력한 이름과 전화번호과 DB에 존재하는 지 확인
+  const navigate = useNavigate();
   const ValidUserInfo = async () => {
     console.log("id/pw 찾기 이름 : ", name);
     console.log("id/pw 찾기 폰 : ", phone);
@@ -48,6 +50,7 @@ const Find_ID_or_PW = () => {
     const rsp = await AxiosApi3.sendIDAndPassword(name, phone);
     if (rsp.data === true) {
       alert("등록하신 이메일을 확인하세요 ID/PW가 전송되었습니다.");
+      navigate("/login");
     }
   };
 
