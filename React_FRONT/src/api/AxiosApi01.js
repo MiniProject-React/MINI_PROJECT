@@ -174,6 +174,30 @@ const AxiosApi01 = {
       throw error;
     }
   },
+
+  // 커스텀PC 생성
+  createCustomOrder: async (payload) => {
+    try {
+      const response = await axios.post("/api/custom-order/create", payload);
+      console.log("[createCustomOrder] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[createCustomOrder] Error:", error);
+      throw error;
+    }
+  },
+
+  // 생성된 커스텀PC 테이블 기반으로 부품 등록
+  addCustomOrderDetails: async (payload) => {
+    try {
+      const response = await axios.post("/api/custom-order/add", payload);
+      console.log("[addCustomOrderDetails] Response:", response.data);
+      return response;
+    } catch (error) {
+      console.error("[addCustomOrderDetails] Error:", error);
+      throw error;
+    }
+  }
 };
 
 export default AxiosApi01;
