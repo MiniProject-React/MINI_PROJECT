@@ -165,7 +165,7 @@ const AdminOrderProducts = () => {
                   </td>
                   <td>{product.category}</td>
                   <td>{product.product_id}</td>
-                  <td>{product.product}</td>
+                  <td>{product.name}</td>
                   <td>{product.price}</td>
                 </tr>
               ))

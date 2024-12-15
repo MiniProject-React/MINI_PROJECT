@@ -24,15 +24,21 @@ const AdminTab = () => {
       <ul className="tabmenu">
         <li
           className={activeTab === "products" ? "active" : ""}
-          onClick={() => setActiveTab("products")}
+          onClick={(e) => {
+            e.preventDefault(); // 기본 링크 동작 방지
+            setActiveTab("products");
+          }}
         >
-          <a href="#products">상품 관리</a>
+          <a href="#">상품 관리</a> {/* href는 이제 아무 의미가 없음 */}
         </li>
         <li
           className={activeTab === "users" ? "active" : ""}
-          onClick={() => setActiveTab("users")}
+          onClick={(e) => {
+            e.preventDefault(); // 기본 링크 동작 방지
+            setActiveTab("users");
+          }}
         >
-          <a href="#users">회원 관리</a>
+          <a href="#">회원 관리</a>
         </li>
       </ul>
 
