@@ -14,6 +14,7 @@ import {
 } from "../../styles/UserCartStyle01";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../api/firebase";
+import { useNavigate } from "react-router-dom";
 
 const UserCart01 = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -21,6 +22,7 @@ const UserCart01 = ({ user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
+  const navigate = useNavigate();
 
   const categoryMap = {
     //카테고리id를 이름으로 전환용
@@ -144,6 +146,37 @@ const UserCart01 = ({ user }) => {
     );
   }
 
+  //구매버튼 클릭시 장바구니 목록을 들고 구매 페이지로 이동
+
+  const handlePurchase = () => {
+    //각 장바구니 아이템에 대해 필요한 정보 생성
+    const purchasepayload = cartItems.map(item=> {
+      if (item.productId) {
+        //일반 제품의 경우
+        return {
+          customId: null,
+          productId: item.productId,
+          productName: item.productName,
+          quantity: item.quantity,
+          price: item.productPrice,
+        };
+      } else if (item.customId) {
+        //커스텀 제품의 경우
+        return {
+          customId: item.customId,
+          productId: null,
+          productName: `pc No.${item.customId}`,
+          quantity: item.quantity,
+          price: item.customPrice,
+        };
+      }
+      return null; // Id가 둘다 없는 경우 무시시
+    }).filter(item => item !== null);
+
+    //구매 페이지로 전달
+    navigate("/purchase", { state: purchasepayload });
+  }
+
   return (
     <div>
       <CartContainer>
@@ -214,7 +247,7 @@ const UserCart01 = ({ user }) => {
       </CartContainer>
       <CheckoutSection>
         <h3>총가격: {formatPrice(calculateTotalPrice())}원</h3>
-        <CheckoutButton>구매하기</CheckoutButton>
+        <CheckoutButton onClick={handlePurchase}>구매하기</CheckoutButton>
       </CheckoutSection>
     </div>
   );

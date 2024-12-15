@@ -40,7 +40,7 @@ const OwnPc = () => {
       (total, product) => total + product.price,
       0
     );
-    return basePrice * orderQuantity; // 주문 갯수에 따라 총합 가격 계산
+    return basePrice; // 주문 갯수에 따라 총합 가격 계산
   };
 
   const handleProductSelection = (product, productId, selectedQuantity) => {
@@ -93,7 +93,10 @@ const OwnPc = () => {
         customId,
         quantity: orderQuantity,
       });
-      setSelectedProducts({}); 
+  
+      // 리스트와 버튼 비활성화 처리
+      setSelectedProducts({});
+      setIsTabCompleted(false); // 선택 완료 상태 초기화
       alert("장바구니에 추가되었습니다!");
     } catch (error) {
       console.error("Error adding to cart:", error.response || error.message);
@@ -192,7 +195,9 @@ const OwnPc = () => {
                 />
               </div>
               <p className="total-price">
-                총합 가격: <strong>{calculateTotalPrice()}원</strong>
+                가격: <strong>{calculateTotalPrice()}원</strong>
+                <br />
+                총합 가격: <strong>{calculateTotalPrice() * orderQuantity}원</strong>
               </p>
               <div className="action-buttons">
                 <button onClick={handleCartButtonClick}>장바구니</button>

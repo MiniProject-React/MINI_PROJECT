@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import "../css/ProductDetail4.css";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/firebase";
@@ -12,7 +12,7 @@ const ProductDetail4 = () => {
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [imageUrl, setImageUrl] = useState(""); // Firebase 이미지 URL 저장
   const [quantity, setQuantity] = useState(1);
-
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
   const categoryMap = {
@@ -77,6 +77,16 @@ const ProductDetail4 = () => {
     }
   };
 
+  const handlePurchaseButtonClick = () => {
+    const purchasePayload = [{
+      customId: null,
+      productId: productId,
+      productName: product.name,
+      quantity: quantity,
+      price: product.price,
+    }];
+    navigate("/purchase", { state: purchasePayload });
+  }
   return (
     <div className="product-detail">
       {/* 제품 이미지와 정보가 포함된 컨테이너 */}
@@ -130,9 +140,10 @@ const ProductDetail4 = () => {
               </button>
 
               {/* 바로 구매 버튼 */}
-              <a href="/buy" className="buy-now">
+              <button className="buy-now"
+              onClick={()=>{handlePurchaseButtonClick()}}>
                 구매하기
-              </a>
+              </button>
             </div>
           </div>
         </div>
