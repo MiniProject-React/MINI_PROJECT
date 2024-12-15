@@ -7,8 +7,7 @@ import { ModalStyle, ModalButton } from "../style/ModalStyle";
 import { useEffect, useState } from "react";
 import AxiosApi from "../../../api/AxiosApi3";
 import { useNavigate } from "react-router-dom";
-import { StyledPasswordMask } from "../../../components/InputComponent";
-
+import { InputPasswordComponent } from "../../../components/InputComponent";
 const AdminUsersModal = (props) => {
   const { open, close, type, user_id } = props;
   const navigate = useNavigate();
@@ -228,7 +227,7 @@ const AdminUsersModal = (props) => {
       console.log(memberReg.data);
       if (memberReg.data) {
         alert("회원 수정에 성공하였습니다.");
-        navigate("/users");
+        navigate("/admin");
       } else {
         // setModalOpen(true);
         // setModelText("회원 가입에 실패 했습니다.");
@@ -297,7 +296,7 @@ const AdminUsersModal = (props) => {
                           />
                         </Items>
                         <Items variant="item2">
-                          <StyledPasswordMask
+                          <InputPasswordComponent
                             type="password"
                             placeholder="패스워드"
                             value={inputPw}
@@ -317,7 +316,7 @@ const AdminUsersModal = (props) => {
                           )}
                         </Items>
                         <Items variant="item2">
-                          <StyledPasswordMask
+                          <InputPasswordComponent
                             type="text"
                             placeholder="비밀번호 확인"
                             value={inputConPw} // 마스킹된 값만 화면에 표시

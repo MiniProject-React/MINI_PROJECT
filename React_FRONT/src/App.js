@@ -23,7 +23,7 @@ import ProductDetail4 from "./product/ProductDetail4";
 // 상세 페이지 컴포넌트 추가
 import AdminTab from "./pages/admin/AdminTab.js";
 import PracticeSelect from "./pages/admin/AdminOrders/PracticeSelect.js";
-
+import Find_ID_or_PW from "./pages/signup/Find_ID_or_PW.js";
 function App() {
   return (
     // RecoilRoot로 앱을 감싸서 Recoil 상태 관리 사용
@@ -51,6 +51,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/admin" element={<AdminTab />} />
               <Route path="/select" element={<PracticeSelect />} />
+              <Route path="/find" element={<Find_ID_or_PW />} />
               <Route
                 path="/users/orderlist/:user_id"
                 element={<AdminUserOrderList />}

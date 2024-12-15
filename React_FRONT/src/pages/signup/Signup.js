@@ -49,10 +49,16 @@ const Signup = () => {
   const [verifyedMail, setVerifyedMail] = useState(false);
   // 이메일 인증
   const [email, setEmail] = useState("");
+  // 멤버 체크
+  const [memberCheck, setMemberCheck] = useState("");
   const [sentCode, setSentCode] = useState("");
   const [enteredCode, setEnteredCode] = useState("");
   const [message, setMessage] = useState("");
+  // 이메일 인증 전송 상태 관리
   const [isCodeSent, setIsCodeSent] = useState(false);
+  // 이메일 전송 1번만 실행 관리
+  const [isSending, setIsSending] = useState(false); // 이메일 전송 중 상태
+
   const [verify, setVerify] = useState("");
   const KH_DOMAIN = "http://localhost:8112";
 
@@ -64,7 +70,10 @@ const Signup = () => {
         mail: email,
       });
       setSentCode(response.data); // 서버에서 받은 인증 번호 저장
-      setIsCodeSent(true);
+      if (response.data) {
+        setIsCodeSent(true);
+        setIsSending(true);
+      }
       setMessage("인증번호 발송");
     } catch (error) {
       setMessage("인증번호 발송 실패");
@@ -219,10 +228,10 @@ const Signup = () => {
       console.log("가입 가능 여부 확인 : ", resp.data);
       if (resp.data === true) {
         setMailMessage("사용 가능한 이메일 입니다.");
-        setIsMail(true);
+        setMemberCheck(true);
       } else {
         setMailMessage("중복된 이메일 입니다.");
-        setIsMail(false);
+        setMemberCheck(false);
       }
     } catch (error) {
       console.log(error);
@@ -294,14 +303,27 @@ const Signup = () => {
         />
       </Items>
       <Items className="item2">
-        <MyComponent
-          type="button"
-          disabled={!isMail} // isMail이 false일 때 버튼 비활성화
-          isValid={sendMail}
-          onClick={sendNumber}
-        >
-          인증번호 발송
-        </MyComponent>
+        {memberCheck ? (
+          isSending ? (
+            <MyComponent
+              type="button"
+              onClick={() => alert("이미 인증 메일을 전송하였습니다.")}
+            >
+              인증번호 발송
+            </MyComponent>
+          ) : (
+            <MyComponent type="button" isValid={sendMail} onClick={sendNumber}>
+              인증번호 발송
+            </MyComponent>
+          )
+        ) : (
+          <MyComponent
+            type="button"
+            onClick={() => alert("이미 존재하는 아이디 입니다.")}
+          >
+            인증번호 발송
+          </MyComponent>
+        )}
       </Items>
       <Items>
         {isCodeSent && (
@@ -455,6 +477,8 @@ const Signup = () => {
       </Items>
       <Items variant="item2">
         {console.log(
+          isCodeSent,
+          memberCheck,
           isMail,
           isPw,
           isConPw,

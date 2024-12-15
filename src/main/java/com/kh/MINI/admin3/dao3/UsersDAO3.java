@@ -62,6 +62,9 @@ public class UsersDAO3 {
     // 회원 정보 업데이트
     private static final String UPDATE_USER = "UPDATE USERS SET USERNAME = ? , PASSWORD = ? , ADDRESS = ? , PHONE_NUMBER = ? WHERE EMAIL = ?";
 
+    // 비번 찾기
+    private static final String EMAIL_AND_PW = "SELECT * FROM USERS WHERE USERNAME = ? AND PHONE_NUMBER = ?";
+
     public List<UserVO3> userList(Map<String, Object> paramMap) {
         try {
             // pageIndex와 pageSize를 추출
@@ -228,6 +231,15 @@ public class UsersDAO3 {
         }
     }
 
+    public List<UserVO3> emailAndPw(String username, String phoneNumber) {
+        try{
+            return jdbcTemplate.query(EMAIL_AND_PW, new UserRowMapper(), username, phoneNumber);
+        }catch (DataAccessException e) {
+            log.error("email pw 검색 : ", e);
+            throw e;
+        }
+    }
+
     private static class UserRowMapper implements RowMapper<UserVO3>{
         @Override
         public UserVO3 mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -250,4 +262,5 @@ public class UsersDAO3 {
             );
         }
     }
+
 }

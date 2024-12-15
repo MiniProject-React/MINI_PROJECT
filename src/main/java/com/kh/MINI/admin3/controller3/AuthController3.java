@@ -52,5 +52,11 @@ public class AuthController3 {
         return ResponseEntity.ok(!isExist);
     }
 
+    // 아이디 비밀번호 찾기시 이름과 폰 번호 조회
+    @GetMapping("/name_and_phone")
+    public ResponseEntity<Boolean> name_and_phone (@RequestParam(value= "username") String username, @RequestParam(value="phone_number") String phone){
+        boolean isExist = adminDAO3.isOurMember(username, phone);
+        return ResponseEntity.ok(isExist);
+    }
 
 }

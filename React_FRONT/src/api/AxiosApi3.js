@@ -149,7 +149,6 @@ const AxiosApi3 = {
       total_price: total,
       user_id: user_id.user_id,
     };
-    console.log("왜 못받을까? 파람스 : ", params);
     return await axios.post(KH_DOMAIN + "/order/order", params, {
       headers: {
         "Content-Type": "application/json", // 서버가 JSON 형식의 데이터를 받을 경우 설정
@@ -159,6 +158,35 @@ const AxiosApi3 = {
   // 배열이 입력 되어야 함
   order_product: async (selectProduct) => {
     return await axios.post(KH_DOMAIN + "/order/orderdetail", selectProduct);
+  },
+
+  // 아이디 비밀번호 찾기 회원 확인
+  validUserInfo: async (name, phone) => {
+    const params = {
+      username: name,
+      phone_number: phone,
+    };
+    return await axios.get(KH_DOMAIN + "/auth/name_and_phone", { params });
+  },
+
+  // 카카오 SMS 인증 번호 발송
+  sendingSMS: async (phone) => {
+    console.log("sendingSMS", phone);
+    const params = { phone_number: phone };
+    return await axios.post(KH_DOMAIN + "/send-one", params, {
+      headers: { "Content-Type": "application/json" }, // JSON 형식 명시
+    });
+  },
+
+  varify_code: async (inputCode) => {
+    const params = { inputCode }; // inputCode를 객체로 만들어서 전달
+    return await axios.post(KH_DOMAIN + "/verify-code", params, {
+      headers: { "Content-Type": "application/json" }, // JSON 형식으로 데이터 전송
+    });
+  },
+  sendIDAndPassword: async (name, phone) => {
+    const params = { username: name, phone_number: phone };
+    return await axios.post(KH_DOMAIN + "/idandpw", params);
   },
 };
 

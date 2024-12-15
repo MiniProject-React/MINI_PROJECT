@@ -41,7 +41,14 @@ export const AdminUsersSearch = () => {
     <>
       <div className="d-flex flex-row mb-3">
         <div className="me-3">
-          <select className="form-select" onChange={checkRoleChange}>
+          <select
+            className="form-select"
+            onChange={checkRoleChange}
+            style={{
+              boxShadow: "0 0 0 0.2rem rgba(0, 0, 0, 0.5)", // 검은색 그림자
+              borderColor: "rgba(0, 0, 0, 0.8)", // 검은색 테두리
+            }}
+          >
             <option value={-1}>전체</option>
             {role && role.length > 0 ? (
               role.map((a, i) => (
@@ -60,6 +67,10 @@ export const AdminUsersSearch = () => {
             onChange={(e) =>
               setInput({ ...input, searchCondition: e.currentTarget.value })
             }
+            style={{
+              boxShadow: "0 0 0 0.2rem rgba(0, 0, 0, 0.5)", // 검은색 그림자
+              borderColor: "rgba(0, 0, 0, 0.8)", // 검은색 테두리
+            }}
           >
             <option value="username">이름</option>
             <option value="email">이메일</option>
@@ -72,6 +83,10 @@ export const AdminUsersSearch = () => {
             onChange={(e) =>
               setInput({ ...input, searchKeyword: e.currentTarget.value })
             }
+            style={{
+              boxShadow: "0 0 0 0.2rem rgba(0, 0, 0, 0.5)", // 검은색 그림자
+              borderColor: "rgba(0, 0, 0, 0.8)", // 검은색 테두리
+            }}
           />
         </div>
         <div>
