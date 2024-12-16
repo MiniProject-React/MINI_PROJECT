@@ -19,10 +19,11 @@ public class CustomOrderDao {
     private final JdbcTemplate jdbcTemplate;
 
     private final String SELECT_USER_ID_BY_EMAIL = "SELECT user_id FROM USERS WHERE email = ?";
-    private final String INSERT_CUSTOM_ORDER = "INSERT INTO CUSTOM_ORDERS (user_id, total_price) VALUES (?, ?)";
+    private final String INSERT_CUSTOM_ORDER =
+            "INSERT INTO CUSTOM_ORDERS (custom_id, user_id, total_price) VALUES (ORDER_SEQ.NEXTVAL, ?, ?)";
     private final String SELECT_LAST_INSERTED_CUSTOM_ID =
             "SELECT custom_id FROM (SELECT custom_id FROM CUSTOM_ORDERS WHERE user_id = ? ORDER BY custom_id DESC) WHERE ROWNUM = 1";
-    private final String INSERT_CUSTOM_ORDER_DETAILS = "INSERT INTO CUSTOM_ORDER_DETAILS (custom_id, product_id, quantity, price, subtotal) VALUES (?, ?, ?, ?, ?)";
+    private final String INSERT_CUSTOM_ORDER_DETAILS = "INSERT INTO CUSTOM_ORDER_DETAILS (detail_id, custom_id, product_id, quantity, price, subtotal) VALUES (ORDER_DETAIL_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
     private final String INSERT_CART_ITEM = "INSERT INTO CART_ITEMS (user_id, custom_id, quantity) VALUES (?, ?, ?)";
 
     private int findUserIdByEmail2(String email) {
