@@ -28,7 +28,7 @@ const ProductDetail4 = () => {
   // 상품 정보를 가져오는 함수
   useEffect(() => {
     // API를 사용하여 상품 정보를 가져오는 코드
-    fetch(`http://localhost:8112/products/${productId}`)
+    fetch(`http://192.168.10.25:8112/products/${productId}`)
       .then((response) => response.json())
       .then((data) => {
         setProduct({
@@ -67,7 +67,7 @@ const ProductDetail4 = () => {
     // 장바구니에 상품을 추가하는 코드
     if (!user.isLogin) {
       alert("로그인 후 사용할 수 있습니다.");
-      Navigate("/login");
+      navigate("/login");
     }
     try {
       await AxiosApi01.addCart(user.email, productId, quantity);
@@ -78,15 +78,23 @@ const ProductDetail4 = () => {
   };
 
   const handlePurchaseButtonClick = () => {
-    const purchasePayload = [{
-      customId: null,
-      productId: productId,
-      productName: product.name,
-      quantity: quantity,
-      price: product.price,
-    }];
-    navigate("/purchase", { state: purchasePayload });
-  }
+    const purchasePayload = [
+      {
+        customId: null,
+        productId: productId,
+        productName: product.name,
+        quantity: quantity,
+        price: product.price,
+      },
+    ];
+    if (!user.isLogin) {
+      alert("로그인 후 사용할 수 있습니다.");
+      navigate("/login");
+    }
+    if (user.isLogin) {
+      navigate("/purchase", { state: purchasePayload });
+    }
+  };
   return (
     <div className="product-detail">
       {/* 제품 이미지와 정보가 포함된 컨테이너 */}
@@ -140,8 +148,12 @@ const ProductDetail4 = () => {
               </button>
 
               {/* 바로 구매 버튼 */}
-              <button className="buy-now"
-              onClick={()=>{handlePurchaseButtonClick()}}>
+              <button
+                className="buy-now"
+                onClick={() => {
+                  handlePurchaseButtonClick();
+                }}
+              >
                 구매하기
               </button>
             </div>

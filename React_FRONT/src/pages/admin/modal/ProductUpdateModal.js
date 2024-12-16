@@ -36,7 +36,7 @@ const Modal = (props) => {
   const DetailProduct = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8112/products/detail",
+        "http://192.168.10.25:8112/products/detail",
         {
           params: { productId: productId }, // 쿼리 파라미터로 전달
         }
@@ -143,7 +143,7 @@ const Modal = (props) => {
     );
     try {
       const response = await axios.post(
-        "http://localhost:8112/products/update",
+        "http://192.168.10.25:8112/products/update",
         productDetail[0]
       );
       if (response.data) {

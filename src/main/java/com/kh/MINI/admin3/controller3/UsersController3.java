@@ -15,8 +15,7 @@ import java.util.Objects;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins="http://localhost:3000")
-@RequestMapping("/users")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000", "http://192.168.10.25:3000"})@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UsersController3 {
     private final UsersDAO3 usersDAO3;

@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
-@Slf4j
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000", "http://192.168.10.25:3000"})@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class CategoryController01 {

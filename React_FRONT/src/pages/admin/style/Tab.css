@@ -43,3 +43,13 @@
 .tabcontent > div.active {
   display: block; /* 활성화된 탭만 보이기 */
 }
+
+.container-wrapper {
+  display: flex;
+  gap: 20px; /* 컨테이너 간 간격 */
+}
+
+.container-wrapper .container {
+  flex: 1; /* 동일한 너비로 확장 */
+  max-width: 100%; /* 너비 제한 (필요 시 조정) */
+}

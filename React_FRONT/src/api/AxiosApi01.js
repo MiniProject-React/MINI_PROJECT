@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const MINI_DOMAIN = "http://localhost:8112";
+const MINI_DOMAIN = "http://192.168.10.25:8112";
 const AxiosApi01 = {
   // 모든 상품 가져오기
   getAllProducts: async () => {
@@ -197,7 +197,7 @@ const AxiosApi01 = {
       console.error("[addCustomOrderDetails] Error:", error);
       throw error;
     }
-  }
+  },
 };
 
 export default AxiosApi01;

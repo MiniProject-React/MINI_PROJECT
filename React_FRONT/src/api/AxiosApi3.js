@@ -1,5 +1,5 @@
 import axios from "axios";
-const KH_DOMAIN = "http://localhost:8112";
+const KH_DOMAIN = "http://192.168.10.25:8112";
 
 const AxiosApi3 = {
   // 로그인
