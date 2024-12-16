@@ -26,6 +26,7 @@ const PracticeSelect = () => {
   const [powerCheck, setPowerCheck] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [total, setTotal] = useState("");
+
   useEffect(() => {
     console.log("contextAPI로 email 검증 확인 : ", user.email);
     if (user.role !== 1) {

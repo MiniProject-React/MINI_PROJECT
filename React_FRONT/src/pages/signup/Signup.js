@@ -60,7 +60,7 @@ const Signup = () => {
   const [isSending, setIsSending] = useState(false); // 이메일 전송 중 상태
 
   const [verify, setVerify] = useState("");
-  const KH_DOMAIN = "http://localhost:8112";
+  const KH_DOMAIN = "http://192.168.10.25:8112";
 
   const sendNumber = async () => {
     setSendMail(true);

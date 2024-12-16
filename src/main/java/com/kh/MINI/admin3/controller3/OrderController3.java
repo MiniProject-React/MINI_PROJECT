@@ -18,8 +18,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins="http://localhost:3000")
-@RequestMapping("/order")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000", "http://192.168.10.25:3000"})@RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController3 {
     private final OrderDAO3 orderDAO3;

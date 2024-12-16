@@ -15,7 +15,7 @@ import "../style/product.css";
 import Modal from "../modal/ProductUpdateModal";
 import { UserContext } from "../../../api/provider/UserContextProvider";
 import ProductSaveModal from "../modal/ProductSaveModal";
-const KH_DOMAIN = "http://localhost:8112";
+const KH_DOMAIN = "http://192.168.10.25:8112";
 
 export default function AdminHome() {
   const [modalOpen, setModalOpen] = useState(false);

@@ -47,7 +47,7 @@ const AdminUsersModal = (props) => {
   const [detailUserInfoList, setDetailUserInfoList] = useState([]);
   const [isComposing, setIsComposing] = useState(false); // IME 조합 상태
 
-  const KH_DOMAIN = "http://localhost:8112";
+  const KH_DOMAIN = "http://192.168.10.25:8112";
 
   useEffect(() => {
     const script = document.createElement("script");
