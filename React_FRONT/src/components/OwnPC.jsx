@@ -10,7 +10,7 @@ const OwnPc = () => {
   const [isTabCompleted, setIsTabCompleted] = useState(false);
   const [orderQuantity, setOrderQuantity] = useState(1); // 주문 갯수 상태
   const navigate = useNavigate();
-  const MINI_DOMAIN = "http://localhost:8112";
+  const MINI_DOMAIN = "http://192.168.10.25:8112";
 
   const { user } = useContext(UserContext);
 
@@ -46,21 +46,20 @@ const OwnPc = () => {
   const handleProductSelection = (product, productId, selectedQuantity) => {
     setSelectedProducts((prevSelectedProducts) => {
       const updatedProducts = { ...prevSelectedProducts };
-      
-      
+
       updatedProducts[product.CATEGORY_ID] = {
         productId: product.PRODUCT_ID,
         productName: product.NAME,
         quantity: selectedQuantity,
         price: product.PRICE * selectedQuantity,
       };
-  
+
       // 선택이 완료되었는지 최신 상태로 확인
       const allSelected = Object.keys(categoryMap).every(
         (categoryId) => updatedProducts[categoryId]
       );
       setIsTabCompleted(allSelected);
-  
+
       return updatedProducts;
     });
   };
@@ -71,7 +70,7 @@ const OwnPc = () => {
       navigate("/login");
       return;
     }
-  
+
     const payload = {
       userEmail: user.email,
       totalPrice: calculateTotalPrice(),
@@ -81,19 +80,22 @@ const OwnPc = () => {
         price: product.price,
       })),
     };
-  
+
     try {
       // Step 1: CUSTOM_ORDERS 테이블에 주문 생성
-      const response = await axios.post(`${MINI_DOMAIN}/custom/create`, payload);
+      const response = await axios.post(
+        `${MINI_DOMAIN}/custom/create`,
+        payload
+      );
       const customId = response.data.customId;
-  
+
       // Step 2: CART_ITEMS 테이블에 데이터 추가
       await axios.post(`${MINI_DOMAIN}/custom/addingCart`, {
         userEmail: user.email,
         customId,
         quantity: orderQuantity,
       });
-  
+
       // 리스트와 버튼 비활성화 처리
       setSelectedProducts({});
       setIsTabCompleted(false); // 선택 완료 상태 초기화
@@ -103,38 +105,37 @@ const OwnPc = () => {
       alert("장바구니 추가에 실패했습니다.");
     }
   };
-  
-  
+
   const handlePurchaseButtonClick = async () => {
     if (!user.isLogin) {
       alert("로그인 후 사용 가능합니다.");
       navigate("/login");
       return;
     }
-  
+
     const selectedProductsList = getSelectedProductsList();
     const payload = {
       userEmail: user.email,
       totalPrice: calculateTotalPrice(),
-      productDetails: selectedProductsList.map(product => ({
+      productDetails: selectedProductsList.map((product) => ({
         productId: product.productId,
         quantity: product.quantity,
         price: product.price,
       })),
     };
-  
+
     try {
       // Step 1: CUSTOM_ORDERS 테이블에 주문 데이터 생성
       const orderResponse = await axios.post("/custom/addingCart", {
         userId: payload.userId,
         totalPrice: payload.totalPrice,
       });
-  
+
       const customId = orderResponse.data.customId;
-  
+
       // Step 2: CUSTOM_ORDER_DETAILS 테이블에 상세 정보 추가
       await Promise.all(
-        payload.productDetails.map(detail =>
+        payload.productDetails.map((detail) =>
           axios.post("/api/customorder/details", {
             customId,
             productId: detail.productId,
@@ -143,7 +144,7 @@ const OwnPc = () => {
           })
         )
       );
-  
+
       // Step 3: customId를 구매 페이지로 전송
       navigate("/purchase", { state: { customId } });
     } catch (error) {
@@ -151,7 +152,6 @@ const OwnPc = () => {
       alert("구매 요청에 실패했습니다.");
     }
   };
-  
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value, 10);
@@ -197,7 +197,8 @@ const OwnPc = () => {
               <p className="total-price">
                 가격: <strong>{calculateTotalPrice()}원</strong>
                 <br />
-                총합 가격: <strong>{calculateTotalPrice() * orderQuantity}원</strong>
+                총합 가격:{" "}
+                <strong>{calculateTotalPrice() * orderQuantity}원</strong>
               </p>
               <div className="action-buttons">
                 <button onClick={handleCartButtonClick}>장바구니</button>
