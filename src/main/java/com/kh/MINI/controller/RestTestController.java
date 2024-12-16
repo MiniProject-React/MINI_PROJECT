@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000"})
 @RequestMapping("/api/get-api")
 public class RestTestController {
     @GetMapping("/hello")

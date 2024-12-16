@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000"})
 @RestController
 @Slf4j
 @RequiredArgsConstructor

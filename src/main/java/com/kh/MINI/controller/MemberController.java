@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000"})
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {

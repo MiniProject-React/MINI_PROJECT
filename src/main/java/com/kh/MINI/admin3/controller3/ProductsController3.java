@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.10.20:3000"})
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductsController3 {
